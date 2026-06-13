@@ -1,4 +1,14 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Paper, 
+  Button 
+} from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 
 const getMedalColor = (rank) => {
   switch (rank) {
@@ -26,19 +36,22 @@ const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
           <TableRow sx={{ background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)' }}>
             <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'center', width: '100px' }}>Hely</TableCell>
             <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem' }}>Játékos</TableCell>
-            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'right', paddingRight: '40px' }}>Pontok</TableCell>
+            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'center' }}>Pontok</TableCell>
+            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'center', width: '180px' }}>Tippek</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {leaderboard.map((player, index) => (
             <TableRow
               key={index}
-              onClick={() => onUserClick(player.user)} // ÚJ: Kattintás esemény
+              hover
+              onClick={() => {
+                if (onUserClick) onUserClick(player.user)
+              }} 
               sx={{
                 background: index % 2 === 0 ? '#f5f5f5' : '#fff',
                 borderLeft: `5px solid ${getMedalColor(player.rank)}`,
-                cursor: 'pointer', // ÚJ: kurzor változtatása
-                '&:hover': { background: '#e8f5e9', transform: 'scale(1.005)' }, // ÚJ: Látványos hover
+                cursor: 'pointer',
                 transition: 'all 0.2s ease',
               }}
             >
@@ -48,8 +61,33 @@ const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
               <TableCell sx={{ fontWeight: 600, fontSize: '1.1rem', color: '#1E3932' }}>
                 {player.user}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700, fontSize: '1.3rem', textAlign: 'right', paddingRight: '40px', color: '#2E8B57' }}>
+              <TableCell sx={{ fontWeight: 700, fontSize: '1.3rem', textAlign: 'center', color: '#2E8B57' }}>
                 {player.score}
+              </TableCell>
+              <TableCell align="center">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<VisibilityIcon />}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    if (onUserClick) onUserClick(player.user)
+                  }}
+                  sx={{
+                    color: '#1E3932',
+                    borderColor: '#1E3932',
+                    fontWeight: 600,
+                    textTransform: 'none',
+                    borderRadius: '8px',
+                    '&:hover': {
+                      background: '#1E3932',
+                      color: '#fff',
+                      borderColor: '#1E3932',
+                    }
+                  }}
+                >
+                  Megtekintés
+                </Button>
               </TableCell>
             </TableRow>
           ))}

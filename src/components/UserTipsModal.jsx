@@ -9,9 +9,9 @@ import {
   Divider,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import SportsFootballIcon from '@mui/icons-material/SportsFootball'
+// JAVÍTÁS: Az új focilabda ikon importja
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
 
-// Ugyanaz a pontszámítási logika, mint a főoldalon, hogy ki tudjuk írni meccsenként a pontot
 const calculatePoints = (actualA, actualB, predA, predB) => {
   if (actualA === predA && actualB === predB) return 3
   const actualResult = actualA > actualB ? 'A' : actualA < actualB ? 'B' : 'D'
@@ -20,17 +20,43 @@ const calculatePoints = (actualA, actualB, predA, predB) => {
   return 0
 }
 
-const UserTipsModal = ({ open, onClose, user, predictions, games }) => {
+const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) => {
   if (!user) return null
 
-  // Csak a kiválasztott játékos tippjeinek lekérése
-  const userTips = predictions.filter((p) => p.user === user)
+  const safePredictions = Array.isArray(predictions) ? predictions : []
+  const safeGames = Array.isArray(games) ? games : []
+  
+  const userTips = safePredictions.filter((p) => p.user === user)
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm" PaperProps={{ sx: { borderRadius: '16px' } }}>
-      <DialogTitle sx={{ m: 0, p: 2, background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)', color: '#fff', display: 'flex', alignItems: 'center', gap: 1 }}>
-        <SportsFootballIcon />
-        <Typography variant="h6" sx={{ fontWeight: 700 }}>
+    <Dialog 
+      open={open} 
+      onClose={onClose} 
+      fullWidth 
+      maxWidth="sm" 
+      sx={{
+        '& .MuiDialog-paper': {
+          borderRadius: '16px',
+          // JAVÍTÁS: Mobilon (xs) legyen szélesebb a modal (kihasználja a helyet), asztalin marad a normál méret
+          width: { xs: 'calc(100% - 16px)', sm: '100%' },
+          margin: { xs: '8px', sm: '32px' }
+        }
+      }}
+    >
+      <DialogTitle 
+        sx={{ 
+          m: 0, 
+          p: 2, 
+          background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)', 
+          color: '#fff', 
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: 1 
+        }}
+      >
+        {/* JAVÍTÁS: Az új focilabda ikon használata */}
+        <SportsSoccerIcon />
+        <Typography variant="h6" component="span" sx={{ fontWeight: 700 }}>
           {user} tippjei
         </Typography>
         <IconButton
@@ -46,12 +72,13 @@ const UserTipsModal = ({ open, onClose, user, predictions, games }) => {
           <CloseIcon />
         </IconButton>
       </DialogTitle>
+      
       <DialogContent dividers sx={{ p: 0, background: '#f5f5f5' }}>
         {userTips.length === 0 ? (
           <Typography sx={{ p: 3, textAlign: 'center', color: '#666' }}>Nincsenek még leadott tippek.</Typography>
         ) : (
           userTips.map((tip, index) => {
-            const game = games.find((g) => parseInt(g.id) === tip.matchId)
+            const game = safeGames.find((g) => parseInt(g.id) === tip.matchId)
             const gameDisplay = game ? `${game.home_team_name_en} vs ${game.away_team_name_en}` : `Meccs #${tip.matchId}`
             const isFinished = game && (game.finished === true || String(game.finished).toUpperCase() === 'TRUE')
             
