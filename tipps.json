@@ -1,0 +1,28 @@
+{
+  "predictions": [
+    { "user": "Peti", "matchId": 1, "scoreA": 2, "scoreB": 1 },
+    { "user": "Peti", "matchId": 2, "scoreA": 0, "scoreB": 0 },
+    { "user": "Peti", "matchId": 3, "scoreA": 3, "scoreB": 1 },
+    { "user": "Peti", "matchId": 4, "scoreA": 1, "scoreB": 0 },
+    
+    { "user": "Anna", "matchId": 1, "scoreA": 1, "scoreB": 1 },
+    { "user": "Anna", "matchId": 2, "scoreA": 2, "scoreB": 0 },
+    { "user": "Anna", "matchId": 3, "scoreA": 0, "scoreB": 2 },
+    { "user": "Anna", "matchId": 4, "scoreA": 1, "scoreB": 2 },
+    
+    { "user": "Gergő", "matchId": 1, "scoreA": 3, "scoreB": 0 },
+    { "user": "Gergő", "matchId": 2, "scoreA": 1, "scoreB": 2 },
+    { "user": "Gergő", "matchId": 3, "scoreA": 2, "scoreB": 2 },
+    { "user": "Gergő", "matchId": 4, "scoreA": 0, "scoreB": 1 },
+    
+    { "user": "Lilla", "matchId": 1, "scoreA": 0, "scoreB": 0 },
+    { "user": "Lilla", "matchId": 2, "scoreA": 3, "scoreB": 1 },
+    { "user": "Lilla", "matchId": 3, "scoreA": 1, "scoreB": 1 },
+    { "user": "Lilla", "matchId": 4, "scoreA": 2, "scoreB": 1 },
+    
+    { "user": "Balázs", "matchId": 1, "scoreA": 2, "scoreB": 2 },
+    { "user": "Balázs", "matchId": 2, "scoreA": 0, "scoreB": 1 },
+    { "user": "Balázs", "matchId": 3, "scoreA": 1, "scoreB": 0 },
+    { "user": "Balázs", "matchId": 4, "scoreA": 3, "scoreB": 3 }
+  ]
+}
