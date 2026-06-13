@@ -1,18 +1,10 @@
-import {
-  Container,
-  Box,
-  Typography,
-  Card,
-  CardContent,
-  Grid,
-  Button,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material'
+import { Container, Box, Typography, Grid, Button, useTheme, useMediaQuery } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
+import LeaderboardIcon from '@mui/icons-material/Leaderboard'
+import RuleCard from '../components/RuleCard'
+import StatCard from '../components/StatCard'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -20,26 +12,15 @@ const Home = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const rules = [
-    {
-      title: 'Meccs végeredménye',
-      points: 'Helyes végeredmény: +3 pont',
-      icon: '⚽',
-    },
-    {
-      title: 'Gólszám (Nyertes csapat)',
-      points: 'Helyes nyertes csapat és gólszám: +1 pont',
-      icon: '🎯',
-    },
-    {
-      title: 'Holtverseny',
-      points: 'Helyes holtverseny: +1 pont',
-      icon: '🤝',
-    },
-    {
-      title: 'Nincs pont',
-      points: 'Rossz tipp: 0 pont',
-      icon: '❌',
-    },
+    { title: 'Telitalálat', points: '+3 pont', description: 'Pontosan eltalálod a meccs végeredményét (mindkét csapat gólszámát).', icon: '🎯' },
+    { title: 'Helyes kimenetel', points: '+1 pont', description: 'Eltalálod a meccs kimenetelét (A nyer, B nyer, vagy döntetlen), de a pontos gólokat nem.', icon: '⚖️' },
+    { title: 'Helytelen tipp', points: '0 pont', description: 'Ha a tippelt kimenetel nem egyezik meg a valósággal (pl. hazait tippelsz, de vendég nyer).', icon: '❌' },
+   ]
+
+  const stats = [
+    { value: '48', label: 'Csapat' },
+    { value: '104', label: 'Meccs' },
+    { value: '12', label: 'Csoport' },
   ]
 
   return (
@@ -51,7 +32,7 @@ const Home = () => {
           color: '#fff',
           padding: isMobile ? '60px 20px' : '100px 40px',
           textAlign: 'center',
-          minHeight: isMobile ? '50vh' : '70vh',
+          minHeight: isMobile ? '50vh' : '60vh',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -89,8 +70,9 @@ const Home = () => {
             maxWidth: '600px',
           }}
         >
-          Tippelj a meccsekre, gyűjts pontokat, és válj csapatvezér!
+          Tippelj a meccsekre, gyűjts pontokat, és válj a baráti társaság bajnokává!
         </Typography>
+        
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', justifyContent: 'center' }}>
           <Button
             variant="contained"
@@ -101,9 +83,9 @@ const Home = () => {
               fontWeight: 700,
               fontSize: '1.1rem',
               padding: '12px 40px',
-              '&:hover': {
-                background: '#f0f0f0',
-              },
+              borderRadius: '30px',
+              '&:hover': { background: '#f0f0f0', transform: 'scale(1.05)' },
+              transition: 'all 0.2s ease',
             }}
             onClick={() => navigate('/leaderboard')}
           >
@@ -118,10 +100,15 @@ const Home = () => {
               fontWeight: 700,
               fontSize: '1.1rem',
               padding: '12px 40px',
+              borderRadius: '30px',
+              borderWidth: '2px',
               '&:hover': {
                 borderColor: '#f0f0f0',
                 background: 'rgba(255, 255, 255, 0.1)',
+                borderWidth: '2px',
+                transform: 'scale(1.05)'
               },
+              transition: 'all 0.2s ease',
             }}
             onClick={() => navigate('/tipping')}
           >
@@ -137,139 +124,48 @@ const Home = () => {
           sx={{
             textAlign: 'center',
             marginBottom: '60px',
+            fontWeight: 800,
+            color: '#1E3932',
             fontSize: isMobile ? '2rem' : '2.8rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 2
           }}
         >
-          <EmojiEventsIcon sx={{ fontSize: '2em', marginRight: '10px', verticalAlign: 'middle' }} />
+          <EmojiEventsIcon sx={{ fontSize: '1.2em', color: '#FFD700' }} />
           Pontozási Szabályok
         </Typography>
 
-        <Grid container spacing={3}>
+        <Grid container spacing={3} sx={{ justifyContent: 'center', alignItems: 'stretch' }}>
           {rules.map((rule, index) => (
-            <Grid item xs={12} sm={6} md={6} key={index}>
-              <Card
-                sx={{
-                  height: '100%',
-                  background: 'linear-gradient(135deg, #f5f5f5 0%, #fff 100%)',
-                  border: '2px solid #2E8B57',
-                  borderRadius: '16px',
-                  transition: 'all 0.3s ease',
-                  '&:hover': {
-                    transform: 'translateY(-8px)',
-                    boxShadow: '0 12px 24px rgba(30, 57, 50, 0.15)',
-                    borderColor: '#1E3932',
-                  },
-                }}
-              >
-                <CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: '16px' }}>
-                    <Typography sx={{ fontSize: '3rem', marginRight: '15px' }}>
-                      {rule.icon}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontSize: '1.3rem',
-                        fontWeight: 700,
-                        color: '#1E3932',
-                      }}
-                    >
-                      {rule.title}
-                    </Typography>
-                  </Box>
-                  <Typography
-                    sx={{
-                      fontSize: '1.1rem',
-                      color: '#555',
-                      lineHeight: '1.6',
-                    }}
-                  >
-                    {rule.points}
-                  </Typography>
-                </CardContent>
-              </Card>
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <RuleCard {...rule} />
             </Grid>
           ))}
         </Grid>
 
-        {/* Info Cards */}
-        <Grid container spacing={3} sx={{ mt: 6 }}>
+        {/* Info / Stat Cards */}
+        <Grid container spacing={3} sx={{ justifyContent: 'center', alignItems: 'stretch', mt: 6 }}>
+          {stats.map((stat, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <StatCard value={stat.value} label={stat.label} />
+            </Grid>
+          ))}
           <Grid item xs={12} sm={6} md={3}>
-            <Card
-              sx={{
-                textAlign: 'center',
-                background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)',
-                color: '#fff',
-                padding: '30px 20px',
-                borderRadius: '16px',
-              }}
-            >
-              <Typography variant="h3" sx={{ fontWeight: 800, marginBottom: '10px' }}>
-                48
-              </Typography>
-              <Typography variant="body1">Csapat</Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card
-              sx={{
-                textAlign: 'center',
-                background: 'linear-gradient(135deg, #2D5A4F 0%, #2E8B57 100%)',
-                color: '#fff',
-                padding: '30px 20px',
-                borderRadius: '16px',
-              }}
-            >
-              <Typography variant="h3" sx={{ fontWeight: 800, marginBottom: '10px' }}>
-                104
-              </Typography>
-              <Typography variant="body1">Meccs</Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card
-              sx={{
-                textAlign: 'center',
-                background: 'linear-gradient(135deg, #2E8B57 0%, #3A9E6A 100%)',
-                color: '#fff',
-                padding: '30px 20px',
-                borderRadius: '16px',
-              }}
-            >
-              <Typography variant="h3" sx={{ fontWeight: 800, marginBottom: '10px' }}>
-                12
-              </Typography>
-              <Typography variant="body1">Csoport</Typography>
-            </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Card
-              sx={{
-                textAlign: 'center',
-                background: 'linear-gradient(135deg, #0F2722 0%, #1E3932 100%)',
-                color: '#fff',
-                padding: '30px 20px',
-                borderRadius: '16px',
-              }}
-            >
-              <LeaderboardIcon sx={{ fontSize: '3rem', marginBottom: '10px' }} />
-              <Typography variant="body1">Versenyezz</Typography>
-            </Card>
+            <StatCard 
+              label="Versenyezz!" 
+              icon={<LeaderboardIcon />} 
+              isAction 
+              onClick={() => navigate('/tipping')} 
+            />
           </Grid>
         </Grid>
       </Container>
 
       {/* Footer */}
-      <Box
-        sx={{
-          background: '#1E3932',
-          color: '#fff',
-          textAlign: 'center',
-          padding: '40px 20px',
-          marginTop: '40px',
-        }}
-      >
-        <Typography variant="body2">
+      <Box sx={{ background: '#1E3932', color: '#fff', textAlign: 'center', padding: '30px 20px', mt: 'auto' }}>
+        <Typography variant="body2" sx={{ opacity: 0.8 }}>
           © 2026 VB Tippjáték. Jó szerencsét! 🏆
         </Typography>
       </Box>
