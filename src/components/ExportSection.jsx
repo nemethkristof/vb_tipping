@@ -70,7 +70,7 @@ const ExportSection = ({ onDownload, onCopyToClipboard }) => {
             sx={{ mt: 2 }}
           >
             <Typography variant="caption" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-              <strong>Fontos:</strong> Töltsd le a json fájl vagy másold vágólapra és küld el nekem a <strong>n.kristof99@gmail.com</strong> e-mail címre <strong>VB2026 Tippverseny</strong> tárggyal!
+              <strong>Fontos:</strong> Töltsd le a json fájlt vagy másold vágólapra és küld el nekem a <strong>n.kristof99@gmail.com</strong> e-mail címre <strong>VB2026 Tippverseny</strong> tárggyal!
             </Typography>
           </Alert>
         </Box>

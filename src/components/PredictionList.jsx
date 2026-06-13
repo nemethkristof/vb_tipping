@@ -12,8 +12,7 @@ import {
   Paper,
   Chip,
   IconButton,
-  useTheme,
-  useMediaQuery,
+  Box,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ListIcon from '@mui/icons-material/List'
@@ -28,7 +27,7 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
         borderRadius: '16px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
         borderTop: '4px solid #2E8B57',
-        width: '100%',
+        minWidth: '100%',
         margin: '20px auto',
       }}
     >
@@ -38,16 +37,16 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
         </Typography>
 
         {isMobile ? (
-          // Mobile view
+          // Mobil nézet
           <Grid container spacing={2}>
-            {predictions.map((prediction, index) => {
+            {predictions.map((prediction) => {
               const gameDetails = getGameDetails(prediction.matchId)
               const gameDisplay = gameDetails 
-                ? `${gameDetails.home_team_name_en} vs ${gameDetails.away_team_name_en}`
+                ? `#${gameDetails.id} - ${gameDetails.home_team_name_en} vs ${gameDetails.away_team_name_en}`
                 : `Meccs #${prediction.matchId}`
               
               return (
-                <Grid item xs={12} key={index}>
+                <Grid item xs={12} key={`mobile-${prediction.matchId}`}>
                   <Card
                     sx={{
                       background: 'linear-gradient(135deg, #f5f5f5 0%, #fff 100%)',
@@ -77,7 +76,7 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
                         </div>
                         <IconButton
                           size="small"
-                          onClick={() => onRemovePrediction(index)}
+                          onClick={() => onRemovePrediction(prediction.matchId)}
                           sx={{ color: '#d32f2f' }}
                         >
                           <DeleteIcon />
@@ -99,14 +98,14 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
             })}
           </Grid>
         ) : (
-          // Desktop view
+          // Asztali nézet
           <TableContainer component={Paper} sx={{ background: 'transparent' }}>
             <Table>
               <TableHead>
                 <TableRow sx={{ background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)' }}>
                   <TableCell sx={{ fontWeight: 700, color: '#fff' }}>👤 Játékos</TableCell>
                   <TableCell sx={{ fontWeight: 700, color: '#fff' }}>⚽ Meccs</TableCell>
-                  <TableCell sx={{ fontWeight: 700, color: '#fff' }}>🎯 Tipett Eredmény</TableCell>
+                  <TableCell sx={{ fontWeight: 700, color: '#fff' }}>🎯 Tippelt Eredmény</TableCell>
                   <TableCell align="center" sx={{ fontWeight: 700, color: '#fff' }}>
                     ❌ Törlés
                   </TableCell>
@@ -116,12 +115,12 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
                 {predictions.map((prediction, index) => {
                   const gameDetails = getGameDetails(prediction.matchId)
                   const gameDisplay = gameDetails 
-                    ? `${gameDetails.home_team_name_en} vs ${gameDetails.away_team_name_en}`
+                    ? `#${gameDetails.id} - ${gameDetails.home_team_name_en} vs ${gameDetails.away_team_name_en}`
                     : `Meccs #${prediction.matchId}`
                   
                   return (
                     <TableRow
-                      key={index}
+                      key={`desktop-${prediction.matchId}`}
                       sx={{
                         background: index % 2 === 0 ? '#f5f5f5' : '#fff',
                         '&:hover': { background: '#e8f5e9' },
@@ -142,7 +141,7 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
                       <TableCell align="center">
                         <IconButton
                           size="small"
-                          onClick={() => onRemovePrediction(index)}
+                          onClick={() => onRemovePrediction(prediction.matchId)}
                           sx={{ color: '#d32f2f', '&:hover': { background: '#ffebee' } }}
                         >
                           <DeleteIcon fontSize="small" />

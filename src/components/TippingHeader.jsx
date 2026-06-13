@@ -21,7 +21,7 @@ const TippingHeader = ({ isMobile }) => {
         Tippek Megadása
       </Typography>
       <Typography variant="body1" sx={{ color: '#666', fontSize: isMobile ? '0.95rem' : '1.1rem' }}>
-        Tippelj az előttünk álló meccsekre!
+        (Ahol nem jelenik meg csapatnév, ott a mérkőzés még nem került kiírásra, így a tippelés sem kötelező.)
       </Typography>
     </Box>
   )

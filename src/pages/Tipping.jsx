@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Container, Box, Alert, Grid, CircularProgress, useTheme, useMediaQuery } from '@mui/material'
+import { Container, Box, Alert, CircularProgress, useTheme, useMediaQuery } from '@mui/material'
 import TippingHeader from '../components/TippingHeader'
 import PredictionForm from '../components/PredictionForm'
 import ExportSection from '../components/ExportSection'
 import PredictionList from '../components/PredictionList'
-import InfoIcon from '@mui/icons-material/Info'
 
 const Tipping = () => {
   const [games, setGames] = useState([])
@@ -25,12 +24,18 @@ const Tipping = () => {
         // Meccsek lekérése
         const gamesResponse = await fetch('https://worldcup26.ir/get/games')
         const gamesData = await gamesResponse.json()
-        setGames(gamesData.games)
+        setGames(gamesData.games || gamesData)
 
-        // Meglévő tippek lekérése
-        const tipsResponse = await fetch('/tipps.json')
-        const tipsData = await tipsResponse.json()
-        setExistingTips(tipsData.predictions)
+        // Meglévő tippek lekérése (Hibakezeléssel, ha még nem létezik)
+        try {
+          const tipsResponse = await fetch('/tipps.json')
+          if (tipsResponse.ok) {
+            const tipsData = await tipsResponse.json()
+            setExistingTips(tipsData.predictions || [])
+          }
+        } catch (e) {
+          console.warn('Nem található korábbi tipps.json fájl, üres lista kezdődik.')
+        }
 
         setLoading(false)
       } catch (err) {
@@ -45,7 +50,7 @@ const Tipping = () => {
   const getGameInfo = (matchId) => {
     const game = games.find((g) => parseInt(g.id) === matchId)
     if (game) {
-      return `${game.home_team_name_en} vs ${game.away_team_name_en} (${game.local_date})`
+      return `#${game.id} - ${game.home_team_name_en} vs ${game.away_team_name_en} (${game.local_date})`
     }
     return `Meccs #${matchId}`
   }
@@ -71,8 +76,9 @@ const Tipping = () => {
     setScoreB('')
   }
 
-  const handleRemovePrediction = (index) => {
-    const newPredictions = predictions.filter((_, i) => i !== index)
+  // INDEX HELYETT MATCHID ALAPÚ TÖRLÉS
+  const handleRemovePrediction = (matchIdToRemove) => {
+    const newPredictions = predictions.filter((p) => p.matchId !== matchIdToRemove)
     setPredictions(newPredictions)
   }
 
@@ -126,27 +132,25 @@ const Tipping = () => {
           </Alert>
         )}
 
-            <PredictionForm
-              games={getAvailableGames()}
-              userName={userName}
-              setUserName={setUserName}
-              selectedMatch={selectedMatch}
-              setSelectedMatch={setSelectedMatch}
-              scoreA={scoreA}
-              setScoreA={setScoreA}
-              scoreB={scoreB}
-              setScoreB={setScoreB}
-              selectedGameInfo={selectedGameInfo}
-              onAddPrediction={handleAddPrediction}
-            />
+        <PredictionForm
+          games={getAvailableGames()}
+          userName={userName}
+          setUserName={setUserName}
+          selectedMatch={selectedMatch}
+          setSelectedMatch={setSelectedMatch}
+          scoreA={scoreA}
+          setScoreA={setScoreA}
+          scoreB={scoreB}
+          setScoreB={setScoreB}
+          selectedGameInfo={selectedGameInfo}
+          onAddPrediction={handleAddPrediction}
+        />
 
-          {/* Letöltés / Másolás */}
-            <ExportSection
-              onDownload={handleDownload}
-              onCopyToClipboard={handleCopyToClipboard}
-            />
+        <ExportSection
+          onDownload={handleDownload}
+          onCopyToClipboard={handleCopyToClipboard}
+        />
 
-        {/* Az adott tippek listája */}
         <PredictionList
           predictions={predictions}
           onRemovePrediction={handleRemovePrediction}

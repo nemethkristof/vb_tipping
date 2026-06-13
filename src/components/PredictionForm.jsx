@@ -9,11 +9,9 @@ import {
   Button,
   Grid,
   Typography,
-  Box,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import PersonIcon from '@mui/icons-material/Person'
-import SportsFootballIcon from '@mui/icons-material/SportsFootball'
 
 const PredictionForm = ({
   games,
@@ -54,19 +52,14 @@ const PredictionForm = ({
           inputProps={{ maxLength: 50 }}
         />
 
-        <FormControl fullWidth sx={{ mb: 2 }}>
-          <InputLabel id="match-select-label">
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-              <SportsFootballIcon sx={{ fontSize: '1.2rem' }} /> Meccs kiválasztása
-            </Box>
-          </InputLabel>
+        <FormControl fullWidth sx={{ mb: 2 }} size="small">
+          <InputLabel id="match-select-label">Meccs kiválasztása</InputLabel>
           <Select
             labelId="match-select-label"
             id="match-select"
             value={selectedMatch}
             label="Meccs kiválasztása"
             onChange={(e) => setSelectedMatch(e.target.value)}
-            size="small"
           >
             <MenuItem value="">-- Válassz egy meccset --</MenuItem>
             {games.length === 0 ? (
@@ -74,7 +67,7 @@ const PredictionForm = ({
             ) : (
               games.map((game) => (
                 <MenuItem key={game.id} value={game.id}>
-                  {`${game.home_team_name_en} vs ${game.away_team_name_en}`}
+                  {`#${game.id} - ${game.home_team_name_en} vs ${game.away_team_name_en}`}
                 </MenuItem>
               ))
             )}
