@@ -15,7 +15,7 @@ import {
   useTheme,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import SoccerIcon from '@mui/icons-material/SportsFootball'
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 
 const Navigation = () => {
   const navigate = useNavigate()
@@ -48,7 +48,7 @@ const Navigation = () => {
       >
         <Toolbar sx={{ justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <SoccerIcon sx={{ fontSize: '28px' }} />
+            <SportsSoccerIcon sx={{ fontSize: '28px' }} />
             <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>VB2026</span>
           </Box>
           <IconButton
@@ -101,7 +101,7 @@ const Navigation = () => {
     >
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <SoccerIcon sx={{ fontSize: '32px' }} />
+          <SportsSoccerIcon sx={{ fontSize: '32px' }} />
           <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>VB2026 Tippjáték</span>
         </Box>
         <Box sx={{ display: 'flex', gap: 3 }}>

@@ -10,9 +10,9 @@ import {
   useMediaQuery,
 } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
-import SportsFootballIcon from '@mui/icons-material/SportsFootball'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 
 const Home = () => {
   const navigate = useNavigate()
@@ -58,7 +58,7 @@ const Home = () => {
           alignItems: 'center',
         }}
       >
-        <SportsFootballIcon
+        <SportsSoccerIcon
           sx={{
             fontSize: isMobile ? '80px' : '120px',
             marginBottom: '20px',
