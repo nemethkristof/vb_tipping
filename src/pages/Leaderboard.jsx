@@ -27,7 +27,7 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tipsResponse = await fetch('/tipps.json')
+        const tipsResponse = await fetch(`${import.meta.env.BASE_URL}/tipps.json`)
         const tipsData = await tipsResponse.json()
 
         const gamesResponse = await fetch('https://worldcup26.ir/get/games')
