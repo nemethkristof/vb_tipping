@@ -1,35 +1,10 @@
 import { useState, useEffect } from 'react'
-import {
-  Container,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Alert,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Chip,
-  IconButton,
-  useTheme,
-  useMediaQuery,
-  CircularProgress,
-} from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import DownloadIcon from '@mui/icons-material/Download'
-import AddIcon from '@mui/icons-material/Add'
+import { Container, Box, Alert, Grid, CircularProgress, useTheme, useMediaQuery } from '@mui/material'
+import TippingHeader from '../components/TippingHeader'
+import PredictionForm from '../components/PredictionForm'
+import ExportSection from '../components/ExportSection'
+import PredictionList from '../components/PredictionList'
+import InfoIcon from '@mui/icons-material/Info'
 
 const Tipping = () => {
   const [games, setGames] = useState([])
@@ -38,7 +13,6 @@ const Tipping = () => {
   const [selectedMatch, setSelectedMatch] = useState('')
   const [scoreA, setScoreA] = useState('')
   const [scoreB, setScoreB] = useState('')
-  const [openDialog, setOpenDialog] = useState(false)
   const [existingTips, setExistingTips] = useState([])
   const [loading, setLoading] = useState(true)
   const [copySuccess, setCopySuccess] = useState(false)
@@ -68,6 +42,16 @@ const Tipping = () => {
     fetchData()
   }, [])
 
+  const getGameInfo = (matchId) => {
+    const game = games.find((g) => parseInt(g.id) === matchId)
+    if (game) {
+      return `${game.home_team_name_en} vs ${game.away_team_name_en} (${game.local_date})`
+    }
+    return `Meccs #${matchId}`
+  }
+
+  const selectedGameInfo = selectedMatch ? getGameInfo(parseInt(selectedMatch)) : ''
+
   const handleAddPrediction = () => {
     if (!userName || !selectedMatch || scoreA === '' || scoreB === '') {
       alert('Kérlek, töltsd ki az összes mezőt!')
@@ -92,9 +76,20 @@ const Tipping = () => {
     setPredictions(newPredictions)
   }
 
+  const getAvailableGames = () => {
+    return games.filter((game) => {
+      const hasPrediction = predictions.some((p) => parseInt(p.matchId) === parseInt(game.id))
+      const hasExistingTip = existingTips.some((t) => parseInt(t.matchId) === parseInt(game.id))
+      return !hasPrediction && !hasExistingTip
+    })
+  }
+
+  const getGameDetails = (matchId) => {
+    return games.find((g) => parseInt(g.id) === matchId)
+  }
+
   const handleDownload = () => {
-    const allPredictions = [...existingTips, ...predictions]
-    const json = JSON.stringify({ predictions: allPredictions }, null, 2)
+    const json = JSON.stringify({ predictions }, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -105,23 +100,12 @@ const Tipping = () => {
   }
 
   const handleCopyToClipboard = () => {
-    const allPredictions = [...existingTips, ...predictions]
-    const json = JSON.stringify({ predictions: allPredictions }, null, 2)
+    const json = JSON.stringify({ predictions }, null, 2)
     navigator.clipboard.writeText(json).then(() => {
       setCopySuccess(true)
       setTimeout(() => setCopySuccess(false), 2000)
     })
   }
-
-  const getGameInfo = (matchId) => {
-    const game = games.find((g) => parseInt(g.id) === matchId)
-    if (game) {
-      return `${game.home_team_name_en} vs ${game.away_team_name_en} (${game.local_date})`
-    }
-    return `Meccs #${matchId}`
-  }
-
-  const selectedGameInfo = selectedMatch ? getGameInfo(parseInt(selectedMatch)) : ''
 
   if (loading) {
     return (
@@ -132,306 +116,43 @@ const Tipping = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', py: 4 }}>
-      <Container maxWidth="lg">
-        {/* Header */}
-        <Box sx={{ mb: 4, textAlign: 'center' }}>
-          <Typography
-            variant="h1"
-            sx={{
-              fontSize: isMobile ? '2rem' : '3rem',
-              fontWeight: 800,
-              color: '#1E3932',
-              mb: 2,
-            }}
-          >
-            <AddIcon sx={{ fontSize: '2.5em', marginRight: '15px', verticalAlign: 'middle' }} />
-            Tippek Megadása
-          </Typography>
-          <Typography variant="body1" sx={{ color: '#666', fontSize: '1.1rem' }}>
-            Tippelj az előttünk álló meccseire!
-          </Typography>
-        </Box>
+    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', py: { xs: 2, sm: 4 } }}>
+      <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2 } }}>
+        <TippingHeader isMobile={isMobile} />
 
-        {copySuccess && <Alert severity="success" sx={{ mb: 2 }}>Másolva a vágólapra!</Alert>}
-
-        <Grid container spacing={3}>
-          {/* Tipp megadása */}
-          <Grid item xs={12} md={6}>
-            <Card
-              sx={{
-                borderRadius: '16px',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              }}
-            >
-              <CardContent>
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: '#1E3932' }}>
-                  Új Tipp
-                </Typography>
-
-                <TextField
-                  label="Játékos neve"
-                  fullWidth
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  sx={{ mb: 2 }}
-                  variant="outlined"
-                  size="small"
-                />
-
-                <TextField
-                  label="Meccs kiválasztása"
-                  select
-                  fullWidth
-                  value={selectedMatch}
-                  onChange={(e) => setSelectedMatch(e.target.value)}
-                  SelectProps={{ native: true }}
-                  sx={{ mb: 2 }}
-                  variant="outlined"
-                  size="small"
-                >
-                  <option value="">-- Válassz egy meccset --</option>
-                  {games.slice(0, 10).map((game) => (
-                    <option key={game.id} value={game.id}>
-                      {`#${game.id} - ${game.home_team_name_en} vs ${game.away_team_name_en}`}
-                    </option>
-                  ))}
-                </TextField>
-
-                {selectedGameInfo && (
-                  <Typography
-                    variant="caption"
-                    sx={{ display: 'block', mb: 2, color: '#666', fontStyle: 'italic' }}
-                  >
-                    📅 {selectedGameInfo}
-                  </Typography>
-                )}
-
-                <Grid container spacing={2} sx={{ mb: 2 }}>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Gólok A"
-                      type="number"
-                      fullWidth
-                      value={scoreA}
-                      onChange={(e) => setScoreA(e.target.value)}
-                      variant="outlined"
-                      size="small"
-                      inputProps={{ min: 0 }}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      label="Gólok B"
-                      type="number"
-                      fullWidth
-                      value={scoreB}
-                      onChange={(e) => setScoreB(e.target.value)}
-                      variant="outlined"
-                      size="small"
-                      inputProps={{ min: 0 }}
-                    />
-                  </Grid>
-                </Grid>
-
-                <Button
-                  variant="contained"
-                  fullWidth
-                  onClick={handleAddPrediction}
-                  sx={{
-                    background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)',
-                    color: '#fff',
-                    fontWeight: 700,
-                    padding: '12px',
-                    fontSize: '1rem',
-                    '&:hover': {
-                      opacity: 0.9,
-                    },
-                  }}
-                >
-                  Tipp Hozzáadása
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-
-          {/* Letöltés / Másolás */}
-          <Grid item xs={12} md={6}>
-            <Card
-              sx={{
-                borderRadius: '16px',
-                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-              }}
-            >
-              <CardContent>
-                <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: '#1E3932' }}>
-                  Tippek Kezelése
-                </Typography>
-
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <Button
-                    variant="contained"
-                    startIcon={<DownloadIcon />}
-                    fullWidth
-                    onClick={handleDownload}
-                    sx={{
-                      background: '#2E8B57',
-                      color: '#fff',
-                      fontWeight: 700,
-                      padding: '12px',
-                      fontSize: '1rem',
-                    }}
-                  >
-                    JSON Letöltése
-                  </Button>
-
-                  <Button
-                    variant="outlined"
-                    startIcon={<ContentCopyIcon />}
-                    fullWidth
-                    onClick={handleCopyToClipboard}
-                    sx={{
-                      borderColor: '#2E8B57',
-                      color: '#2E8B57',
-                      fontWeight: 700,
-                      padding: '12px',
-                      fontSize: '1rem',
-                    }}
-                  >
-                    Másolás vágólapra
-                  </Button>
-
-                  <Alert severity="info" sx={{ mt: 2 }}>
-                    <Typography variant="caption">
-                      💡 <strong>Tipp:</strong> Letöltsd a JSON-t, majd küldd el nekem, és
-                      hozzáadom a tipps.json fájlhoz!
-                    </Typography>
-                  </Alert>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/* Az adott tippek listája */}
-        {predictions.length > 0 && (
-          <Card
-            sx={{
-              mt: 4,
-              borderRadius: '16px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            }}
-          >
-            <CardContent>
-              <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: '#1E3932' }}>
-                Hozzáadott Tippek ({predictions.length})
-              </Typography>
-
-              {isMobile ? (
-                // Mobile view
-                <Grid container spacing={2}>
-                  {predictions.map((prediction, index) => (
-                    <Grid item xs={12} key={index}>
-                      <Card
-                        sx={{
-                          background: '#f5f5f5',
-                          borderLeft: '4px solid #2E8B57',
-                        }}
-                      >
-                        <CardContent
-                          sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            pb: 1,
-                            '&:last-child': { pb: 1 },
-                          }}
-                        >
-                          <Box>
-                            <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                              {prediction.user}
-                            </Typography>
-                            <Typography variant="caption" sx={{ color: '#666' }}>
-                              Meccs #{prediction.matchId}
-                            </Typography>
-                            <Chip
-                              label={`${prediction.scoreA} - ${prediction.scoreB}`}
-                              sx={{
-                                ml: 1,
-                                background: '#2E8B57',
-                                color: '#fff',
-                                fontWeight: 700,
-                              }}
-                            />
-                          </Box>
-                          <IconButton
-                            size="small"
-                            onClick={() => handleRemovePrediction(index)}
-                            sx={{ color: '#d32f2f' }}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              ) : (
-                // Desktop view
-                <TableContainer component={Paper} sx={{ background: 'transparent' }}>
-                  <Table>
-                    <TableHead>
-                      <TableRow sx={{ background: '#f5f5f5' }}>
-                        <TableCell sx={{ fontWeight: 700 }}>Játékos</TableCell>
-                        <TableCell sx={{ fontWeight: 700 }}>Meccs</TableCell>
-                        <TableCell sx={{ fontWeight: 700 }}>Tipett Eredmény</TableCell>
-                        <TableCell align="center" sx={{ fontWeight: 700 }}>
-                          Törlés
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {predictions.map((prediction, index) => (
-                        <TableRow key={index} sx={{ '&:hover': { background: '#f5f5f5' } }}>
-                          <TableCell sx={{ fontWeight: 600 }}>{prediction.user}</TableCell>
-                          <TableCell>#{prediction.matchId}</TableCell>
-                          <TableCell>
-                            <Chip
-                              label={`${prediction.scoreA} - ${prediction.scoreB}`}
-                              sx={{
-                                background: '#2E8B57',
-                                color: '#fff',
-                                fontWeight: 700,
-                              }}
-                            />
-                          </TableCell>
-                          <TableCell align="center">
-                            <IconButton
-                              size="small"
-                              onClick={() => handleRemovePrediction(index)}
-                              sx={{ color: '#d32f2f' }}
-                            >
-                              <DeleteIcon fontSize="small" />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              )}
-            </CardContent>
-          </Card>
+        {copySuccess && (
+          <Alert severity="success" sx={{ mb: 2, mx: 'auto' }}>
+            ✅ Másolva a vágólapra!
+          </Alert>
         )}
 
-        {/* Info */}
-        <Alert severity="info" sx={{ mt: 4 }}>
-          <Typography variant="body2">
-            ℹ️ <strong>Megjegyzés:</strong> Az itt megadott tippeket a JSON-ben találod. Letöltsd vagy másold le, és
-            küldd el az alkalmazás rendszergazdájának. Az összes tipp automatikusan összeadódik a tipps.json
-            fájlban!
-          </Typography>
-        </Alert>
+            <PredictionForm
+              games={getAvailableGames()}
+              userName={userName}
+              setUserName={setUserName}
+              selectedMatch={selectedMatch}
+              setSelectedMatch={setSelectedMatch}
+              scoreA={scoreA}
+              setScoreA={setScoreA}
+              scoreB={scoreB}
+              setScoreB={setScoreB}
+              selectedGameInfo={selectedGameInfo}
+              onAddPrediction={handleAddPrediction}
+            />
+
+          {/* Letöltés / Másolás */}
+            <ExportSection
+              onDownload={handleDownload}
+              onCopyToClipboard={handleCopyToClipboard}
+            />
+
+        {/* Az adott tippek listája */}
+        <PredictionList
+          predictions={predictions}
+          onRemovePrediction={handleRemovePrediction}
+          isMobile={isMobile}
+          getGameDetails={getGameDetails}
+        />
       </Container>
     </Box>
   )
