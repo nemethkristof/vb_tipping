@@ -7,16 +7,34 @@ import PredictionList from '../components/PredictionList'
 
 const Tipping = () => {
   const [games, setGames] = useState([])
-  const [predictions, setPredictions] = useState([])
-  const [userName, setUserName] = useState('')
-  const [selectedMatch, setSelectedMatch] = useState('')
-  const [scoreA, setScoreA] = useState('')
-  const [scoreB, setScoreB] = useState('')
   const [existingTips, setExistingTips] = useState([])
   const [loading, setLoading] = useState(true)
   const [copySuccess, setCopySuccess] = useState(false)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  // 1. KEZDŐÁLLAPOT BETÖLTÉSE LOCALSTORAGE-BÓL
+  const [predictions, setPredictions] = useState(() => {
+    const savedPredictions = localStorage.getItem('tipping_predictions')
+    return savedPredictions ? JSON.parse(savedPredictions) : []
+  })
+
+  const [userName, setUserName] = useState(() => {
+    return localStorage.getItem('tipping_userName') || ''
+  })
+
+  const [selectedMatch, setSelectedMatch] = useState('')
+  const [scoreA, setScoreA] = useState('')
+  const [scoreB, setScoreB] = useState('')
+
+  // 2. AUTOMATIKUS MENTÉS LOCALSTORAGE-BA, HA VÁLTOZIK VALAMI
+  useEffect(() => {
+    localStorage.setItem('tipping_predictions', JSON.stringify(predictions))
+  }, [predictions])
+
+  useEffect(() => {
+    localStorage.setItem('tipping_userName', userName)
+  }, [userName])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +44,7 @@ const Tipping = () => {
         const gamesData = await gamesResponse.json()
         setGames(gamesData.games || gamesData)
 
-        // Meglévő tippek lekérése (Hibakezeléssel, ha még nem létezik)
+        // Meglévő (már leadott/szerveren lévő) tippek lekérése
         try {
           const tipsResponse = await fetch('/tipps.json')
           if (tipsResponse.ok) {
@@ -76,7 +94,6 @@ const Tipping = () => {
     setScoreB('')
   }
 
-  // INDEX HELYETT MATCHID ALAPÚ TÖRLÉS
   const handleRemovePrediction = (matchIdToRemove) => {
     const newPredictions = predictions.filter((p) => p.matchId !== matchIdToRemove)
     setPredictions(newPredictions)
@@ -103,6 +120,9 @@ const Tipping = () => {
     a.download = `tipps_${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
+    
+    // Opcionális: Ha letöltés után le akarod üríteni a listát a localstorage-ból, 
+    // akkor ide be lehet tenni a setPredictions([])-t.
   }
 
   const handleCopyToClipboard = () => {
