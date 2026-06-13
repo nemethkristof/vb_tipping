@@ -13,7 +13,6 @@ const Tipping = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
-  // 1. KEZDŐÁLLAPOT BETÖLTÉSE LOCALSTORAGE-BÓL
   const [predictions, setPredictions] = useState(() => {
     const savedPredictions = localStorage.getItem('tipping_predictions')
     return savedPredictions ? JSON.parse(savedPredictions) : []
@@ -27,7 +26,6 @@ const Tipping = () => {
   const [scoreA, setScoreA] = useState('')
   const [scoreB, setScoreB] = useState('')
 
-  // 2. AUTOMATIKUS MENTÉS LOCALSTORAGE-BA, HA VÁLTOZIK VALAMI
   useEffect(() => {
     localStorage.setItem('tipping_predictions', JSON.stringify(predictions))
   }, [predictions])
@@ -39,12 +37,10 @@ const Tipping = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Meccsek lekérése
         const gamesResponse = await fetch('https://worldcup26.ir/get/games')
         const gamesData = await gamesResponse.json()
         setGames(gamesData.games || gamesData)
 
-        // Meglévő (már leadott/szerveren lévő) tippek lekérése
         try {
           const tipsResponse = await fetch('/tipps.json')
           if (tipsResponse.ok) {
@@ -61,7 +57,6 @@ const Tipping = () => {
         setLoading(false)
       }
     }
-
     fetchData()
   }, [])
 
@@ -120,9 +115,6 @@ const Tipping = () => {
     a.download = `tipps_${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
-    
-    // Opcionális: Ha letöltés után le akarod üríteni a listát a localstorage-ból, 
-    // akkor ide be lehet tenni a setPredictions([])-t.
   }
 
   const handleCopyToClipboard = () => {
@@ -136,7 +128,7 @@ const Tipping = () => {
   if (loading) {
     return (
       <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
-        <CircularProgress sx={{ color: '#2E8B57' }} />
+        <CircularProgress color="secondary" />
       </Container>
     )
   }
@@ -161,15 +153,11 @@ const Tipping = () => {
           scoreA={scoreA}
           setScoreA={setScoreA}
           scoreB={scoreB}
-          setScoreB={setScoreB}
           selectedGameInfo={selectedGameInfo}
           onAddPrediction={handleAddPrediction}
         />
 
-        <ExportSection
-          onDownload={handleDownload}
-          onCopyToClipboard={handleCopyToClipboard}
-        />
+        <ExportSection onDownload={handleDownload} onCopyToClipboard={handleCopyToClipboard} />
 
         <PredictionList
           predictions={predictions}

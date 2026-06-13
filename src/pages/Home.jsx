@@ -14,8 +14,8 @@ const Home = () => {
   const rules = [
     { title: 'Telitalálat', points: '+3 pont', description: 'Pontosan eltalálod a meccs végeredményét (mindkét csapat gólszámát).', icon: '🎯' },
     { title: 'Helyes kimenetel', points: '+1 pont', description: 'Eltalálod a meccs kimenetelét (A nyer, B nyer, vagy döntetlen), de a pontos gólokat nem.', icon: '⚖️' },
-    { title: 'Helytelen tipp', points: '0 pont', description: 'Ha a tippelt kimenetel nem egyezik meg a valósággal (pl. hazait tippelsz, de vendég nyer).', icon: '❌' },
-   ]
+    { title: 'Helytelen tipp', points: '0 pont', description: 'Ha a tippelt kimenetel nem egyezik meg a valósággal.', icon: '❌' },
+  ]
 
   const stats = [
     { value: '48', label: 'Csapat' },
@@ -28,7 +28,7 @@ const Home = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)',
+          background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 100%)`,
           color: '#fff',
           padding: isMobile ? '60px 20px' : '100px 40px',
           textAlign: 'center',
@@ -43,6 +43,7 @@ const Home = () => {
           sx={{
             fontSize: isMobile ? '80px' : '120px',
             marginBottom: '20px',
+            color: 'secondary.main',
             animation: 'bounce 2s infinite',
             '@keyframes bounce': {
               '0%, 100%': { transform: 'translateY(0)' },
@@ -55,6 +56,7 @@ const Home = () => {
           sx={{
             fontSize: isMobile ? '2.5rem' : '4rem',
             fontWeight: 800,
+            color: '#fff',
             marginBottom: '20px',
             textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
           }}
@@ -79,7 +81,7 @@ const Home = () => {
             size={isMobile ? 'medium' : 'large'}
             sx={{
               background: '#fff',
-              color: '#1E3932',
+              color: 'primary.main',
               fontWeight: 700,
               fontSize: '1.1rem',
               padding: '12px 40px',
@@ -95,7 +97,7 @@ const Home = () => {
             variant="outlined"
             size={isMobile ? 'medium' : 'large'}
             sx={{
-              borderColor: '#fff',
+              borderColor: 'secondary.main',
               color: '#fff',
               fontWeight: 700,
               fontSize: '1.1rem',
@@ -103,8 +105,8 @@ const Home = () => {
               borderRadius: '30px',
               borderWidth: '2px',
               '&:hover': {
-                borderColor: '#f0f0f0',
-                background: 'rgba(255, 255, 255, 0.1)',
+                borderColor: 'secondary.light',
+                background: 'rgba(255, 0, 77, 0.1)',
                 borderWidth: '2px',
                 transform: 'scale(1.05)'
               },
@@ -125,7 +127,7 @@ const Home = () => {
             textAlign: 'center',
             marginBottom: '60px',
             fontWeight: 800,
-            color: '#1E3932',
+            color: 'primary.main',
             fontSize: isMobile ? '2rem' : '2.8rem',
             display: 'flex',
             alignItems: 'center',
@@ -145,7 +147,6 @@ const Home = () => {
           ))}
         </Grid>
 
-        {/* Info / Stat Cards */}
         <Grid container spacing={3} sx={{ justifyContent: 'center', alignItems: 'stretch', mt: 6 }}>
           {stats.map((stat, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
@@ -164,7 +165,7 @@ const Home = () => {
       </Container>
 
       {/* Footer */}
-      <Box sx={{ background: '#1E3932', color: '#fff', textAlign: 'center', padding: '30px 20px', mt: 'auto' }}>
+      <Box sx={{ background: (theme) => theme.palette.primary.main, color: '#fff', textAlign: 'center', padding: '30px 20px', mt: 'auto' }}>
         <Typography variant="body2" sx={{ opacity: 0.8 }}>
           © 2026 VB Tippjáték. Jó szerencsét! 🏆
         </Typography>

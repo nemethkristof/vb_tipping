@@ -1,11 +1,11 @@
-import { Box, Typography, Card, Chip, CardActionArea } from '@mui/material'
+import { Box, Typography, Card, Chip, CardActionArea, useTheme } from '@mui/material'
 
-const getMedalColor = (rank) => {
+const getMedalColor = (rank, theme) => {
   switch (rank) {
     case 1: return '#FFD700'
     case 2: return '#C0C0C0'
     case 3: return '#CD7F32'
-    default: return '#1E3932'
+    default: return theme.palette.primary.main
   }
 }
 
@@ -19,10 +19,11 @@ const getMedalEmoji = (rank) => {
 }
 
 const LeaderboardMobile = ({ leaderboard, onUserClick }) => {
+  const theme = useTheme()
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {leaderboard.map((player, index) => {
-        const medalColor = getMedalColor(player.rank)
+        const medalColor = getMedalColor(player.rank, theme)
         const isTop3 = player.rank <= 3
 
         return (
@@ -37,14 +38,13 @@ const LeaderboardMobile = ({ leaderboard, onUserClick }) => {
               '&:active': { transform: 'scale(0.98)' }
             }}
           >
-            {/* ÚJ: CardActionArea használata a mobilbarát kattintási effektért */}
             <CardActionArea onClick={() => onUserClick(player.user)} sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
               <Typography sx={{ fontSize: '1.5rem', minWidth: '45px', textAlign: 'center' }}>
                 {getMedalEmoji(player.rank)}
               </Typography>
               
               <Box sx={{ flexGrow: 1, ml: 1 }}>
-                <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#1E3932' }}>
+                <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: 'primary.main' }}>
                   {player.user}
                 </Typography>
                 <Typography sx={{ fontSize: '0.8rem', color: '#666', fontWeight: 600 }}>
@@ -54,10 +54,10 @@ const LeaderboardMobile = ({ leaderboard, onUserClick }) => {
 
               <Chip
                 label={`${player.score} pont`}
+                color="secondary"
                 sx={{
                   fontSize: '0.95rem',
                   fontWeight: 800,
-                  background: '#2E8B57',
                   color: '#fff',
                   height: '32px',
                 }}

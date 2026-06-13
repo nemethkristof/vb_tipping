@@ -1,13 +1,4 @@
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableContainer, 
-  TableHead, 
-  TableRow, 
-  Paper, 
-  Button 
-} from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 
 const getMedalColor = (rank) => {
@@ -33,7 +24,7 @@ const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
     <TableContainer component={Paper} sx={{ borderRadius: '16px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}>
       <Table>
         <TableHead>
-          <TableRow sx={{ background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)' }}>
+          <TableRow sx={{ background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 100%)` }}>
             <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'center', width: '100px' }}>Hely</TableCell>
             <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem' }}>Játékos</TableCell>
             <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'center' }}>Pontok</TableCell>
@@ -45,9 +36,7 @@ const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
             <TableRow
               key={index}
               hover
-              onClick={() => {
-                if (onUserClick) onUserClick(player.user)
-              }} 
+              onClick={() => { if (onUserClick) onUserClick(player.user) }} 
               sx={{
                 background: index % 2 === 0 ? '#f5f5f5' : '#fff',
                 borderLeft: `5px solid ${getMedalColor(player.rank)}`,
@@ -55,13 +44,13 @@ const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
                 transition: 'all 0.2s ease',
               }}
             >
-              <TableCell sx={{ fontWeight: 800, fontSize: '1.2rem', textAlign: 'center', color: '#1E3932' }}>
+              <TableCell sx={{ fontWeight: 800, fontSize: '1.2rem', textAlign: 'center', color: 'primary.main' }}>
                 {getMedalEmoji(player.rank)} {player.rank}.
               </TableCell>
-              <TableCell sx={{ fontWeight: 600, fontSize: '1.1rem', color: '#1E3932' }}>
+              <TableCell sx={{ fontWeight: 600, fontSize: '1.1rem', color: 'primary.main' }}>
                 {player.user}
               </TableCell>
-              <TableCell sx={{ fontWeight: 700, fontSize: '1.3rem', textAlign: 'center', color: '#2E8B57' }}>
+              <TableCell sx={{ fontWeight: 700, fontSize: '1.3rem', textAlign: 'center', color: 'secondary.main' }}>
                 {player.score}
               </TableCell>
               <TableCell align="center">
@@ -74,15 +63,15 @@ const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
                     if (onUserClick) onUserClick(player.user)
                   }}
                   sx={{
-                    color: '#1E3932',
-                    borderColor: '#1E3932',
+                    color: 'primary.main',
+                    borderColor: 'primary.main',
                     fontWeight: 600,
                     textTransform: 'none',
                     borderRadius: '8px',
                     '&:hover': {
-                      background: '#1E3932',
+                      background: 'primary.main',
                       color: '#fff',
-                      borderColor: '#1E3932',
+                      borderColor: 'primary.main',
                     }
                   }}
                 >

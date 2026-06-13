@@ -1,42 +1,15 @@
-import {
-  Card,
-  CardContent,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Button,
-  Grid,
-  Typography,
-} from '@mui/material'
+import { Card, CardContent, TextField, FormControl, InputLabel, Select, MenuItem, Button, Grid, Typography } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import PersonIcon from '@mui/icons-material/Person'
 
 const PredictionForm = ({
-  games,
-  userName,
-  setUserName,
-  selectedMatch,
-  setSelectedMatch,
-  scoreA,
-  setScoreA,
-  scoreB,
-  setScoreB,
-  selectedGameInfo,
-  onAddPrediction,
+  games, userName, setUserName, selectedMatch, setSelectedMatch,
+  scoreA, setScoreA, scoreB, setScoreB, selectedGameInfo, onAddPrediction
 }) => {
   return (
-    <Card
-      sx={{
-        borderRadius: '16px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-        width: '100%',
-        margin: '20px auto',
-      }}
-    >
+    <Card sx={{ borderRadius: '16px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', width: '100%', margin: '20px auto' }}>
       <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
-        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: '#1E3932', display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: 'primary.main', display: 'flex', alignItems: 'center', gap: 1 }}>
           <PersonIcon /> Új Tipp
         </Typography>
 
@@ -75,42 +48,21 @@ const PredictionForm = ({
         </FormControl>
 
         {selectedGameInfo && (
-          <Typography
-            variant="caption"
-            sx={{ display: 'block', mb: 2, color: '#2E8B57', fontStyle: 'italic', fontWeight: 600, px: 1 }}
-          >
+          <Typography variant="caption" sx={{ display: 'block', mb: 2, color: 'secondary.main', fontStyle: 'italic', fontWeight: 600, px: 1 }}>
             📅 {selectedGameInfo}
           </Typography>
         )}
 
-        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: '#1E3932', mb: 1 }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'primary.main', mb: 1 }}>
           🎯 Tipped eredmény
         </Typography>
 
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={6}>
-            <TextField
-              label="Gólok A"
-              type="number"
-              fullWidth
-              value={scoreA}
-              onChange={(e) => setScoreA(e.target.value)}
-              variant="outlined"
-              size="small"
-              inputProps={{ min: 0, max: 99 }}
-            />
+            <TextField label="Gólok A" type="number" fullWidth value={scoreA} onChange={(e) => setScoreA(e.target.value)} variant="outlined" size="small" inputProps={{ min: 0, max: 99 }} />
           </Grid>
           <Grid item xs={6}>
-            <TextField
-              label="Gólok B"
-              type="number"
-              fullWidth
-              value={scoreB}
-              onChange={(e) => setScoreB(e.target.value)}
-              variant="outlined"
-              size="small"
-              inputProps={{ min: 0, max: 99 }}
-            />
+            <TextField label="Gólok B" type="number" fullWidth value={scoreB} onChange={(e) => setScoreB(e.target.value)} variant="outlined" size="small" inputProps={{ min: 0, max: 99 }} />
           </Grid>
         </Grid>
 
@@ -120,17 +72,13 @@ const PredictionForm = ({
           startIcon={<AddIcon />}
           onClick={onAddPrediction}
           sx={{
-            background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)',
+            background: (theme) => `linear-gradient(135deg, ${theme.palette.secondary.main} 0%, ${theme.palette.warning.main} 100%)`,
             color: '#fff',
             fontWeight: 700,
             padding: '12px',
             fontSize: '1rem',
-            '&:hover': {
-              opacity: 0.9,
-            },
-            '&:active': {
-              transform: 'scale(0.98)',
-            },
+            '&:hover': { opacity: 0.9 },
+            '&:active': { transform: 'scale(0.98)' },
           }}
         >
           Tipp Hozzáadása

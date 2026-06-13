@@ -1,17 +1,7 @@
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  IconButton,
-  Typography,
-  Box,
-  Chip,
-  Divider,
-} from '@mui/material'
+import { Dialog, DialogTitle, DialogContent, IconButton, Typography, Box, Chip } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-// JAVÍTÁS: Az új focilabda ikon importja
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
 
+// Ugyanaz a poénszámító logika, mint a Leaderboardban
 const calculatePoints = (actualA, actualB, predA, predB) => {
   if (actualA === predA && actualB === predB) return 3
   const actualResult = actualA > actualB ? 'A' : actualA < actualB ? 'B' : 'D'
@@ -20,119 +10,103 @@ const calculatePoints = (actualA, actualB, predA, predB) => {
   return 0
 }
 
-const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) => {
+const UserTipsModal = ({ open, onClose, user, predictions, games }) => {
   if (!user) return null
 
-  const safePredictions = Array.isArray(predictions) ? predictions : []
-  const safeGames = Array.isArray(games) ? games : []
-  
-  const userTips = safePredictions.filter((p) => p.user === user)
+  // Csak az adott felhasználó tippjeinek kiszűrése
+  const userTips = predictions.filter(p => p.user === user)
 
   return (
     <Dialog 
       open={open} 
       onClose={onClose} 
-      fullWidth 
       maxWidth="sm" 
-      sx={{
-        '& .MuiDialog-paper': {
-          borderRadius: '16px',
-          // JAVÍTÁS: Mobilon (xs) legyen szélesebb a modal (kihasználja a helyet), asztalin marad a normál méret
-          width: { xs: 'calc(100% - 16px)', sm: '100%' },
-          margin: { xs: '8px', sm: '32px' }
-        }
+      fullWidth 
+      PaperProps={{ 
+        sx: { borderRadius: '16px', overflow: 'hidden' } 
       }}
     >
       <DialogTitle 
         sx={{ 
-          m: 0, 
-          p: 2, 
-          background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)', 
+          background: (theme) => `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.warning.main} 100%)`, 
           color: '#fff', 
           display: 'flex', 
-          alignItems: 'center', 
-          gap: 1 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          p: 3
         }}
       >
-        {/* JAVÍTÁS: Az új focilabda ikon használata */}
-        <SportsSoccerIcon />
-        <Typography variant="h6" component="span" sx={{ fontWeight: 700 }}>
-          {user} tippjei
+        <Typography variant="h6" sx={{ fontWeight: 800 }}>
+          👤 {user} tippjei
         </Typography>
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: 'absolute',
-            right: 8,
-            top: 8,
-            color: '#fff',
-          }}
-        >
+        <IconButton onClick={onClose} sx={{ color: '#fff' }}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       
-      <DialogContent dividers sx={{ p: 0, background: '#f5f5f5' }}>
+      <DialogContent sx={{ p: 0, background: '#f8f9fa' }}>
         {userTips.length === 0 ? (
-          <Typography sx={{ p: 3, textAlign: 'center', color: '#666' }}>Nincsenek még leadott tippek.</Typography>
+          <Typography sx={{ p: 4, textAlign: 'center', color: '#666', fontWeight: 600 }}>
+            Nincsenek még leadott tippek.
+          </Typography>
         ) : (
           userTips.map((tip, index) => {
-            const game = safeGames.find((g) => parseInt(g.id) === tip.matchId)
-            const gameDisplay = game ? `${game.home_team_name_en} vs ${game.away_team_name_en}` : `Meccs #${tip.matchId}`
-            const isFinished = game && (game.finished === true || String(game.finished).toUpperCase() === 'TRUE')
-            
+            const game = games.find(g => parseInt(g.id) === tip.matchId)
+            if (!game) return null
+
+            const isFinished = game.finished === true || String(game.finished).toUpperCase() === 'TRUE'
             let points = 0
+            
             if (isFinished) {
               points = calculatePoints(parseInt(game.home_score), parseInt(game.away_score), tip.scoreA, tip.scoreB)
             }
 
             return (
-              <Box key={index}>
-                <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.5, background: '#fff' }}>
-                  <Typography sx={{ fontWeight: 700, color: '#1E3932', fontSize: '1.1rem' }}>
-                    ⚽ {gameDisplay}
-                  </Typography>
-                  
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-                    <Box>
-                      <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                        Tippelt eredmény:
+              <Box 
+                key={index} 
+                sx={{ 
+                  p: 3, 
+                  borderBottom: '1px solid #e0e0e0', 
+                  background: isFinished 
+                    ? (points === 3 ? 'rgba(0, 255, 135, 0.1)' : points === 1 ? 'rgba(0, 229, 255, 0.1)' : 'rgba(255, 0, 77, 0.05)') 
+                    : '#fff' 
+                }}
+              >
+                <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'primary.main', mb: 1.5 }}>
+                  #{game.id} - {game.home_team_name_en} vs {game.away_team_name_en}
+                </Typography>
+                
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box>
+                    <Typography variant="body2" sx={{ color: 'primary.main', fontWeight: 600, mb: 0.5 }}>
+                      Tipp: <span style={{ color: '#FF004D', fontWeight: 800 }}>{tip.scoreA} - {tip.scoreB}</span>
+                    </Typography>
+                    {isFinished && (
+                      <Typography variant="body2" sx={{ color: '#666', fontWeight: 600 }}>
+                        Eredmény: {game.home_score} - {game.away_score}
                       </Typography>
-                      <Chip label={`${tip.scoreA} - ${tip.scoreB}`} sx={{ fontWeight: 700, background: '#e0f2f1', color: '#00695c' }} size="small" />
-                    </Box>
-
-                    {isFinished ? (
-                      <>
-                        <Box>
-                          <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                            Valós eredmény:
-                          </Typography>
-                          <Chip label={`${game.home_score} - ${game.away_score}`} sx={{ fontWeight: 700 }} variant="outlined" size="small" />
-                        </Box>
-                        <Box sx={{ textAlign: 'right' }}>
-                          <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                            Kapott pont:
-                          </Typography>
-                          <Chip 
-                            label={`+${points}`} 
-                            sx={{ 
-                              fontWeight: 800, 
-                              background: points === 3 ? '#FFD700' : points === 1 ? '#4CAF50' : '#f44336',
-                              color: points === 3 ? '#000' : '#fff'
-                            }} 
-                            size="small" 
-                          />
-                        </Box>
-                      </>
-                    ) : (
-                      <Box sx={{ flexGrow: 1, textAlign: 'right' }}>
-                         <Chip label="Még nem kezdődött el" size="small" sx={{ background: '#eee', color: '#888' }} />
-                      </Box>
                     )}
                   </Box>
+                  
+                  {isFinished ? (
+                    <Chip 
+                      label={`${points} pont`} 
+                      sx={{ 
+                        // 3 pont: Lime zöld, 1 pont: Ciánkék, 0 pont: Magenta
+                        background: points === 3 ? 'success.main' : (points === 1 ? 'info.main' : 'secondary.main'), 
+                        color: points === 1 ? '#000' : '#fff', 
+                        fontWeight: 800,
+                        fontSize: '0.9rem'
+                      }} 
+                    />
+                  ) : (
+                    <Chip 
+                      label="Hamarosan" 
+                      size="small" 
+                      sx={{ background: '#e0e0e0', color: '#666', fontWeight: 700 }} 
+                    />
+                  )}
                 </Box>
-                {index < userTips.length - 1 && <Divider />}
               </Box>
             )
           })

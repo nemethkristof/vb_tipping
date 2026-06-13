@@ -10,17 +10,23 @@ import './App.css'
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1E3932', // VB2026 zöld
-      light: '#2D5A4F',
-      dark: '#0F2722',
+      main: '#000000', // VB2026 Alap fekete
+      light: '#262626',
+      dark: '#000000',
     },
     secondary: {
-      main: '#FFFFFF', // Fehér
-      light: '#F5F5F5',
-      dark: '#E0E0E0',
+      main: '#FF004D', // VB2026 Vibráló Magenta / Pink
+      light: '#FF4D85',
+      dark: '#C2003A',
     },
-    accent: {
-      main: '#2E8B57', // Világosabb zöld
+    warning: {
+      main: '#7B00FF', // VB2026 Neon Lila (Közvetítésekből)
+    },
+    info: {
+      main: '#00E5FF', // VB2026 Ciánkék
+    },
+    success: {
+      main: '#00FF87', // VB2026 Lime Zöld
     },
     background: {
       default: '#F8F9FA',
@@ -32,7 +38,7 @@ const theme = createTheme({
     h1: {
       fontSize: '3rem',
       fontWeight: 700,
-      color: '#1E3932',
+      color: '#000000',
       '@media (max-width:600px)': {
         fontSize: '2rem',
       },
@@ -40,7 +46,7 @@ const theme = createTheme({
     h2: {
       fontSize: '2rem',
       fontWeight: 600,
-      color: '#1E3932',
+      color: '#000000',
       '@media (max-width:600px)': {
         fontSize: '1.5rem',
       },
