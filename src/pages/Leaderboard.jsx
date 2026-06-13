@@ -1,25 +1,24 @@
 import { useState, useEffect } from 'react'
-import {
-  Container,
-  Box,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Card,
-  CardContent,
-  CircularProgress,
-  Alert,
-  Grid,
-  Chip,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material'
+import { Container, Box, Typography, CircularProgress, Alert, useTheme, useMediaQuery } from '@mui/material'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import LeaderboardDesktop from '../components/LeaderboardDesktop'
+import LeaderboardMobile from '../components/LeaderboardMobile'
+
+// Segédfüggvény a pontszámításhoz
+const calculatePoints = (actualA, actualB, predA, predB) => {
+  // 1. Telitalálat (pontos végeredmény) -> 3 pont
+  if (actualA === predA && actualB === predB) return 3
+
+  // 2. Kimenetel megállapítása (A nyer, B nyer, vagy Döntetlen)
+  const actualResult = actualA > actualB ? 'A' : actualA < actualB ? 'B' : 'D'
+  const predResult = predA > predB ? 'A' : predA < predB ? 'B' : 'D'
+
+  // Ha a kimenetel megegyezik -> 1 pont
+  if (actualResult === predResult) return 1
+
+  // Egyébként -> 0 pont
+  return 0
+}
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([])
@@ -31,58 +30,56 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Tipps JSON lekérése
         const tipsResponse = await fetch('/tipps.json')
         const tipsData = await tipsResponse.json()
 
-        // Meccsek lekérése az API-ból
         const gamesResponse = await fetch('https://worldcup26.ir/get/games')
         const gamesData = await gamesResponse.json()
 
-        // Pontok kiszámítása
         const userScores = {}
 
-        // Initialize scores
+        // Játékosok inicializálása 0 ponttal
         tipsData.predictions.forEach((prediction) => {
           if (!userScores[prediction.user]) {
             userScores[prediction.user] = 0
           }
         })
 
-        // Calculate points
+        // Pontok kiszámítása
         tipsData.predictions.forEach((prediction) => {
-          const game = gamesData.games.find((g) => parseInt(g.id) === prediction.matchId)
+          // A games array lehet direktben a válasz, vagy egy 'games' kulcs alatt
+          const gamesArray = gamesData.games || gamesData
+          const game = gamesArray.find((g) => parseInt(g.id) === prediction.matchId)
 
-          if (game && game.finished === 'TRUE') {
+          // Biztonságos ellenőrzés a 'finished' státuszra (lehet boolean vagy string)
+          const isFinished = game && (game.finished === true || String(game.finished).toUpperCase() === 'TRUE')
+
+          if (isFinished) {
             const actualScoreA = parseInt(game.home_score)
             const actualScoreB = parseInt(game.away_score)
-            const predictedScoreA = prediction.scoreA
-            const predictedScoreB = prediction.scoreB
+            const predictedScoreA = parseInt(prediction.scoreA)
+            const predictedScoreB = parseInt(prediction.scoreB)
 
-            // Pontozási logika
-            if (actualScoreA === predictedScoreA && actualScoreB === predictedScoreB) {
-              // Helyes végeredmény: +3 pont
-              userScores[prediction.user] += 3
-            } else if (
-              (actualScoreA > actualScoreB && predictedScoreA > predictedScoreB) ||
-              (actualScoreA < actualScoreB && predictedScoreA < predictedScoreB) ||
-              (actualScoreA === actualScoreB && predictedScoreA === predictedScoreB)
-            ) {
-              // Helyes nyertes csapat vagy holtverseny: +1 pont
-              userScores[prediction.user] += 1
-            }
+            // Pont hozzáadása a játékoshoz
+            userScores[prediction.user] += calculatePoints(actualScoreA, actualScoreB, predictedScoreA, predictedScoreB)
           }
         })
 
-        // Konvertálás array-é és rendezés
-        const leaderboardArray = Object.entries(userScores)
-          .map(([user, score]) => ({
-            user,
-            score,
-          }))
+        // Objektumból tömb konvertálása és pontszám szerinti csökkenő rendezés
+        const sortedScores = Object.entries(userScores)
+          .map(([user, score]) => ({ user, score }))
           .sort((a, b) => b.score - a.score)
 
-        setLeaderboard(leaderboardArray)
+        // Helyezések (rank) kiszámítása (holtversenyek kezelése)
+        let currentRank = 1
+        const rankedLeaderboard = sortedScores.map((player, index, array) => {
+          if (index > 0 && player.score < array[index - 1].score) {
+            currentRank = index + 1
+          }
+          return { ...player, rank: currentRank }
+        })
+
+        setLeaderboard(rankedLeaderboard)
         setLoading(false)
       } catch (err) {
         console.error('Hiba az adatok lekérésekor:', err)
@@ -102,32 +99,6 @@ const Leaderboard = () => {
     )
   }
 
-  const getMedalColor = (position) => {
-    switch (position) {
-      case 0:
-        return '#FFD700'
-      case 1:
-        return '#C0C0C0'
-      case 2:
-        return '#CD7F32'
-      default:
-        return '#1E3932'
-    }
-  }
-
-  const getMedalEmoji = (position) => {
-    switch (position) {
-      case 0:
-        return '🥇'
-      case 1:
-        return '🥈'
-      case 2:
-        return '🥉'
-      default:
-        return '🏅'
-    }
-  }
-
   return (
     <Box sx={{ minHeight: '100vh', background: '#f5f5f5', py: 4 }}>
       <Container maxWidth="lg">
@@ -139,9 +110,12 @@ const Leaderboard = () => {
               fontWeight: 800,
               color: '#1E3932',
               mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <EmojiEventsIcon sx={{ fontSize: '2.5em', marginRight: '15px', verticalAlign: 'middle' }} />
+            <EmojiEventsIcon sx={{ fontSize: '1.2em', marginRight: '10px' }} />
             Rangsor
           </Typography>
           <Typography variant="body1" sx={{ color: '#666', fontSize: '1.1rem' }}>
@@ -149,154 +123,16 @@ const Leaderboard = () => {
           </Typography>
         </Box>
 
-        {error && <Alert severity="error" sx={{ mb: 4 }}>{error}</Alert>}
+        {error && (
+          <Alert severity="error" sx={{ mb: 4 }}>
+            {error}
+          </Alert>
+        )}
 
         {isMobile ? (
-          // Mobile view - Card layout
-          <Grid container spacing={2}>
-            {leaderboard.map((player, index) => (
-              <Grid item xs={12} key={index}>
-                <Card
-                  sx={{
-                    background: index < 3 ? `rgba(${getMedalColor(index) === '#FFD700' ? '255,215,0' : getMedalColor(index) === '#C0C0C0' ? '192,192,192' : '205,127,50'}, 0.1)` : 'transparent',
-                    borderLeft: `5px solid ${getMedalColor(index)}`,
-                  }}
-                >
-                  <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                      <Typography
-                        sx={{
-                          fontSize: '1.5rem',
-                          fontWeight: 800,
-                          color: '#1E3932',
-                          minWidth: '30px',
-                        }}
-                      >
-                        {getMedalEmoji(index)} {index + 1}.
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: '1.2rem',
-                          fontWeight: 600,
-                          color: '#1E3932',
-                        }}
-                      >
-                        {player.user}
-                      </Typography>
-                    </Box>
-                    <Chip
-                      label={`${player.score} pont`}
-                      sx={{
-                        fontSize: '1rem',
-                        fontWeight: 700,
-                        background: '#2E8B57',
-                        color: '#fff',
-                        height: '35px',
-                      }}
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+          <LeaderboardMobile leaderboard={leaderboard} />
         ) : (
-          // Desktop view - Table layout
-          <TableContainer
-            component={Paper}
-            sx={{
-              borderRadius: '16px',
-              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-            }}
-          >
-            <Table>
-              <TableHead>
-                <TableRow
-                  sx={{
-                    background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)',
-                  }}
-                >
-                  <TableCell
-                    sx={{
-                      color: '#fff',
-                      fontWeight: 700,
-                      fontSize: '1.1rem',
-                      textAlign: 'center',
-                      width: '80px',
-                    }}
-                  >
-                    Hely
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: '#fff',
-                      fontWeight: 700,
-                      fontSize: '1.1rem',
-                    }}
-                  >
-                    Játékos
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      color: '#fff',
-                      fontWeight: 700,
-                      fontSize: '1.1rem',
-                      textAlign: 'right',
-                      paddingRight: '40px',
-                    }}
-                  >
-                    Pontok
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {leaderboard.map((player, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      background:
-                        index % 2 === 0 ? '#f5f5f5' : '#fff',
-                      borderLeft: `5px solid ${getMedalColor(index)}`,
-                      '&:hover': {
-                        background: '#e8f5e9',
-                      },
-                      transition: 'all 0.3s ease',
-                    }}
-                  >
-                    <TableCell
-                      sx={{
-                        fontWeight: 800,
-                        fontSize: '1.2rem',
-                        textAlign: 'center',
-                        color: '#1E3932',
-                      }}
-                    >
-                      {getMedalEmoji(index)} {index + 1}.
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: 600,
-                        fontSize: '1.1rem',
-                        color: '#1E3932',
-                      }}
-                    >
-                      {player.user}
-                    </TableCell>
-                    <TableCell
-                      sx={{
-                        fontWeight: 700,
-                        fontSize: '1.3rem',
-                        textAlign: 'right',
-                        paddingRight: '40px',
-                        color: '#2E8B57',
-                      }}
-                    >
-                      {player.score}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <LeaderboardDesktop leaderboard={leaderboard} />
         )}
       </Container>
     </Box>
