@@ -1,12 +1,4 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-} from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material'
 
 const getMedalColor = (rank) => {
   switch (rank) {
@@ -26,38 +18,28 @@ const getMedalEmoji = (rank) => {
   }
 }
 
-const LeaderboardDesktop = ({ leaderboard }) => {
+const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
   return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        borderRadius: '16px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-      }}
-    >
+    <TableContainer component={Paper} sx={{ borderRadius: '16px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}>
       <Table>
         <TableHead>
           <TableRow sx={{ background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)' }}>
-            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'center', width: '100px' }}>
-              Hely
-            </TableCell>
-            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem' }}>
-              Játékos
-            </TableCell>
-            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'right', paddingRight: '40px' }}>
-              Pontok
-            </TableCell>
+            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'center', width: '100px' }}>Hely</TableCell>
+            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem' }}>Játékos</TableCell>
+            <TableCell sx={{ color: '#fff', fontWeight: 700, fontSize: '1.1rem', textAlign: 'right', paddingRight: '40px' }}>Pontok</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {leaderboard.map((player, index) => (
             <TableRow
               key={index}
+              onClick={() => onUserClick(player.user)} // ÚJ: Kattintás esemény
               sx={{
                 background: index % 2 === 0 ? '#f5f5f5' : '#fff',
                 borderLeft: `5px solid ${getMedalColor(player.rank)}`,
-                '&:hover': { background: '#e8f5e9' },
-                transition: 'all 0.3s ease',
+                cursor: 'pointer', // ÚJ: kurzor változtatása
+                '&:hover': { background: '#e8f5e9', transform: 'scale(1.005)' }, // ÚJ: Látványos hover
+                transition: 'all 0.2s ease',
               }}
             >
               <TableCell sx={{ fontWeight: 800, fontSize: '1.2rem', textAlign: 'center', color: '#1E3932' }}>
