@@ -128,8 +128,8 @@ const Leaderboard = () => {
   }
 
   return (
-    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', py: 4 }}>
-      <Container maxWidth="lg">
+    <Box sx={{ minHeight: '100vh', background: '#f5f5f5'}}>
+      <Container maxWidth="lg" sx={{ py: 8 }}>
         <Box sx={{ mb: 4, textAlign: 'center' }}>
           <Typography variant="h1" sx={{ fontSize: isMobile ? '2rem' : '3rem', fontWeight: 800, color: '#1E3932', mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <EmojiEventsIcon sx={{ fontSize: '1.2em', marginRight: '10px' }} />
