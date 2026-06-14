@@ -65,39 +65,35 @@ const PredictionForm = ({
         />
 
         <FormControl fullWidth sx={{ mb: 2 }} size="small">
-          <InputLabel id="match-select-label">Meccs kiválasztása</InputLabel>
           <Select
-            labelId="match-select-label"
-            id="match-select"
-            value={selectedMatch}
-            label="Meccs kiválasztása"
-            onChange={(e) => {
-              setSelectedMatch(e.target.value)
-              setAdvancer('') // Új meccs választásánál reseteljük a továbbjutót
-            }}
-            MenuProps={{
-              disableAutoFocusItem: true,
-              PaperProps: { sx: { marginTop: '8px' } }
-            }}
-          >
-            <MenuItem value="">
-              <em>-- Válassz egy meccset --</em>
-            </MenuItem>
-            
-            {upcomingGames.length === 0 ? (
-              <MenuItem disabled value="none">Nincs elérhető, nyitott meccs</MenuItem>
-            ) : (
-              upcomingGames.map((game) => {
-                const homeName = game.home_team_name_en || game.home_team_label || 'Ismeretlen'
-                const awayName = game.away_team_name_en || game.away_team_label || 'Ismeretlen'
-                return (
-                  <MenuItem key={game.id} value={game.id}>
-                    {`#${game.id} - ${homeName} vs ${awayName}`}
-                  </MenuItem>
-                )
-              })
-            )}
-          </Select>
+  native // EZ A KULCS!
+  labelId="match-select-label"
+  id="match-select"
+  value={selectedMatch}
+  label="Meccs kiválasztása"
+  onChange={(e) => {
+    setSelectedMatch(e.target.value)
+    setAdvancer('')
+  }}
+>
+  <option value="">
+    -- Válassz egy meccset --
+  </option>
+  
+  {upcomingGames.length === 0 ? (
+    <option disabled value="none">Nincs elérhető, nyitott meccs</option>
+  ) : (
+    upcomingGames.map((game) => {
+      const homeName = game.home_team_name_en || game.home_team_label || 'Ismeretlen'
+      const awayName = game.away_team_name_en || game.away_team_label || 'Ismeretlen'
+      return (
+        <option key={game.id} value={game.id}>
+          {`#${game.id} - ${homeName} vs ${awayName}`}
+        </option>
+      )
+    })
+  )}
+</Select>
         </FormControl>
 
         {selectedGameInfo && (
