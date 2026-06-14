@@ -6,6 +6,7 @@ import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import RuleCard from '../components/RuleCard'
 import StatCard from '../components/StatCard'
 import stadionBg from '../assets/stadion.webp'
+import Alert from '@mui/material/Alert'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -124,6 +125,13 @@ const Home = () => {
           </Button>
         </Box>
       </Box>
+
+      <Container maxWidth="md">
+        <Alert severity="info" sx={{ m: 4, fontSize: isMobile ? '0.9rem' : '1rem' }}>
+           A tippeket a meccsek kezdete előtt kell elküldeni nekem.
+           A tippek rögzítése munkanapokon csak egyszer az esti órákban történik. Hétvégén, akár többször is frissítem az adatokat egy nap.
+        </Alert>
+      </Container>
 
       {/* Rules Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
