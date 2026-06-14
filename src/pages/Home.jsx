@@ -16,7 +16,9 @@ const Home = () => {
     { title: 'Telitalálat', points: '+3 pont', description: 'Pontosan eltalálod a meccs végeredményét (mindkét csapat gólszámát).', icon: '🎯' },
     { title: 'Helyes kimenetel', points: '+1 pont', description: 'Eltalálod a meccs kimenetelét (A nyer, B nyer, vagy döntetlen), de a pontos gólokat nem.', icon: '⚖️' },
     { title: 'Helytelen tipp', points: '0 pont', description: 'Ha a tippelt kimenetel nem egyezik meg a valósággal (pl. hazait tippelsz, de vendég nyer).', icon: '❌' },
-   ]
+    { title: 'Egyenes kieséses meccs', points: '+1 pont', description: 'Ha a tippelt csapat továbbjut az egyenes kieséses szakaszban, akkor +1 pontot kapsz.', icon: '🏆' },
+    { title: 'Egyenes kieséses meccs', points: '-', description: 'A tippelt eredmény 90 percre vonatkozik.', icon: '🏆' },
+  ]
 
   const stats = [
     { value: '48', label: 'Csapat' },
