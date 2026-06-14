@@ -630,6 +630,23 @@
     },
 
 
+    {
+      "user": "Kriszti",
+      "matchId": 10,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 11,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+
+
+
     
     {
       "user": "Tomi",
