@@ -157,13 +157,16 @@ const Home = () => {
             🏆 Nyeremények
           </Typography>
           <Typography variant="body1" sx={{ fontSize: {sm: '1.25rem', md: '1.5rem'}, mb: 2 }}>
-            🥇 1. helyezett: nyereményalap 100%-a
+            🥇 1. helyezett
           </Typography>
           <Typography variant="body1" sx={{ fontSize: {sm: '1.25rem', md: '1.5rem'}, mb: 2 }}>
-            🥈 2. helyezett: egy tálca ital (pl.: sör, kávé, cola)
+            🥈 2. helyezett
           </Typography>
           <Typography variant="body1" sx={{ fontSize: {sm: '1.25rem', md: '1.5rem'}, mb: 2 }}>
-            🥉 3. helyezett: egy választható csoki
+            🥉 3. helyezett
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: {sm: '1.25rem', md: '1.5rem'}, mt: 3 }}>
+            Részvételhez nincs szükség regisztrációra, a részvétel ingyenes.
           </Typography>
         </Box>
 
