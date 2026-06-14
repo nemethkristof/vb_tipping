@@ -78,6 +78,63 @@
       "scoreB": 2,
       "advancer": null
     },
+    {
+      "user": "Flóra",
+      "matchId": 9,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 12,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 14,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 15,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": null
+    },
+
+    {
+      "user": "Kevin",
+      "matchId": 9,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kevin",
+      "matchId": 10,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kevin",
+      "matchId": 11,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kevin",
+      "matchId": 12,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
 
     {
       "user": "PANNA",
@@ -629,7 +686,6 @@
       "advancer": null
     },
 
-
     {
       "user": "Kriszti",
       "matchId": 10,
@@ -645,9 +701,6 @@
       "advancer": null
     },
 
-
-
-    
     {
       "user": "Tomi",
       "matchId": 10,
