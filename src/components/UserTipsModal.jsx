@@ -166,7 +166,7 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
                       </>
                     ) : (
                       <Box sx={{ flexGrow: 1, textAlign: 'right' }}>
-                         <Chip label="Még nem kezdődött el" size="small" sx={{ background: '#eee', color: '#888' }} />
+                         <Chip label="Még nincs eredmény" size="small" sx={{ background: '#eee', color: '#888' }} />
                       </Box>
                     )}
                   </Box>
