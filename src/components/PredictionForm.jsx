@@ -26,6 +26,13 @@ const PredictionForm = ({
   selectedGameInfo,
   onAddPrediction,
 }) => {
+
+const upcomingGames = games.filter((game) => {
+  // Bármilyen formátumban is jön a TRUE, kiszűrjük (ha string, ha boolean)
+  const isFinished = game.finished === true || String(game.finished).toUpperCase() === 'TRUE'
+  return !isFinished
+})
+
   return (
     <Card
       sx={{
@@ -53,26 +60,38 @@ const PredictionForm = ({
         />
 
         <FormControl fullWidth sx={{ mb: 2 }} size="small">
-          <InputLabel id="match-select-label">Meccs kiválasztása</InputLabel>
-          <Select
-            labelId="match-select-label"
-            id="match-select"
-            value={selectedMatch}
-            label="Meccs kiválasztása"
-            onChange={(e) => setSelectedMatch(e.target.value)}
-          >
-            <MenuItem value="">-- Válassz egy meccset --</MenuItem>
-            {games.length === 0 ? (
-              <MenuItem disabled>Nincs elérhető meccs</MenuItem>
-            ) : (
-              games.map((game) => (
-                <MenuItem key={game.id} value={game.id}>
-                  {`#${game.id} - ${game.home_team_name_en} vs ${game.away_team_name_en}`}
-                </MenuItem>
-              ))
-            )}
-          </Select>
-        </FormControl>
+  <InputLabel id="match-select-label">Meccs kiválasztása</InputLabel>
+  <Select
+    labelId="match-select-label"
+    id="match-select"
+    value={selectedMatch}
+    label="Meccs kiválasztása"
+    onChange={(e) => setSelectedMatch(e.target.value)}
+    // 2. A BUG JAVÍTÁSA: Ez akadályozza meg, hogy lenyitáskor azonnal kiválasszon valamit
+    MenuProps={{
+      disableAutoFocusItem: true,
+      PaperProps: {
+        sx: {
+          marginTop: '8px', // Kicsit lejjebb toljuk a menüt, hogy ne pont az egér alatt nyíljon meg
+        }
+      }
+    }}
+  >
+    <MenuItem value="">
+      <em>-- Válassz egy meccset --</em>
+    </MenuItem>
+    
+    {upcomingGames.length === 0 ? (
+      <MenuItem disabled value="none">Nincs elérhető, nyitott meccs</MenuItem>
+    ) : (
+      upcomingGames.map((game) => (
+        <MenuItem key={game.id} value={game.id}>
+          {`#${game.id} - ${game.home_team_name_en} vs ${game.away_team_name_en}`}
+        </MenuItem>
+      ))
+    )}
+  </Select>
+</FormControl>
 
         {selectedGameInfo && (
           <Typography
