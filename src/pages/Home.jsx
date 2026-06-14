@@ -5,6 +5,7 @@ import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
 import LeaderboardIcon from '@mui/icons-material/Leaderboard'
 import RuleCard from '../components/RuleCard'
 import StatCard from '../components/StatCard'
+import stadionBg from '../assets/stadion.webp'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -28,7 +29,10 @@ const Home = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)',
+          backgroundImage: `linear-gradient(135deg, #1E3932cc 0%, #2E8B57cc 100%), url(${stadionBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           color: '#fff',
           padding: isMobile ? '60px 20px' : '100px 40px',
           textAlign: 'center',
@@ -44,6 +48,7 @@ const Home = () => {
             fontSize: isMobile ? '80px' : '120px',
             marginBottom: '20px',
             animation: 'bounce 2s infinite',
+            color: '#FFD700',
             '@keyframes bounce': {
               '0%, 100%': { transform: 'translateY(0)' },
               '50%': { transform: 'translateY(-20px)' },
@@ -57,6 +62,7 @@ const Home = () => {
             fontWeight: 800,
             marginBottom: '20px',
             textShadow: '2px 2px 8px rgba(0, 0, 0, 0.3)',
+            color: '#FFD700',
           }}
         >
           VB2026 Tippjáték
@@ -145,6 +151,22 @@ const Home = () => {
           ))}
         </Grid>
 
+        {/* Prize Section */}
+        <Box sx={{ mr: 2, ml: 2, mt: 4, mb: 4, textAlign: 'center', borderRadius: '16px', padding: '30px', background: 'linear-gradient(135deg, #1E3932 0%, #2E8B57 100%)', color: '#fff' }}>
+          <Typography variant="h4" sx={{ fontWeight: 800, color: '#fff', mb: 3 }}>
+            🏆 Nyeremények
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: {sm: '1.25rem', md: '1.5rem'}, mb: 2 }}>
+            🥇 1. helyezett: nyereményalap 100%-a
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: {sm: '1.25rem', md: '1.5rem'}, mb: 2 }}>
+            🥈 2. helyezett: egy tálca ital (pl.: sör, kávé, cola)
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: {sm: '1.25rem', md: '1.5rem'}, mb: 2 }}>
+            🥉 3. helyezett: egy választható csoki
+          </Typography>
+        </Box>
+
         {/* Info / Stat Cards */}
         <Grid container spacing={3} sx={{ justifyContent: 'center', alignItems: 'stretch', mt: 6 }}>
           {stats.map((stat, index) => (
@@ -166,7 +188,7 @@ const Home = () => {
       {/* Footer */}
       <Box sx={{ background: '#1E3932', color: '#fff', textAlign: 'center', padding: '30px 20px', mt: 'auto' }}>
         <Typography variant="body2" sx={{ opacity: 0.8 }}>
-          © 2026 VB Tippjáték. Jó szerencsét! 🏆
+          © 2026 VB Tippjáték. Sok szerencsét! 🏆
         </Typography>
       </Box>
     </Box>
