@@ -2,6 +2,13 @@
   "predictions": [
     {
       "user": "Kristóf",
+      "matchId": 9,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
       "matchId": 10,
       "scoreA": 4,
       "scoreB": 0,
@@ -12,6 +19,48 @@
       "matchId": 11,
       "scoreA": 3,
       "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 12,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 13,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 14,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 15,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 16,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 17,
+      "scoreA": 4,
+      "scoreB": 0,
       "advancer": null
     },
 
@@ -44,7 +93,6 @@
       "scoreB": 1,
       "advancer": null
     },
-
 
     {
       "user": "Npeti",
@@ -495,7 +543,6 @@
       "advancer": null
     },
 
-
     {
       "user": "Kriszti Tibi",
       "matchId": 9,
@@ -552,8 +599,6 @@
       "scoreB": 1,
       "advancer": null
     },
-
-
 
     {
       "user": "Barni",
