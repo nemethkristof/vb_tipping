@@ -23,15 +23,20 @@ const PredictionForm = ({
   setScoreA,
   scoreB,
   setScoreB,
+  advancer,
+  setAdvancer,
   selectedGameInfo,
   onAddPrediction,
+  getGameDetails,
 }) => {
 
-const upcomingGames = games.filter((game) => {
-  // Bármilyen formátumban is jön a TRUE, kiszűrjük (ha string, ha boolean)
-  const isFinished = game.finished === true || String(game.finished).toUpperCase() === 'TRUE'
-  return !isFinished
-})
+  const upcomingGames = games.filter((game) => {
+    const isFinished = game.finished === true || String(game.finished).toUpperCase() === 'TRUE'
+    return !isFinished
+  })
+
+  const isKnockout = selectedMatch && parseInt(selectedMatch) > 72
+  const selectedGameDetails = selectedMatch ? getGameDetails(parseInt(selectedMatch)) : null
 
   return (
     <Card
@@ -60,38 +65,40 @@ const upcomingGames = games.filter((game) => {
         />
 
         <FormControl fullWidth sx={{ mb: 2 }} size="small">
-  <InputLabel id="match-select-label">Meccs kiválasztása</InputLabel>
-  <Select
-    labelId="match-select-label"
-    id="match-select"
-    value={selectedMatch}
-    label="Meccs kiválasztása"
-    onChange={(e) => setSelectedMatch(e.target.value)}
-    // 2. A BUG JAVÍTÁSA: Ez akadályozza meg, hogy lenyitáskor azonnal kiválasszon valamit
-    MenuProps={{
-      disableAutoFocusItem: true,
-      PaperProps: {
-        sx: {
-          marginTop: '8px', // Kicsit lejjebb toljuk a menüt, hogy ne pont az egér alatt nyíljon meg
-        }
-      }
-    }}
-  >
-    <MenuItem value="">
-      <em>-- Válassz egy meccset --</em>
-    </MenuItem>
-    
-    {upcomingGames.length === 0 ? (
-      <MenuItem disabled value="none">Nincs elérhető, nyitott meccs</MenuItem>
-    ) : (
-      upcomingGames.map((game) => (
-        <MenuItem key={game.id} value={game.id}>
-          {`#${game.id} - ${game.home_team_name_en} vs ${game.away_team_name_en}`}
-        </MenuItem>
-      ))
-    )}
-  </Select>
-</FormControl>
+          <InputLabel id="match-select-label">Meccs kiválasztása</InputLabel>
+          <Select
+            labelId="match-select-label"
+            id="match-select"
+            value={selectedMatch}
+            label="Meccs kiválasztása"
+            onChange={(e) => {
+              setSelectedMatch(e.target.value)
+              setAdvancer('') // Új meccs választásánál reseteljük a továbbjutót
+            }}
+            MenuProps={{
+              disableAutoFocusItem: true,
+              PaperProps: { sx: { marginTop: '8px' } }
+            }}
+          >
+            <MenuItem value="">
+              <em>-- Válassz egy meccset --</em>
+            </MenuItem>
+            
+            {upcomingGames.length === 0 ? (
+              <MenuItem disabled value="none">Nincs elérhető, nyitott meccs</MenuItem>
+            ) : (
+              upcomingGames.map((game) => {
+                const homeName = game.home_team_name_en || game.home_team_label || 'Ismeretlen'
+                const awayName = game.away_team_name_en || game.away_team_label || 'Ismeretlen'
+                return (
+                  <MenuItem key={game.id} value={game.id}>
+                    {`#${game.id} - ${homeName} vs ${awayName}`}
+                  </MenuItem>
+                )
+              })
+            )}
+          </Select>
+        </FormControl>
 
         {selectedGameInfo && (
           <Typography
@@ -133,6 +140,22 @@ const upcomingGames = games.filter((game) => {
           </Grid>
         </Grid>
 
+        {isKnockout && selectedGameDetails && (
+          <FormControl fullWidth sx={{ mb: 3 }} size="small">
+            <InputLabel id="advancer-select-label">Továbbjutó (Knockout Bónusz)</InputLabel>
+            <Select
+              labelId="advancer-select-label"
+              id="advancer-select"
+              value={advancer}
+              label="Továbbjutó (Knockout Bónusz)"
+              onChange={(e) => setAdvancer(e.target.value)}
+            >
+              <MenuItem value="A">{selectedGameDetails.home_team_name_en || selectedGameDetails.home_team_label} (Hazai - A)</MenuItem>
+              <MenuItem value="B">{selectedGameDetails.away_team_name_en || selectedGameDetails.away_team_label} (Vendég - B)</MenuItem>
+            </Select>
+          </FormControl>
+        )}
+
         <Button
           variant="contained"
           fullWidth
@@ -144,12 +167,8 @@ const upcomingGames = games.filter((game) => {
             fontWeight: 700,
             padding: '12px',
             fontSize: '1rem',
-            '&:hover': {
-              opacity: 0.9,
-            },
-            '&:active': {
-              transform: 'scale(0.98)',
-            },
+            '&:hover': { opacity: 0.9 },
+            '&:active': { transform: 'scale(0.98)' },
           }}
         >
           Tipp Hozzáadása

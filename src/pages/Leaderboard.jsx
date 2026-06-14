@@ -5,19 +5,30 @@ import LeaderboardDesktop from '../components/LeaderboardDesktop'
 import LeaderboardMobile from '../components/LeaderboardMobile'
 import UserTipsModal from '../components/UserTipsModal'
 
-export const calculatePoints = (actualA, actualB, predA, predB) => {
-  if (actualA === predA && actualB === predB) return 3
-  const actualResult = actualA > actualB ? 'A' : actualA < actualB ? 'B' : 'D'
-  const predResult = predA > predB ? 'A' : predA < predB ? 'B' : 'D'
-  if (actualResult === predResult) return 1
-  return 0
+export const calculatePoints = (actualA, actualB, predA, predB, actualAdvancer, predAdvancer, isKnockout) => {
+  let points = 0
+  
+  if (actualA === predA && actualB === predB) points += 3
+  else {
+    const actualResult = actualA > actualB ? 'A' : actualA < actualB ? 'B' : 'D'
+    const predResult = predA > predB ? 'A' : predA < predB ? 'B' : 'D'
+    if (actualResult === predResult) points += 1
+  }
+
+  if (isKnockout && predAdvancer && actualAdvancer) {
+    if (predAdvancer === actualAdvancer) {
+      points += 1
+    }
+  }
+
+  return points
 }
 
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([])
-  const [allPredictions, setAllPredictions] = useState([]) // ÚJ: Elmentjük a tippeket
-  const [games, setGames] = useState([]) // ÚJ: Elmentjük a meccseket
-  const [selectedUser, setSelectedUser] = useState(null) // ÚJ: Kiválasztott játékos a modalhoz
+  const [allPredictions, setAllPredictions] = useState([])
+  const [games, setGames] = useState([])
+  const [selectedUser, setSelectedUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   
@@ -36,7 +47,6 @@ const Leaderboard = () => {
         const rawPredictions = tipsData.predictions || []
         const rawGames = gamesData.games || gamesData
 
-        // Eltároljuk a nyers adatokat a modal számára
         setAllPredictions(rawPredictions)
         setGames(rawGames)
 
@@ -51,6 +61,7 @@ const Leaderboard = () => {
         rawPredictions.forEach((prediction) => {
           const game = rawGames.find((g) => parseInt(g.id) === prediction.matchId)
           const isFinished = game && (game.finished === true || String(game.finished).toUpperCase() === 'TRUE')
+          const isKnockout = game && parseInt(game.id) > 72
 
           if (isFinished) {
             const actualScoreA = parseInt(game.home_score)
@@ -58,7 +69,26 @@ const Leaderboard = () => {
             const predictedScoreA = parseInt(prediction.scoreA)
             const predictedScoreB = parseInt(prediction.scoreB)
 
-            userScores[prediction.user] += calculatePoints(actualScoreA, actualScoreB, predictedScoreA, predictedScoreB)
+            let actualAdvancer = null
+            if (isKnockout) {
+              if (actualScoreA > actualScoreB) actualAdvancer = 'A'
+              else if (actualScoreB > actualScoreA) actualAdvancer = 'B'
+              else {
+                // Tartalék logika, ha egyelőre nincs winner mező, de később bekerülhet:
+                if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
+                else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
+              }
+            }
+
+            userScores[prediction.user] += calculatePoints(
+              actualScoreA, 
+              actualScoreB, 
+              predictedScoreA, 
+              predictedScoreB, 
+              actualAdvancer, 
+              prediction.advancer, 
+              isKnockout
+            )
           }
         })
 
@@ -86,7 +116,6 @@ const Leaderboard = () => {
     fetchData()
   }, [])
 
-  // ÚJ: Kattintáskezelők
   const handleUserClick = (userName) => setSelectedUser(userName)
   const handleCloseModal = () => setSelectedUser(null)
 
@@ -119,7 +148,6 @@ const Leaderboard = () => {
           <LeaderboardDesktop leaderboard={leaderboard} onUserClick={handleUserClick} />
         )}
 
-        {/* ÚJ: Felugró ablak renderelése */}
         <UserTipsModal
           open={Boolean(selectedUser)}
           onClose={handleCloseModal}

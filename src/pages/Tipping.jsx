@@ -13,7 +13,6 @@ const Tipping = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
-  // 1. KEZDŐÁLLAPOT BETÖLTÉSE LOCALSTORAGE-BÓL
   const [predictions, setPredictions] = useState(() => {
     const savedPredictions = localStorage.getItem('tipping_predictions')
     return savedPredictions ? JSON.parse(savedPredictions) : []
@@ -26,8 +25,8 @@ const Tipping = () => {
   const [selectedMatch, setSelectedMatch] = useState('')
   const [scoreA, setScoreA] = useState('')
   const [scoreB, setScoreB] = useState('')
+  const [advancer, setAdvancer] = useState('')
 
-  // 2. AUTOMATIKUS MENTÉS LOCALSTORAGE-BA, HA VÁLTOZIK VALAMI
   useEffect(() => {
     localStorage.setItem('tipping_predictions', JSON.stringify(predictions))
   }, [predictions])
@@ -39,12 +38,10 @@ const Tipping = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Meccsek lekérése
         const gamesResponse = await fetch('https://worldcup26.ir/get/games')
         const gamesData = await gamesResponse.json()
         setGames(gamesData.games || gamesData)
 
-        // Meglévő (már leadott/szerveren lévő) tippek lekérése
         try {
           const tipsResponse = await fetch('/tipps.json')
           if (tipsResponse.ok) {
@@ -68,7 +65,9 @@ const Tipping = () => {
   const getGameInfo = (matchId) => {
     const game = games.find((g) => parseInt(g.id) === matchId)
     if (game) {
-      return `#${game.id} - ${game.home_team_name_en} vs ${game.away_team_name_en} (${game.local_date})`
+      const homeName = game.home_team_name_en || game.home_team_label || 'Ismeretlen'
+      const awayName = game.away_team_name_en || game.away_team_label || 'Ismeretlen'
+      return `#${game.id} - ${homeName} vs ${awayName} (${game.local_date})`
     }
     return `Meccs #${matchId}`
   }
@@ -76,8 +75,15 @@ const Tipping = () => {
   const selectedGameInfo = selectedMatch ? getGameInfo(parseInt(selectedMatch)) : ''
 
   const handleAddPrediction = () => {
+    const isKnockout = parseInt(selectedMatch) > 72
+
     if (!userName || !selectedMatch || scoreA === '' || scoreB === '') {
-      alert('Kérlek, töltsd ki az összes mezőt!')
+      alert('Kérlek, töltsd ki az összes kötelező mezőt!')
+      return
+    }
+
+    if (isKnockout && !advancer) {
+      alert('Ez egy egyenes kieséses meccs! Kérlek, válaszd ki a továbbjutót is!')
       return
     }
 
@@ -86,12 +92,14 @@ const Tipping = () => {
       matchId: parseInt(selectedMatch),
       scoreA: parseInt(scoreA),
       scoreB: parseInt(scoreB),
+      advancer: isKnockout ? advancer : null
     }
 
     setPredictions([...predictions, newPrediction])
     setSelectedMatch('')
     setScoreA('')
     setScoreB('')
+    setAdvancer('')
   }
 
   const handleRemovePrediction = (matchIdToRemove) => {
@@ -120,9 +128,6 @@ const Tipping = () => {
     a.download = `tipps_${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
-    
-    // Opcionális: Ha letöltés után le akarod üríteni a listát a localstorage-ból, 
-    // akkor ide be lehet tenni a setPredictions([])-t.
   }
 
   const handleCopyToClipboard = () => {
@@ -162,8 +167,11 @@ const Tipping = () => {
           setScoreA={setScoreA}
           scoreB={scoreB}
           setScoreB={setScoreB}
+          advancer={advancer}
+          setAdvancer={setAdvancer}
           selectedGameInfo={selectedGameInfo}
           onAddPrediction={handleAddPrediction}
+          getGameDetails={getGameDetails}
         />
 
         <ExportSection

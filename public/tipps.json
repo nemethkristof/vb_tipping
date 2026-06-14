@@ -1,5 +1,48 @@
 {
   "predictions": [
+    {
+      "user": "Kristóf",
+      "matchId": 9,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 15,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 16,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 12,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 74,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "B"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 104,
+      "scoreA": 2,
+      "scoreB": 3,
+      "advancer": "B"
+    },
+
     { "user": "Peti", "matchId": 1, "scoreA": 2, "scoreB": 1 },
     { "user": "Peti", "matchId": 2, "scoreA": 0, "scoreB": 0 },
     { "user": "Peti", "matchId": 3, "scoreA": 3, "scoreB": 1 },
@@ -7,22 +50,29 @@
     { "user": "Peti", "matchId": 45, "scoreA": 1, "scoreB": 0 },
     { "user": "Peti", "matchId": 41, "scoreA": 1, "scoreB": 0 },
     { "user": "Peti", "matchId": 40, "scoreA": 1, "scoreB": 0 },
-    
+    {
+      "user": "Peti",
+      "matchId": 76,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+
     { "user": "Anna", "matchId": 1, "scoreA": 1, "scoreB": 1 },
     { "user": "Anna", "matchId": 2, "scoreA": 2, "scoreB": 0 },
     { "user": "Anna", "matchId": 3, "scoreA": 0, "scoreB": 2 },
     { "user": "Anna", "matchId": 4, "scoreA": 1, "scoreB": 2 },
-    
+
     { "user": "Gergő", "matchId": 1, "scoreA": 3, "scoreB": 0 },
     { "user": "Gergő", "matchId": 2, "scoreA": 1, "scoreB": 2 },
     { "user": "Gergő", "matchId": 3, "scoreA": 2, "scoreB": 2 },
     { "user": "Gergő", "matchId": 4, "scoreA": 0, "scoreB": 1 },
-    
+
     { "user": "Lilla", "matchId": 1, "scoreA": 0, "scoreB": 0 },
     { "user": "Lilla", "matchId": 2, "scoreA": 3, "scoreB": 1 },
     { "user": "Lilla", "matchId": 3, "scoreA": 1, "scoreB": 1 },
     { "user": "Lilla", "matchId": 4, "scoreA": 2, "scoreB": 1 },
-    
+
     { "user": "Balázs", "matchId": 1, "scoreA": 2, "scoreB": 2 },
     { "user": "Balázs", "matchId": 2, "scoreA": 0, "scoreB": 1 },
     { "user": "Balázs", "matchId": 3, "scoreA": 1, "scoreB": 0 },

@@ -9,15 +9,26 @@ import {
   Divider,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-// JAVÍTÁS: Az új focilabda ikon importja
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
 
-const calculatePoints = (actualA, actualB, predA, predB) => {
-  if (actualA === predA && actualB === predB) return 3
-  const actualResult = actualA > actualB ? 'A' : actualA < actualB ? 'B' : 'D'
-  const predResult = predA > predB ? 'A' : predA < predB ? 'B' : 'D'
-  if (actualResult === predResult) return 1
-  return 0
+// Lokális pontszámító, hogy ne kelljen importálgatni
+const calculatePointsForModal = (actualA, actualB, predA, predB, actualAdvancer, predAdvancer, isKnockout) => {
+  let points = 0
+  
+  if (actualA === predA && actualB === predB) points += 3
+  else {
+    const actualResult = actualA > actualB ? 'A' : actualA < actualB ? 'B' : 'D'
+    const predResult = predA > predB ? 'A' : predA < predB ? 'B' : 'D'
+    if (actualResult === predResult) points += 1
+  }
+
+  if (isKnockout && predAdvancer && actualAdvancer) {
+    if (predAdvancer === actualAdvancer) {
+      points += 1
+    }
+  }
+
+  return points
 }
 
 const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) => {
@@ -37,7 +48,6 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
       sx={{
         '& .MuiDialog-paper': {
           borderRadius: '16px',
-          // JAVÍTÁS: Mobilon (xs) legyen szélesebb a modal (kihasználja a helyet), asztalin marad a normál méret
           width: { xs: 'calc(100% - 16px)', sm: '100%' },
           margin: { xs: '8px', sm: '32px' }
         }
@@ -54,7 +64,6 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
           gap: 1 
         }}
       >
-        {/* JAVÍTÁS: Az új focilabda ikon használata */}
         <SportsSoccerIcon />
         <Typography variant="h6" component="span" sx={{ fontWeight: 700 }}>
           {user} tippjei
@@ -79,12 +88,37 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
         ) : (
           userTips.map((tip, index) => {
             const game = safeGames.find((g) => parseInt(g.id) === tip.matchId)
-            const gameDisplay = game ? `${game.home_team_name_en} vs ${game.away_team_name_en}` : `Meccs #${tip.matchId}`
+            const homeName = game ? (game.home_team_name_en || game.home_team_label) : '?'
+            const awayName = game ? (game.away_team_name_en || game.away_team_label) : '?'
+            const gameDisplay = game ? `${homeName} vs ${awayName}` : `Meccs #${tip.matchId}`
+            
             const isFinished = game && (game.finished === true || String(game.finished).toUpperCase() === 'TRUE')
+            const isKnockout = game && parseInt(game.id) > 72
             
             let points = 0
+            let actualAdvancer = null
+
             if (isFinished) {
-              points = calculatePoints(parseInt(game.home_score), parseInt(game.away_score), tip.scoreA, tip.scoreB)
+              if (isKnockout) {
+                const scoreA = parseInt(game.home_score)
+                const scoreB = parseInt(game.away_score)
+                if (scoreA > scoreB) actualAdvancer = 'A'
+                else if (scoreB > scoreA) actualAdvancer = 'B'
+                else {
+                  if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
+                  else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
+                }
+              }
+
+              points = calculatePointsForModal(
+                parseInt(game.home_score), 
+                parseInt(game.away_score), 
+                tip.scoreA, 
+                tip.scoreB,
+                actualAdvancer,
+                tip.advancer,
+                isKnockout
+              )
             }
 
             return (
@@ -99,7 +133,12 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
                       <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
                         Tippelt eredmény:
                       </Typography>
-                      <Chip label={`${tip.scoreA} - ${tip.scoreB}`} sx={{ fontWeight: 700, background: '#e0f2f1', color: '#00695c' }} size="small" />
+                      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                        <Chip label={`${tip.scoreA} - ${tip.scoreB}`} sx={{ fontWeight: 700, background: '#e0f2f1', color: '#00695c' }} size="small" />
+                        {tip.advancer && (
+                          <Chip label={`Továbbjutó: ${tip.advancer === 'A' ? homeName : awayName}`} size="small" sx={{ background: '#FF8C00', color: '#fff', fontWeight: 600 }} />
+                        )}
+                      </Box>
                     </Box>
 
                     {isFinished ? (
@@ -118,8 +157,8 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
                             label={`+${points}`} 
                             sx={{ 
                               fontWeight: 800, 
-                              background: points === 3 ? '#FFD700' : points === 1 ? '#4CAF50' : '#f44336',
-                              color: points === 3 ? '#000' : '#fff'
+                              background: points >= 3 ? '#FFD700' : points > 0 ? '#4CAF50' : '#f44336',
+                              color: points >= 3 ? '#000' : '#fff'
                             }} 
                             size="small" 
                           />

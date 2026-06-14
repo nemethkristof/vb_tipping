@@ -37,12 +37,13 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
         </Typography>
 
         {isMobile ? (
-          // Mobil nézet
           <Grid container spacing={2}>
             {predictions.map((prediction) => {
               const gameDetails = getGameDetails(prediction.matchId)
+              const homeName = gameDetails ? (gameDetails.home_team_name_en || gameDetails.home_team_label) : '?'
+              const awayName = gameDetails ? (gameDetails.away_team_name_en || gameDetails.away_team_label) : '?'
               const gameDisplay = gameDetails 
-                ? `#${gameDetails.id} - ${gameDetails.home_team_name_en} vs ${gameDetails.away_team_name_en}`
+                ? `#${gameDetails.id} - ${homeName} vs ${awayName}`
                 : `Meccs #${prediction.matchId}`
               
               return (
@@ -82,15 +83,22 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
                           <DeleteIcon />
                         </IconButton>
                       </Box>
-                      <Chip
-                        label={`${prediction.scoreA} - ${prediction.scoreB}`}
-                        sx={{
-                          background: '#2E8B57',
-                          color: '#fff',
-                          fontWeight: 700,
-                          alignSelf: 'flex-start',
-                        }}
-                      />
+                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
+                        <Chip
+                          label={`${prediction.scoreA} - ${prediction.scoreB}`}
+                          sx={{
+                            background: '#2E8B57',
+                            color: '#fff',
+                            fontWeight: 700,
+                            alignSelf: 'flex-start',
+                          }}
+                        />
+                        {prediction.advancer && gameDetails && (
+                          <Typography variant="caption" sx={{ fontWeight: 600, color: '#FF8C00' }}>
+                            Továbbjutó: {prediction.advancer === 'A' ? homeName : awayName}
+                          </Typography>
+                        )}
+                      </Box>
                     </CardContent>
                   </Card>
                 </Grid>
@@ -98,7 +106,6 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
             })}
           </Grid>
         ) : (
-          // Asztali nézet
           <TableContainer component={Paper} sx={{ background: 'transparent' }}>
             <Table>
               <TableHead>
@@ -114,8 +121,10 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
               <TableBody>
                 {predictions.map((prediction, index) => {
                   const gameDetails = getGameDetails(prediction.matchId)
+                  const homeName = gameDetails ? (gameDetails.home_team_name_en || gameDetails.home_team_label) : '?'
+                  const awayName = gameDetails ? (gameDetails.away_team_name_en || gameDetails.away_team_label) : '?'
                   const gameDisplay = gameDetails 
-                    ? `#${gameDetails.id} - ${gameDetails.home_team_name_en} vs ${gameDetails.away_team_name_en}`
+                    ? `#${gameDetails.id} - ${homeName} vs ${awayName}`
                     : `Meccs #${prediction.matchId}`
                   
                   return (
@@ -129,14 +138,21 @@ const PredictionList = ({ predictions, onRemovePrediction, isMobile, getGameDeta
                       <TableCell sx={{ fontWeight: 600 }}>{prediction.user}</TableCell>
                       <TableCell sx={{ fontWeight: 500, color: '#2E8B57' }}>{gameDisplay}</TableCell>
                       <TableCell>
-                        <Chip
-                          label={`${prediction.scoreA} - ${prediction.scoreB}`}
-                          sx={{
-                            background: '#2E8B57',
-                            color: '#fff',
-                            fontWeight: 700,
-                          }}
-                        />
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, alignItems: 'flex-start' }}>
+                          <Chip
+                            label={`${prediction.scoreA} - ${prediction.scoreB}`}
+                            sx={{
+                              background: '#2E8B57',
+                              color: '#fff',
+                              fontWeight: 700,
+                            }}
+                          />
+                          {prediction.advancer && gameDetails && (
+                            <Typography variant="caption" sx={{ fontWeight: 600, color: '#FF8C00' }}>
+                              Továbbjutó: {prediction.advancer === 'A' ? homeName : awayName}
+                            </Typography>
+                          )}
+                        </Box>
                       </TableCell>
                       <TableCell align="center">
                         <IconButton
