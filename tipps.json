@@ -711,7 +711,35 @@
       "user": "Kriszti",
       "matchId": 11,
       "scoreA": 3,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 9,
+      "scoreA": 2,
       "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 12,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 14,
+      "scoreA": 5,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 15,
+      "scoreA": 3,
+      "scoreB": 0,
       "advancer": null
     },
 
@@ -1200,7 +1228,6 @@
       "advancer": null
     },
 
-
     {
       "user": "Cinti",
       "matchId": 9,
@@ -1649,8 +1676,6 @@
       "scoreB": 1,
       "advancer": null
     },
-
-
 
     {
       "user": "Lajos ",
