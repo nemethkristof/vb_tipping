@@ -7,7 +7,7 @@ import {
   Select,
   MenuItem,
   Button,
-  Grid,
+  Box,
   Typography,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
@@ -33,7 +33,7 @@ const PredictionForm = ({
   const upcomingGames = games.filter((game) => {
     const isFinished = game.finished === true || String(game.finished).toUpperCase() === 'TRUE'
     return !isFinished
-  }).sort((a, b) => a.id - b.id) // Sort by game ID in ascending order
+  }).sort((a, b) => a.id - b.id)
 
   const isKnockout = selectedMatch && parseInt(selectedMatch) > 72
   const selectedGameDetails = selectedMatch ? getGameDetails(parseInt(selectedMatch)) : null
@@ -60,40 +60,39 @@ const PredictionForm = ({
           sx={{ mb: 2 }}
           variant="outlined"
           size="small"
-          placeholder="pl. Peti"
-          inputProps={{ maxLength: 50 }}
+          placeholder="pl. Sanyi"
         />
 
         <FormControl fullWidth sx={{ mb: 2 }} size="small">
           <Select
-  native // EZ A KULCS!
-  labelId="match-select-label"
-  id="match-select"
-  value={selectedMatch}
-  label="Meccs kiválasztása"
-  onChange={(e) => {
-    setSelectedMatch(e.target.value)
-    setAdvancer('')
-  }}
->
-  <option value="">
-    -- Válassz egy meccset --
-  </option>
-  
-  {upcomingGames.length === 0 ? (
-    <option disabled value="none">Nincs elérhető, nyitott meccs</option>
-  ) : (
-    upcomingGames.map((game) => {
-      const homeName = game.home_team_name_en || game.home_team_label || 'Ismeretlen'
-      const awayName = game.away_team_name_en || game.away_team_label || 'Ismeretlen'
-      return (
-        <option key={game.id} value={game.id}>
-          {`#${game.id} - ${homeName} vs ${awayName}`}
-        </option>
-      )
-    })
-  )}
-</Select>
+            native
+            labelId="match-select-label"
+            id="match-select"
+            value={selectedMatch}
+            label="Meccs kiválasztása"
+            onChange={(e) => {
+              setSelectedMatch(e.target.value)
+              setAdvancer('')
+            }}
+          >
+            <option value="">
+              -- Válassz egy meccset --
+            </option>
+            
+            {upcomingGames.length === 0 ? (
+              <option disabled value="none">Nincs elérhető, nyitott meccs</option>
+            ) : (
+              upcomingGames.map((game) => {
+                const homeName = game.home_team_name_en || game.home_team_label || 'Ismeretlen'
+                const awayName = game.away_team_name_en || game.away_team_label || 'Ismeretlen'
+                return (
+                  <option key={game.id} value={game.id}>
+                    {`#${game.id} - ${homeName} vs ${awayName}`}
+                  </option>
+                )
+              })
+            )}
+          </Select>
         </FormControl>
 
         {selectedGameInfo && (
@@ -109,32 +108,27 @@ const PredictionForm = ({
           🎯 Tipped eredmény
         </Typography>
 
-        <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={6}>
-            <TextField
-              label="Gólok A"
-              type="number"
-              fullWidth
-              value={scoreA}
-              onChange={(e) => setScoreA(e.target.value)}
-              variant="outlined"
-              size="small"
-              inputProps={{ min: 0, max: 99 }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="Gólok B"
-              type="number"
-              fullWidth
-              value={scoreB}
-              onChange={(e) => setScoreB(e.target.value)}
-              variant="outlined"
-              size="small"
-              inputProps={{ min: 0, max: 99 }}
-            />
-          </Grid>
-        </Grid>
+        {/* Grid kicserélve Box-ra a DOM hiba megelőzése érdekében */}
+        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+          <TextField
+            label="Gólok A"
+            type="number"
+            fullWidth
+            value={scoreA}
+            onChange={(e) => setScoreA(e.target.value)}
+            variant="outlined"
+            size="small"
+          />
+          <TextField
+            label="Gólok B"
+            type="number"
+            fullWidth
+            value={scoreB}
+            onChange={(e) => setScoreB(e.target.value)}
+            variant="outlined"
+            size="small"
+          />
+        </Box>
 
         {isKnockout && selectedGameDetails && (
           <FormControl fullWidth sx={{ mb: 3 }} size="small">

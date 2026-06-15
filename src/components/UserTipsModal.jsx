@@ -144,7 +144,7 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
                     <Box>
                       <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                        Tippelt eredmény:
+                        Tipp:
                       </Typography>
                       <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                         <Chip label={`${tip.scoreA} - ${tip.scoreB}`} sx={{ fontWeight: 700, background: '#e0f2f1', color: '#00695c' }} size="small" />
@@ -158,7 +158,7 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
                       <>
                         <Box>
                           <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                            Valós eredmény:
+                            Végeredmény:
                           </Typography>
                           <Chip label={`${game.home_score} - ${game.away_score}`} sx={{ fontWeight: 700 }} variant="outlined" size="small" />
                         </Box>

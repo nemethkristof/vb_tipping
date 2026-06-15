@@ -7,12 +7,12 @@ import PredictionList from '../components/PredictionList'
 
 const Tipping = () => {
   const [games, setGames] = useState([])
-  const [existingTips, setExistingTips] = useState([])
   const [loading, setLoading] = useState(true)
   const [copySuccess, setCopySuccess] = useState(false)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
+  // Visszatöltéskor az isExported flag megmarad a belső állapotkezeléshez
   const [predictions, setPredictions] = useState(() => {
     const savedPredictions = localStorage.getItem('tipping_predictions')
     return savedPredictions ? JSON.parse(savedPredictions) : []
@@ -41,17 +41,6 @@ const Tipping = () => {
         const gamesResponse = await fetch('https://worldcup26.ir/get/games')
         const gamesData = await gamesResponse.json()
         setGames(gamesData.games || gamesData)
-
-        try {
-          const tipsResponse = await fetch('/tipps.json')
-          if (tipsResponse.ok) {
-            const tipsData = await tipsResponse.json()
-            setExistingTips(tipsData.predictions || [])
-          }
-        } catch (e) {
-          console.warn('Nem található korábbi tipps.json fájl, üres lista kezdődik.')
-        }
-
         setLoading(false)
       } catch (err) {
         console.error('Hiba az adatok lekérésekor:', err)
@@ -92,10 +81,14 @@ const Tipping = () => {
       matchId: parseInt(selectedMatch),
       scoreA: parseInt(scoreA),
       scoreB: parseInt(scoreB),
-      advancer: isKnockout ? advancer : null
+      advancer: isKnockout ? advancer : null,
+      isExported: false // Belsőleg még mindig követjük, hogy új-e
     }
 
-    setPredictions([...predictions, newPrediction])
+    // Ha módosít (újra felvisz egy meccset), felülírjuk a régit
+    const filteredPredictions = predictions.filter(p => p.matchId !== newPrediction.matchId)
+    setPredictions([...filteredPredictions, newPrediction])
+    
     setSelectedMatch('')
     setScoreA('')
     setScoreB('')
@@ -109,9 +102,7 @@ const Tipping = () => {
 
   const getAvailableGames = () => {
     return games.filter((game) => {
-      const hasPrediction = predictions.some((p) => parseInt(p.matchId) === parseInt(game.id))
-      const hasExistingTip = existingTips.some((t) => parseInt(t.matchId) === parseInt(game.id))
-      return !hasPrediction && !hasExistingTip
+      return !predictions.some((p) => parseInt(p.matchId) === parseInt(game.id))
     })
   }
 
@@ -119,22 +110,46 @@ const Tipping = () => {
     return games.find((g) => parseInt(g.id) === matchId)
   }
 
+  // Új tippek kinyerése
+  const getUnexportedPredictions = () => predictions.filter(p => !p.isExported)
+
+  // Tippek exportáltnak jelölése a belső tárolóban
+  const markAsExported = () => {
+    const updated = predictions.map(p => ({ ...p, isExported: true }))
+    setPredictions(updated)
+  }
+
   const handleDownload = () => {
-    const json = JSON.stringify({ predictions }, null, 2)
+    const newTips = getUnexportedPredictions()
+    if (newTips.length === 0) return
+
+    // Itt távolítjuk el az isExported mezőt a kiexportált adatból
+    const cleanTips = newTips.map(({ isExported, ...rest }) => rest)
+
+    const json = JSON.stringify({ predictions: cleanTips }, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `tipps_${new Date().toISOString().split('T')[0]}.json`
+    a.download = `tipps_uj_${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
+    
+    markAsExported()
   }
 
   const handleCopyToClipboard = () => {
-    const json = JSON.stringify({ predictions }, null, 2)
+    const newTips = getUnexportedPredictions()
+    if (newTips.length === 0) return
+
+    // Itt távolítjuk el az isExported mezőt a vágólapra másolt adatból is
+    const cleanTips = newTips.map(({ isExported, ...rest }) => rest)
+
+    const json = JSON.stringify({ predictions: cleanTips }, null, 2)
     navigator.clipboard.writeText(json).then(() => {
       setCopySuccess(true)
       setTimeout(() => setCopySuccess(false), 2000)
+      markAsExported()
     })
   }
 
@@ -145,6 +160,8 @@ const Tipping = () => {
       </Container>
     )
   }
+
+  const unexportedCount = getUnexportedPredictions().length
 
   return (
     <Box sx={{ minHeight: '100vh', background: '#f5f5f5', py: { xs: 2, sm: 4 } }}>
@@ -177,6 +194,7 @@ const Tipping = () => {
         <ExportSection
           onDownload={handleDownload}
           onCopyToClipboard={handleCopyToClipboard}
+          unexportedCount={unexportedCount}
         />
 
         <PredictionList

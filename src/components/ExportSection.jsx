@@ -3,7 +3,9 @@ import DownloadIcon from '@mui/icons-material/Download'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import InfoIcon from '@mui/icons-material/Info'
 
-const ExportSection = ({ onDownload, onCopyToClipboard }) => {
+const ExportSection = ({ onDownload, onCopyToClipboard, unexportedCount }) => {
+  const hasNewTips = unexportedCount > 0;
+
   return (
     <Card
       sx={{
@@ -15,7 +17,7 @@ const ExportSection = ({ onDownload, onCopyToClipboard }) => {
     >
       <CardContent sx={{ p: { xs: 2, sm: 3 } }}>
         <Typography variant="h6" sx={{ fontWeight: 700, mb: 3, color: '#1E3932', display: 'flex', alignItems: 'center', gap: 1 }}>
-          Tippek Kezelése
+          Tippek Kezelése {hasNewTips ? `(${unexportedCount} új)` : '(Nincs új tipp)'}
         </Typography>
 
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -24,21 +26,19 @@ const ExportSection = ({ onDownload, onCopyToClipboard }) => {
             startIcon={<DownloadIcon />}
             fullWidth
             onClick={onDownload}
+            disabled={!hasNewTips}
             sx={{
               background: '#2E8B57',
               color: '#fff',
               fontWeight: 700,
               padding: '12px',
               fontSize: { xs: '0.9rem', sm: '1rem' },
-              '&:hover': {
-                background: '#1E3932',
-              },
-              '&:active': {
-                transform: 'scale(0.98)',
-              },
+              '&:hover': { background: '#1E3932' },
+              '&:active': { transform: 'scale(0.98)' },
+              '&.Mui-disabled': { background: '#ccc', color: '#666' }
             }}
           >
-            JSON Letöltése
+            JSON Letöltése {hasNewTips && `(${unexportedCount} db)`}
           </Button>
 
           <Button
@@ -46,19 +46,16 @@ const ExportSection = ({ onDownload, onCopyToClipboard }) => {
             startIcon={<ContentCopyIcon />}
             fullWidth
             onClick={onCopyToClipboard}
+            disabled={!hasNewTips}
             sx={{
               borderColor: '#2E8B57',
               color: '#2E8B57',
               fontWeight: 700,
               padding: '12px',
               fontSize: { xs: '0.9rem', sm: '1rem' },
-              '&:hover': {
-                background: '#f0f0f0',
-                borderColor: '#1E3932',
-              },
-              '&:active': {
-                transform: 'scale(0.98)',
-              },
+              '&:hover': { background: '#f0f0f0', borderColor: '#1E3932' },
+              '&:active': { transform: 'scale(0.98)' },
+              '&.Mui-disabled': { borderColor: '#ccc', color: '#666' }
             }}
           >
             Másolás vágólapra
@@ -70,7 +67,7 @@ const ExportSection = ({ onDownload, onCopyToClipboard }) => {
             sx={{ mt: 2 }}
           >
             <Typography variant="caption" sx={{ fontSize: { xs: '0.75rem', sm: '0.875rem' } }}>
-              <strong>Fontos:</strong> Töltsd le a json fájlt vagy másold vágólapra és küld el nekem a <strong>n.kristof99@gmail.com</strong> e-mail címre <strong>VB2026 Tippverseny</strong> tárggyal!
+              <strong>Fontos:</strong> A rendszer csak az <strong>Új / Módosított</strong> tippeket exportálja, hogy elkerüljük a duplikációt. Töltsd le vagy másold vágólapra, majd küldd el nekem a <strong>n.kristof99@gmail.com</strong> címre <strong>VB2026 Tippverseny</strong> tárggyal!
             </Typography>
           </Alert>
         </Box>
