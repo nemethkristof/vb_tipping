@@ -33,7 +33,7 @@ const PredictionForm = ({
   const upcomingGames = games.filter((game) => {
     const isFinished = game.finished === true || String(game.finished).toUpperCase() === 'TRUE'
     return !isFinished
-  })
+  }).sort((a, b) => a.id - b.id) // Sort by game ID in ascending order
 
   const isKnockout = selectedMatch && parseInt(selectedMatch) > 72
   const selectedGameDetails = selectedMatch ? getGameDetails(parseInt(selectedMatch)) : null
