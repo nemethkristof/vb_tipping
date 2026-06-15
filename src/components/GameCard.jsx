@@ -20,15 +20,17 @@ const GameCard = ({ game }) => {
       sx={{
         borderRadius: '16px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-        height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        width: '100%', // Kötelezően kitölti a szülő elem (GameList Grid) szélességét
+        overflow: 'hidden', // Megakadályozza, hogy bármi kitolja a doboz szélét
         transition: 'transform 0.2s',
         '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 6px 16px rgba(46, 139, 87, 0.2)' }
       }}
     >
-      <CardContent sx={{ flexGrow: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
+      <CardContent sx={{ flexGrow: 1, p: { xs: 2, sm: 2.5 }, display: 'flex', flexDirection: 'column' }}>
         
+        {/* Fejléc */}
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
           <Typography variant="caption" sx={{ color: '#888', fontWeight: 600 }}>
             {game.matchday}. Forduló
@@ -40,42 +42,51 @@ const GameCard = ({ game }) => {
           />
         </Box>
 
+        {/* Dátum és Helyszín */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mb: 2 }}>
           <Typography variant="caption" sx={{ color: '#444', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <CalendarTodayIcon sx={{ fontSize: '0.9rem' }} /> {game.local_date}
+            <CalendarTodayIcon sx={{ fontSize: '0.85rem' }} /> {game.local_date}
           </Typography>
           <Typography variant="caption" sx={{ color: '#444', display: 'flex', alignItems: 'center', gap: 0.5 }}>
-            <PlaceIcon sx={{ fontSize: '0.9rem' }} /> Stadion ID: {game.stadium_id}
+            <PlaceIcon sx={{ fontSize: '0.85rem' }} /> Stadion ID: {game.stadium_id}
           </Typography>
         </Box>
 
-        {/* Ezt a részt módosítottam a biztonságos kiférés érdekében */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1, gap: 1 }}>
+        {/* CSAPATOK ÉS EREDMÉNY (Grid elrendezés a garantált kiférésért) */}
+        <Box 
+          sx={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr auto 1fr', 
+            gap: 1, 
+            alignItems: 'center', 
+            mb: 1,
+            width: '100%'
+          }}
+        >
           <Typography 
             variant="subtitle1" 
             sx={{ 
               fontWeight: 700, 
-              flex: 1, 
               textAlign: 'right', 
-              lineHeight: 1.2,
               whiteSpace: 'nowrap', 
               overflow: 'hidden', 
-              textOverflow: 'ellipsis' 
+              textOverflow: 'ellipsis',
+              fontSize: { xs: '0.9rem', sm: '1rem' } 
             }}
           >
             {homeName}
           </Typography>
           
-          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             {isFinished ? (
               <Chip 
                 label={`${game.home_score} - ${game.away_score}`} 
-                sx={{ background: '#1E3932', color: '#fff', fontWeight: 900, fontSize: '1rem' }} 
+                sx={{ background: '#1E3932', color: '#fff', fontWeight: 900, fontSize: { xs: '0.9rem', sm: '1rem' } }} 
               />
             ) : (
               <Chip 
                 label="VS" 
-                sx={{ background: '#f0f0f0', color: '#888', fontWeight: 900, fontSize: '0.9rem' }} 
+                sx={{ background: '#f0f0f0', color: '#888', fontWeight: 900, fontSize: { xs: '0.8rem', sm: '0.9rem' } }} 
               />
             )}
           </Box>
@@ -84,33 +95,40 @@ const GameCard = ({ game }) => {
             variant="subtitle1" 
             sx={{ 
               fontWeight: 700, 
-              flex: 1, 
               textAlign: 'left', 
-              lineHeight: 1.2,
               whiteSpace: 'nowrap', 
               overflow: 'hidden', 
-              textOverflow: 'ellipsis' 
+              textOverflow: 'ellipsis',
+              fontSize: { xs: '0.9rem', sm: '1rem' } 
             }}
           >
             {awayName}
           </Typography>
         </Box>
         
-        <Typography variant="caption" sx={{ textAlign: 'center', display: 'block', color: isFinished ? '#2E8B57' : '#FF8C00', fontWeight: 'bold', mb: 1 }}>
+        <Typography variant="caption" sx={{ textAlign: 'center', display: 'block', color: isFinished ? '#2E8B57' : '#FF8C00', fontWeight: 'bold', mb: 1, fontSize: '0.7rem' }}>
           {isFinished ? 'Végeredmény' : 'Hamarosan'}
         </Typography>
 
         <Box sx={{ mt: 'auto' }}>
-          <Divider sx={{ my: 1.5, opacity: 0.6 }} />
-          <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', color: '#888', mb: 1, fontSize: '0.65rem', textTransform: 'uppercase' }}>
+          <Divider sx={{ my: 1, opacity: 0.6 }} />
+          <Typography variant="caption" sx={{ display: 'block', textAlign: 'center', color: '#888', mb: 0.5, fontSize: '0.65rem', textTransform: 'uppercase' }}>
             Gólszerzők
           </Typography>
           
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', minHeight: '40px' }}>
-            <Box sx={{ width: '45%', textAlign: 'right' }}>
+          {/* GÓLSZERZŐK (Grid elrendezés a garantált kiférésért) */}
+          <Box 
+            sx={{ 
+              display: 'grid', 
+              gridTemplateColumns: '1fr 10px 1fr', 
+              minHeight: '40px',
+              width: '100%'
+            }}
+          >
+            <Box sx={{ textAlign: 'right', overflow: 'hidden' }}>
               {homeScorers.length > 0 ? (
                 homeScorers.map((scorer, idx) => (
-                  <Typography key={idx} variant="caption" sx={{ display: 'block', color: '#555', fontSize: '0.75rem' }}>
+                  <Typography key={idx} variant="caption" sx={{ display: 'block', color: '#555', fontSize: '0.7rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {scorer} ⚽
                   </Typography>
                 ))
@@ -119,12 +137,12 @@ const GameCard = ({ game }) => {
               )}
             </Box>
             
-            <Box sx={{ width: '10%' }} />
+            <Box /> {/* Ez a 10px-es üres sáv középen */}
             
-            <Box sx={{ width: '45%', textAlign: 'left' }}>
+            <Box sx={{ textAlign: 'left', overflow: 'hidden' }}>
               {awayScorers.length > 0 ? (
                 awayScorers.map((scorer, idx) => (
-                  <Typography key={idx} variant="caption" sx={{ display: 'block', color: '#555', fontSize: '0.75rem' }}>
+                  <Typography key={idx} variant="caption" sx={{ display: 'block', color: '#555', fontSize: '0.7rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     ⚽ {scorer}
                   </Typography>
                 ))
@@ -134,6 +152,7 @@ const GameCard = ({ game }) => {
             </Box>
           </Box>
         </Box>
+
       </CardContent>
     </Card>
   )

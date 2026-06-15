@@ -13,9 +13,10 @@ const GameList = ({ games }) => {
   }
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={2} alignItems="stretch">
       {games.map((game) => (
-        <Grid item xs={12} sm={6} md={4} key={game.id}>
+        // A display: 'flex' garantálja, hogy a kártya kitölti a rendelkezésre álló helyet
+        <Grid item xs={12} sm={6} md={4} key={game.id} sx={{ display: 'flex' }}>
           <GameCard game={game} />
         </Grid>
       ))}
