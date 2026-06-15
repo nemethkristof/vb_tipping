@@ -106,6 +106,20 @@
       "scoreB": 2,
       "advancer": null
     },
+    {
+      "user": "Flóra",
+      "matchId": 16,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 13,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
 
     {
       "user": "Kevin",
@@ -135,6 +149,34 @@
       "scoreB": 0,
       "advancer": null
     },
+    {
+      "user": "Kevin",
+      "matchId": 14,
+      "scoreA": 5,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kevin",
+      "matchId": 15,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kevin",
+      "matchId": 16,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kevin",
+      "matchId": 13,
+      "scoreA": 0,
+      "scoreB": 0,
+      "advancer": null
+    },
 
     {
       "user": "PANNA",
@@ -161,6 +203,20 @@
       "user": "PANNA",
       "matchId": 12,
       "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 14,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 15,
+      "scoreA": 3,
       "scoreB": 1,
       "advancer": null
     },
@@ -695,6 +751,34 @@
     {
       "user": "Barni",
       "matchId": 11,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 14,
+      "scoreA": 5,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 16,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 13,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 15,
       "scoreA": 2,
       "scoreB": 1,
       "advancer": null
