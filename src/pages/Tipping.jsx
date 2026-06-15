@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Container, Box, Alert, CircularProgress, useTheme, useMediaQuery } from '@mui/material'
+import { Container, Box, Alert, CircularProgress, useTheme, useMediaQuery, Button } from '@mui/material'
+import ReplayIcon from '@mui/icons-material/Replay'
 import TippingHeader from '../components/TippingHeader'
 import PredictionForm from '../components/PredictionForm'
 import ExportSection from '../components/ExportSection'
@@ -26,7 +27,6 @@ const Tipping = () => {
   const [scoreB, setScoreB] = useState('')
   const [advancer, setAdvancer] = useState('')
   
-  // Új állapot a form hibáinak kezelésére
   const [errors, setErrors] = useState({})
 
   useEffect(() => {
@@ -69,14 +69,12 @@ const Tipping = () => {
     const isKnockout = parseInt(selectedMatch) > 72
     const newErrors = {}
 
-    // Mezők validálása alert() helyett
     if (!userName.trim()) newErrors.userName = true
     if (!selectedMatch) newErrors.match = true
     if (scoreA === '') newErrors.scoreA = true
     if (scoreB === '') newErrors.scoreB = true
     if (isKnockout && !advancer) newErrors.advancer = true
 
-    // Ha van hiba, frissítjük a state-et és kilépünk
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       return
@@ -94,7 +92,6 @@ const Tipping = () => {
     const filteredPredictions = predictions.filter(p => p.matchId !== newPrediction.matchId)
     setPredictions([...filteredPredictions, newPrediction])
     
-    // Sikeres hozzáadás után mindent nullázunk
     setSelectedMatch('')
     setScoreA('')
     setScoreB('')
@@ -105,6 +102,11 @@ const Tipping = () => {
   const handleRemovePrediction = (matchIdToRemove) => {
     const newPredictions = predictions.filter((p) => p.matchId !== matchIdToRemove)
     setPredictions(newPredictions)
+  }
+
+  const handleResetExportStatus = () => {
+    const resetPredictions = predictions.map(p => ({ ...p, isExported: false }))
+    setPredictions(resetPredictions)
   }
 
   const getAvailableGames = () => {
@@ -128,7 +130,7 @@ const Tipping = () => {
     const newTips = getUnexportedPredictions()
     if (newTips.length === 0) return
 
-    const cleanTips = newTips.map(({ isExported, ...rest }) => rest)
+    const cleanTips = newTips.map(({ isExported, ...rest }) => rest).sort((a, b) => a.matchId - b.matchId)
     const json = JSON.stringify({ predictions: cleanTips }, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
@@ -145,7 +147,7 @@ const Tipping = () => {
     const newTips = getUnexportedPredictions()
     if (newTips.length === 0) return
 
-    const cleanTips = newTips.map(({ isExported, ...rest }) => rest)
+    const cleanTips = newTips.map(({ isExported, ...rest }) => rest).sort((a, b) => a.matchId - b.matchId)
     const json = JSON.stringify({ predictions: cleanTips }, null, 2)
     navigator.clipboard.writeText(json).then(() => {
       setCopySuccess(true)
@@ -163,9 +165,10 @@ const Tipping = () => {
   }
 
   const unexportedCount = getUnexportedPredictions().length
+  const exportedCount = predictions.length - unexportedCount
 
   return (
-    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', py: { xs: 2, sm: 4 } }}>
+    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', py: { xs: 2, sm: 4 }, mb: 4 }}>
       <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2 } }}>
         <TippingHeader isMobile={isMobile} />
 
@@ -190,7 +193,6 @@ const Tipping = () => {
           selectedGameInfo={selectedGameInfo}
           onAddPrediction={handleAddPrediction}
           getGameDetails={getGameDetails}
-          // Átadjuk az error state-eket a formnak
           errors={errors}
           setErrors={setErrors}
         />
@@ -207,6 +209,26 @@ const Tipping = () => {
           isMobile={isMobile}
           getGameDetails={getGameDetails}
         />
+
+        {/* Gomb az oldal legalján a tévesztések elkerülése végett */}
+        {exportedCount > 0 && (
+          <Box sx={{ mt: 2, mb: 4, display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+            <Button
+              variant="text"
+              startIcon={<ReplayIcon />}
+              onClick={handleResetExportStatus}
+              sx={{
+                color: '#888',
+                textTransform: 'none',
+                fontWeight: 600,
+                fontSize: '0.85rem',
+                '&:hover': { background: '#f5f5f5', color: '#d32f2f' }
+              }}
+            >
+              Újra szeretném exportálni a tippeket (összesen {exportedCount} tipp)
+            </Button>
+          </Box>
+        )}
       </Container>
     </Box>
   )
