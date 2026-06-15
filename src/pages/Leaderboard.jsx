@@ -38,11 +38,16 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tipsResponse = await fetch(`${import.meta.env.BASE_URL}/tipps.json`)
-        const tipsData = await tipsResponse.json()
+        // 1. PÁRHUZAMOS LEKÉRÉS: A két hálózati kérés egyszerre indul el, felezve a várakozást
+        const [tipsResponse, gamesResponse] = await Promise.all([
+          fetch(`${import.meta.env.BASE_URL}/tipps.json`),
+          fetch('https://worldcup26.ir/get/games')
+        ])
 
-        const gamesResponse = await fetch('https://worldcup26.ir/get/games')
-        const gamesData = await gamesResponse.json()
+        const [tipsData, gamesData] = await Promise.all([
+          tipsResponse.json(),
+          gamesResponse.json()
+        ])
 
         const rawPredictions = tipsData.predictions || []
         const rawGames = gamesData.games || gamesData
@@ -50,48 +55,58 @@ const Leaderboard = () => {
         setAllPredictions(rawPredictions)
         setGames(rawGames)
 
+        // 2. SZÓTÁR (MAP) ÉPÍTÉS: Előre feldolgozzuk és indexeljük a meccseket ID alapján
+        const gamesMap = new Map()
+        rawGames.forEach((game) => {
+          gamesMap.set(parseInt(game.id), {
+            ...game,
+            homeScore: parseInt(game.home_score),
+            awayScore: parseInt(game.away_score),
+            isFinished: game.finished === true || String(game.finished).toUpperCase() === 'TRUE',
+            isKnockout: parseInt(game.id) > 72
+          })
+        })
+
         const userScores = {}
 
+        // Játékosok listájának előkészítése
         rawPredictions.forEach((prediction) => {
           if (!userScores[prediction.user]) {
             userScores[prediction.user] = 0
           }
         })
 
+        // 3. GYORS PONTOZÁS: O(1) eléréssel, nincs több egymásba ágyazott .find() ciklus
         rawPredictions.forEach((prediction) => {
-          const game = rawGames.find((g) => parseInt(g.id) === prediction.matchId)
-          const isFinished = game && (game.finished === true || String(game.finished).toUpperCase() === 'TRUE')
-          const isKnockout = game && parseInt(game.id) > 72
+          const game = gamesMap.get(prediction.matchId)
 
-          if (isFinished) {
-            const actualScoreA = parseInt(game.home_score)
-            const actualScoreB = parseInt(game.away_score)
+          if (game && game.isFinished) {
             const predictedScoreA = parseInt(prediction.scoreA)
             const predictedScoreB = parseInt(prediction.scoreB)
 
             let actualAdvancer = null
-            if (isKnockout) {
-              if (actualScoreA > actualScoreB) actualAdvancer = 'A'
-              else if (actualScoreB > actualScoreA) actualAdvancer = 'B'
+            if (game.isKnockout) {
+              if (game.homeScore > game.awayScore) actualAdvancer = 'A'
+              else if (game.awayScore > game.homeScore) actualAdvancer = 'B'
               else {
-                // Tartalék logika, ha egyelőre nincs winner mező, de később bekerülhet:
                 if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
                 else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
               }
             }
 
             userScores[prediction.user] += calculatePoints(
-              actualScoreA, 
-              actualScoreB, 
+              game.homeScore, 
+              game.awayScore, 
               predictedScoreA, 
               predictedScoreB, 
               actualAdvancer, 
               prediction.advancer, 
-              isKnockout
+              game.isKnockout
             )
           }
         })
 
+        // Rangsor összeállítása
         const sortedScores = Object.entries(userScores)
           .map(([user, score]) => ({ user, score }))
           .sort((a, b) => b.score - a.score)

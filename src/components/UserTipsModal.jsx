@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -11,7 +12,6 @@ import {
 import CloseIcon from '@mui/icons-material/Close'
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
 
-// Lokális pontszámító, hogy ne kelljen importálgatni
 const calculatePointsForModal = (actualA, actualB, predA, predB, actualAdvancer, predAdvancer, isKnockout) => {
   let points = 0
   
@@ -38,6 +38,22 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
   const safeGames = Array.isArray(games) ? games : []
   
   const userTips = safePredictions.filter((p) => p.user === user)
+
+  // OPTIMALIZÁLÁS: A meccsek tömbjét egy Map-be rendezzük a modal nyitásakor.
+  // Így a lentebb lévő .map() ciklusban a meccsek kikeresése azonnali (O(1)) lesz a lassú .find() helyett.
+  const gamesMap = useMemo(() => {
+    const map = new Map()
+    safeGames.forEach((game) => {
+      map.set(parseInt(game.id), {
+        ...game,
+        homeScore: parseInt(game.home_score),
+        awayScore: parseInt(game.away_score),
+        isFinished: game.finished === true || String(game.finished).toUpperCase() === 'TRUE',
+        isKnockout: parseInt(game.id) > 72
+      })
+    })
+    return map
+  }, [safeGames])
 
   return (
     <Dialog 
@@ -87,23 +103,20 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
           <Typography sx={{ p: 3, textAlign: 'center', color: '#666' }}>Nincsenek még leadott tippek.</Typography>
         ) : (
           userTips.map((tip, index) => {
-            const game = safeGames.find((g) => parseInt(g.id) === tip.matchId)
+            // .find() helyett villámgyors szótár-alapú lekérdezés:
+            const game = gamesMap.get(tip.matchId)
+            
             const homeName = game ? (game.home_team_name_en || game.home_team_label) : '?'
             const awayName = game ? (game.away_team_name_en || game.away_team_label) : '?'
             const gameDisplay = game ? `${homeName} vs ${awayName}` : `Meccs #${tip.matchId}`
             
-            const isFinished = game && (game.finished === true || String(game.finished).toUpperCase() === 'TRUE')
-            const isKnockout = game && parseInt(game.id) > 72
-            
             let points = 0
             let actualAdvancer = null
 
-            if (isFinished) {
-              if (isKnockout) {
-                const scoreA = parseInt(game.home_score)
-                const scoreB = parseInt(game.away_score)
-                if (scoreA > scoreB) actualAdvancer = 'A'
-                else if (scoreB > scoreA) actualAdvancer = 'B'
+            if (game && game.isFinished) {
+              if (game.isKnockout) {
+                if (game.homeScore > game.awayScore) actualAdvancer = 'A'
+                else if (game.awayScore > game.homeScore) actualAdvancer = 'B'
                 else {
                   if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
                   else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
@@ -111,13 +124,13 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
               }
 
               points = calculatePointsForModal(
-                parseInt(game.home_score), 
-                parseInt(game.away_score), 
-                tip.scoreA, 
-                tip.scoreB,
+                game.homeScore, 
+                game.awayScore, 
+                parseInt(tip.scoreA), 
+                parseInt(tip.scoreB),
                 actualAdvancer,
                 tip.advancer,
-                isKnockout
+                game.isKnockout
               )
             }
 
@@ -141,7 +154,7 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
                       </Box>
                     </Box>
 
-                    {isFinished ? (
+                    {game && game.isFinished ? (
                       <>
                         <Box>
                           <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
