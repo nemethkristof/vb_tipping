@@ -12,7 +12,6 @@ const Tipping = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
-  // Visszatöltéskor az isExported flag megmarad a belső állapotkezeléshez
   const [predictions, setPredictions] = useState(() => {
     const savedPredictions = localStorage.getItem('tipping_predictions')
     return savedPredictions ? JSON.parse(savedPredictions) : []
@@ -26,6 +25,9 @@ const Tipping = () => {
   const [scoreA, setScoreA] = useState('')
   const [scoreB, setScoreB] = useState('')
   const [advancer, setAdvancer] = useState('')
+  
+  // Új állapot a form hibáinak kezelésére
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     localStorage.setItem('tipping_predictions', JSON.stringify(predictions))
@@ -65,14 +67,18 @@ const Tipping = () => {
 
   const handleAddPrediction = () => {
     const isKnockout = parseInt(selectedMatch) > 72
+    const newErrors = {}
 
-    if (!userName || !selectedMatch || scoreA === '' || scoreB === '') {
-      alert('Kérlek, töltsd ki az összes kötelező mezőt!')
-      return
-    }
+    // Mezők validálása alert() helyett
+    if (!userName.trim()) newErrors.userName = true
+    if (!selectedMatch) newErrors.match = true
+    if (scoreA === '') newErrors.scoreA = true
+    if (scoreB === '') newErrors.scoreB = true
+    if (isKnockout && !advancer) newErrors.advancer = true
 
-    if (isKnockout && !advancer) {
-      alert('Ez egy egyenes kieséses meccs! Kérlek, válaszd ki a továbbjutót is!')
+    // Ha van hiba, frissítjük a state-et és kilépünk
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
       return
     }
 
@@ -82,17 +88,18 @@ const Tipping = () => {
       scoreA: parseInt(scoreA),
       scoreB: parseInt(scoreB),
       advancer: isKnockout ? advancer : null,
-      isExported: false // Belsőleg még mindig követjük, hogy új-e
+      isExported: false
     }
 
-    // Ha módosít (újra felvisz egy meccset), felülírjuk a régit
     const filteredPredictions = predictions.filter(p => p.matchId !== newPrediction.matchId)
     setPredictions([...filteredPredictions, newPrediction])
     
+    // Sikeres hozzáadás után mindent nullázunk
     setSelectedMatch('')
     setScoreA('')
     setScoreB('')
     setAdvancer('')
+    setErrors({})
   }
 
   const handleRemovePrediction = (matchIdToRemove) => {
@@ -110,10 +117,8 @@ const Tipping = () => {
     return games.find((g) => parseInt(g.id) === matchId)
   }
 
-  // Új tippek kinyerése
   const getUnexportedPredictions = () => predictions.filter(p => !p.isExported)
 
-  // Tippek exportáltnak jelölése a belső tárolóban
   const markAsExported = () => {
     const updated = predictions.map(p => ({ ...p, isExported: true }))
     setPredictions(updated)
@@ -123,9 +128,7 @@ const Tipping = () => {
     const newTips = getUnexportedPredictions()
     if (newTips.length === 0) return
 
-    // Itt távolítjuk el az isExported mezőt a kiexportált adatból
     const cleanTips = newTips.map(({ isExported, ...rest }) => rest)
-
     const json = JSON.stringify({ predictions: cleanTips }, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
@@ -142,9 +145,7 @@ const Tipping = () => {
     const newTips = getUnexportedPredictions()
     if (newTips.length === 0) return
 
-    // Itt távolítjuk el az isExported mezőt a vágólapra másolt adatból is
     const cleanTips = newTips.map(({ isExported, ...rest }) => rest)
-
     const json = JSON.stringify({ predictions: cleanTips }, null, 2)
     navigator.clipboard.writeText(json).then(() => {
       setCopySuccess(true)
@@ -189,6 +190,9 @@ const Tipping = () => {
           selectedGameInfo={selectedGameInfo}
           onAddPrediction={handleAddPrediction}
           getGameDetails={getGameDetails}
+          // Átadjuk az error state-eket a formnak
+          errors={errors}
+          setErrors={setErrors}
         />
 
         <ExportSection

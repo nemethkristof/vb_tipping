@@ -9,6 +9,7 @@ import {
   Button,
   Box,
   Typography,
+  Alert
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import PersonIcon from '@mui/icons-material/Person'
@@ -28,6 +29,8 @@ const PredictionForm = ({
   selectedGameInfo,
   onAddPrediction,
   getGameDetails,
+  errors,
+  setErrors
 }) => {
 
   const upcomingGames = games.filter((game) => {
@@ -37,6 +40,9 @@ const PredictionForm = ({
 
   const isKnockout = selectedMatch && parseInt(selectedMatch) > 72
   const selectedGameDetails = selectedMatch ? getGameDetails(parseInt(selectedMatch)) : null
+
+  // Ellenőrizzük, hogy van-e egyáltalán valamilyen hiba
+  const hasErrors = Object.keys(errors || {}).some(key => errors[key])
 
   return (
     <Card
@@ -52,18 +58,29 @@ const PredictionForm = ({
           <PersonIcon /> Új Tipp
         </Typography>
 
+        {hasErrors && (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            Kérlek, töltsd ki a pirossal jelölt kötelező mezőket!
+          </Alert>
+        )}
+
         <TextField
           label="Játékos neve"
           fullWidth
           value={userName}
-          onChange={(e) => setUserName(e.target.value)}
+          onChange={(e) => {
+            setUserName(e.target.value)
+            if (errors?.userName) setErrors(prev => ({ ...prev, userName: false }))
+          }}
+          error={!!errors?.userName}
           sx={{ mb: 2 }}
           variant="outlined"
           size="small"
-          placeholder="pl. Sanyi"
+          placeholder="pl. Peti"
+          inputProps={{ maxLength: 50 }}
         />
 
-        <FormControl fullWidth sx={{ mb: 2 }} size="small">
+        <FormControl fullWidth sx={{ mb: 2 }} size="small" error={!!errors?.match}>
           <Select
             native
             labelId="match-select-label"
@@ -73,6 +90,7 @@ const PredictionForm = ({
             onChange={(e) => {
               setSelectedMatch(e.target.value)
               setAdvancer('')
+              if (errors?.match) setErrors(prev => ({ ...prev, match: false }))
             }}
           >
             <option value="">
@@ -108,37 +126,49 @@ const PredictionForm = ({
           🎯 Tipped eredmény
         </Typography>
 
-        {/* Grid kicserélve Box-ra a DOM hiba megelőzése érdekében */}
         <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
           <TextField
             label="Gólok A"
             type="number"
             fullWidth
             value={scoreA}
-            onChange={(e) => setScoreA(e.target.value)}
+            onChange={(e) => {
+              setScoreA(e.target.value)
+              if (errors?.scoreA) setErrors(prev => ({ ...prev, scoreA: false }))
+            }}
+            error={!!errors?.scoreA}
             variant="outlined"
             size="small"
+            inputProps={{ min: 0, max: 99 }}
           />
           <TextField
             label="Gólok B"
             type="number"
             fullWidth
             value={scoreB}
-            onChange={(e) => setScoreB(e.target.value)}
+            onChange={(e) => {
+              setScoreB(e.target.value)
+              if (errors?.scoreB) setErrors(prev => ({ ...prev, scoreB: false }))
+            }}
+            error={!!errors?.scoreB}
             variant="outlined"
             size="small"
+            inputProps={{ min: 0, max: 99 }}
           />
         </Box>
 
         {isKnockout && selectedGameDetails && (
-          <FormControl fullWidth sx={{ mb: 3 }} size="small">
+          <FormControl fullWidth sx={{ mb: 3 }} size="small" error={!!errors?.advancer}>
             <InputLabel id="advancer-select-label">Továbbjutó (Knockout Bónusz)</InputLabel>
             <Select
               labelId="advancer-select-label"
               id="advancer-select"
               value={advancer}
               label="Továbbjutó (Knockout Bónusz)"
-              onChange={(e) => setAdvancer(e.target.value)}
+              onChange={(e) => {
+                setAdvancer(e.target.value)
+                if (errors?.advancer) setErrors(prev => ({ ...prev, advancer: false }))
+              }}
             >
               <MenuItem value="A">{selectedGameDetails.home_team_name_en || selectedGameDetails.home_team_label} (Hazai - A)</MenuItem>
               <MenuItem value="B">{selectedGameDetails.away_team_name_en || selectedGameDetails.away_team_label} (Vendég - B)</MenuItem>
