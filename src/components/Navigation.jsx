@@ -15,7 +15,8 @@ import {
   useTheme,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
+import CloseIcon from '@mui/icons-material/Close'
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
 
 const Navigation = () => {
   const navigate = useNavigate()
@@ -60,28 +61,59 @@ const Navigation = () => {
             <MenuIcon />
           </IconButton>
         </Toolbar>
+        
         <Drawer
-          anchor="top"
+          anchor="right"
           open={drawerOpen}
           onClose={() => setDrawerOpen(false)}
+          PaperProps={{
+            sx: {
+              width: '280px',
+              background: 'linear-gradient(135deg, #1E3932 0%, #2D5A4F 100%)',
+              color: '#fff',
+            }
+          }}
         >
-          <List sx={{ background: '#1E3932', color: '#fff', minHeight: '100vh' }}>
+          {/* Mobil menü fejléce bezárás gombbal */}
+          <Box 
+            sx={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center', 
+              p: 2,
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)' 
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <SportsSoccerIcon sx={{ fontSize: '24px' }} />
+              <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>Menü</span>
+            </Box>
+            <IconButton 
+              color="inherit" 
+              onClick={() => setDrawerOpen(false)}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
+
+          <List sx={{ px: 2, pt: 2 }}>
             {navItems.map((item) => (
-              <ListItem key={item.path} disablePadding>
+              <ListItem key={item.path} disablePadding sx={{ mb: 1 }}>
                 <ListItemButton
                   onClick={() => handleNavClick(item.path)}
                   selected={isActive(item.path)}
                   sx={{
+                    borderRadius: '8px',
                     background: isActive(item.path) ? '#2E8B57' : 'transparent',
                     '&:hover': {
-                      background: '#2D5A4F',
+                      background: isActive(item.path) ? '#2E8B57' : 'rgba(255, 255, 255, 0.1)',
                     },
-                    py: 2,
+                    py: 1.5,
                   }}
                 >
                   <ListItemText
                     primary={item.label}
-                    sx={{ color: '#fff', '& .MuiTypography-root': { fontSize: '1.1rem' } }}
+                    sx={{ '& .MuiTypography-root': { fontSize: '1.1rem', fontWeight: isActive(item.path) ? 'bold' : 'normal' } }}
                   />
                 </ListItemButton>
               </ListItem>
@@ -105,22 +137,37 @@ const Navigation = () => {
           <SportsSoccerIcon sx={{ fontSize: '32px' }} />
           <span style={{ fontSize: '1.3rem', fontWeight: 'bold' }}>VB2026 Tippjáték</span>
         </Box>
-        <Box sx={{ display: 'flex', gap: 3 }}>
+        <Box sx={{ display: 'flex', gap: 1 }}>
           {navItems.map((item) => (
             <Button
               key={item.path}
               onClick={() => handleNavClick(item.path)}
+              disableRipple
               sx={{
                 color: '#fff',
                 fontSize: '1rem',
                 fontWeight: isActive(item.path) ? 700 : 500,
-                borderBottom: isActive(item.path) ? '3px solid #2E8B57' : 'none',
-                paddingBottom: isActive(item.path) ? '12px' : '15px',
-                transition: 'all 0.3s ease',
+                padding: '12px 16px',
+                position: 'relative',
+                transition: 'background-color 0.3s ease',
+                borderRadius: '8px',
                 '&:hover': {
-                  color: '#2E8B57',
-                  borderBottom: '3px solid #2E8B57',
-                  paddingBottom: '12px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                },
+                // Alsó vonal pszeudo-elemmel, hogy ne okozzon ugrálást a layoutban
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  bottom: '6px',
+                  left: '16px',
+                  right: '16px',
+                  height: '3px',
+                  backgroundColor: isActive(item.path) ? '#2E8B57' : 'transparent',
+                  transition: 'background-color 0.3s ease',
+                  borderRadius: '2px',
+                },
+                '&:hover::after': {
+                  backgroundColor: '#2E8B57',
                 },
               }}
             >
