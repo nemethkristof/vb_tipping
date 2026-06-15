@@ -28,6 +28,7 @@ const Navigation = () => {
     { label: 'Kezdőlap', path: '/' },
     { label: 'Tabella', path: '/leaderboard' },
     { label: 'Tippek', path: '/tipping' },
+    { label: 'Meccsek', path: '/games' },
   ]
 
   const handleNavClick = (path) => {

@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import Leaderboard from './pages/Leaderboard'
 import Tipping from './pages/Tipping'
 import './App.css'
+import GamesPage from './pages/GamesPage'
 
 const theme = createTheme({
   palette: {
@@ -83,6 +84,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/tipping" element={<Tipping />} />
+          <Route path="/games" element={<GamesPage />} />
         </Routes>
       </Router>
     </ThemeProvider>
