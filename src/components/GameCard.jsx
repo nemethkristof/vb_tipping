@@ -22,8 +22,9 @@ const GameCard = ({ game }) => {
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
         display: 'flex',
         flexDirection: 'column',
-        width: '100%', // Kötelezően kitölti a szülő elem (GameList Grid) szélességét
-        overflow: 'hidden', // Megakadályozza, hogy bármi kitolja a doboz szélét
+        width: '100%',
+        height: '100%', // Garantálja, hogy a kártya minden irányban kitölti a Grid elemet
+        overflow: 'hidden',
         transition: 'transform 0.2s',
         '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 6px 16px rgba(46, 139, 87, 0.2)' }
       }}
@@ -52,7 +53,7 @@ const GameCard = ({ game }) => {
           </Typography>
         </Box>
 
-        {/* CSAPATOK ÉS EREDMÉNY (Grid elrendezés a garantált kiférésért) */}
+        {/* CSAPATOK ÉS EREDMÉNY */}
         <Box 
           sx={{ 
             display: 'grid', 
@@ -116,7 +117,7 @@ const GameCard = ({ game }) => {
             Gólszerzők
           </Typography>
           
-          {/* GÓLSZERZŐK (Grid elrendezés a garantált kiférésért) */}
+          {/* GÓLSZERZŐK */}
           <Box 
             sx={{ 
               display: 'grid', 
@@ -137,7 +138,7 @@ const GameCard = ({ game }) => {
               )}
             </Box>
             
-            <Box /> {/* Ez a 10px-es üres sáv középen */}
+            <Box />
             
             <Box sx={{ textAlign: 'left', overflow: 'hidden' }}>
               {awayScorers.length > 0 ? (

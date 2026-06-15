@@ -19,7 +19,6 @@ const GamesPage = () => {
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // Szűrők állapotai
   const [filterGroup, setFilterGroup] = useState('all')
   const [filterDate, setFilterDate] = useState('all')
 
@@ -40,7 +39,6 @@ const GamesPage = () => {
     fetchGames()
   }, [])
 
-  // Dinamikus opciók kinyerése a betöltött adatokból
   const uniqueGroups = useMemo(() => {
     if (!games.length) return []
     return [...new Set(games.map(g => g.group))].filter(Boolean).sort()
@@ -48,11 +46,9 @@ const GamesPage = () => {
 
   const uniqueDates = useMemo(() => {
     if (!games.length) return []
-    // Csak az év-hónap-nap részt vesszük ki (pl. "06/13/2026")
     return [...new Set(games.map(g => g.local_date.split(' ')[0]))].filter(Boolean).sort()
   }, [games])
 
-  // Meccsek szűrése a kiválasztott értékek alapján
   const filteredGames = useMemo(() => {
     return games.filter((game) => {
       const matchGroup = filterGroup === 'all' || game.group === filterGroup
@@ -63,7 +59,7 @@ const GamesPage = () => {
   }, [games, filterGroup, filterDate])
 
   return (
-    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', py: { xs: 3, sm: 5 } }}>
+    <Box sx={{ minHeight: '100vh', background: '#f5f5f5', pt: { xs: 3, sm: 5 }, pb: { xs: 8, sm: 12 } }}>
       <Container maxWidth="lg">
         {/* Fejléc */}
         <Box sx={{ mb: 4, textAlign: 'center' }}>
@@ -115,6 +111,10 @@ const GamesPage = () => {
                     value={filterGroup}
                     label="Csoport / Szakasz"
                     onChange={(e) => setFilterGroup(e.target.value)}
+                    MenuProps={{
+                      disableAutoFocusItem: true, // Hibaelhárítás az asztali auto-kiválasztásra
+                      PaperProps: { style: { maxHeight: 300 } }
+                    }}
                   >
                     <MenuItem value="all"><em>Összes</em></MenuItem>
                     {uniqueGroups.map((group) => (
@@ -136,6 +136,10 @@ const GamesPage = () => {
                     value={filterDate}
                     label="Dátum"
                     onChange={(e) => setFilterDate(e.target.value)}
+                    MenuProps={{
+                      disableAutoFocusItem: true, // Hibaelhárítás az asztali auto-kiválasztásra
+                      PaperProps: { style: { maxHeight: 300 } }
+                    }}
                   >
                     <MenuItem value="all"><em>Összes dátum</em></MenuItem>
                     {uniqueDates.map((date) => (
