@@ -542,6 +542,41 @@
       "scoreB": 1,
       "advancer": null
     },
+    {
+      "user": "PANNA",
+      "matchId": 16,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 17,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 18,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 19,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 20,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
 
     {
       "user": "Npeti",
@@ -1105,6 +1140,34 @@
       "scoreB": 1,
       "advancer": null
     },
+    {
+      "user": "Barni",
+      "matchId": 17,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 18,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 19,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 20,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
 
     {
       "user": "Kriszti",
@@ -1169,6 +1232,41 @@
       "scoreB": 0,
       "advancer": null
     },
+    {
+      "user": "Kriszti",
+      "matchId": 18,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 19,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 20,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 21,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 22,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
 
     {
       "user": "Tomi",
@@ -1230,6 +1328,41 @@
       "user": "Tomi",
       "matchId": 17,
       "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 18,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 19,
+      "scoreA": 5,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 20,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 21,
+      "scoreA": 7,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 22,
+      "scoreA": 1,
       "scoreB": 1,
       "advancer": null
     },
