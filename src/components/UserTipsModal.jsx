@@ -31,6 +31,18 @@ const calculatePointsForModal = (actualA, actualB, predA, predB, actualAdvancer,
   return points
 }
 
+// Segédfüggvény az aznapi dátum ellenőrzésére
+const isToday = (dateString) => {
+  if (!dateString) return false
+  const gameDate = new Date(dateString)
+  const today = new Date()
+  return (
+    gameDate.getDate() === today.getDate() &&
+    gameDate.getMonth() === today.getMonth() &&
+    gameDate.getFullYear() === today.getFullYear()
+  )
+}
+
 const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) => {
   if (!user) return null
 
@@ -39,8 +51,6 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
   
   const userTips = safePredictions.filter((p) => p.user === user)
 
-  // OPTIMALIZÁLÁS: A meccsek tömbjét egy Map-be rendezzük a modal nyitásakor.
-  // Így a lentebb lévő .map() ciklusban a meccsek kikeresése azonnali (O(1)) lesz a lassú .find() helyett.
   const gamesMap = useMemo(() => {
     const map = new Map()
     safeGames.forEach((game) => {
@@ -54,6 +64,111 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
     })
     return map
   }, [safeGames])
+
+  // 1. Kigyűjtjük a mai meccseket
+  // FIGYELEM: Ha a te JSON-odban a dátum máshogy szerepel (pl. 'datetime' vagy 'matchDate'), azt itt cseréld ki!
+  const todayGames = useMemo(() => {
+    return safeGames.filter(g => isToday(g.local_date))
+  }, [safeGames])
+
+  const todayGameIds = new Set(todayGames.map(g => parseInt(g.id)))
+
+  // 2. Kigyűjtjük a TÖBBI tippet (amik nem mai meccsekre vonatkoznak)
+  const otherTips = userTips.filter(tip => !todayGameIds.has(tip.matchId))
+
+  // Közös renderelő függvény egy meccs/tipp sorhoz
+  const renderGameRow = (game, tip, key) => {
+    const gameId = game ? parseInt(game.id) : (tip ? tip.matchId : '?')
+    const homeName = game ? (game.home_team_name_en || game.home_team_label) : '?'
+    const awayName = game ? (game.away_team_name_en || game.away_team_label) : '?'
+    const gameDisplay = game ? `${homeName} vs ${awayName}` : `Meccs #${gameId}`
+    
+    let points = 0
+    let actualAdvancer = null
+
+    if (game && game.isFinished && tip) {
+      if (game.isKnockout) {
+        if (game.homeScore > game.awayScore) actualAdvancer = 'A'
+        else if (game.awayScore > game.homeScore) actualAdvancer = 'B'
+        else {
+          if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
+          else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
+        }
+      }
+
+      points = calculatePointsForModal(
+        game.homeScore, 
+        game.awayScore, 
+        parseInt(tip.scoreA), 
+        parseInt(tip.scoreB),
+        actualAdvancer,
+        tip.advancer,
+        game.isKnockout
+      )
+    }
+
+    return (
+      <Box key={key}>
+        <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.5, background: '#fff' }}>
+          <Typography sx={{ fontWeight: 700, color: '#1E3932', fontSize: '1.1rem' }}>
+            ⚽ {gameDisplay}
+          </Typography>
+          
+          {!tip ? (
+            // Ha NINCS tipp leadva
+            <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+              <Chip label="Nincs még tipp leadva" size="small" sx={{ background: '#ffebee', color: '#c62828', fontWeight: 600 }} />
+            </Box>
+          ) : (
+            // Ha VAN tipp leadva
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
+              <Box>
+                <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
+                  Tipp:
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+                  <Chip label={`${tip.scoreA} - ${tip.scoreB}`} sx={{ fontWeight: 700, background: '#e0f2f1', color: '#00695c' }} size="small" />
+                  {tip.advancer && (
+                    <Chip label={`Továbbjutó: ${tip.advancer === 'A' ? homeName : awayName}`} size="small" sx={{ background: '#FF8C00', color: '#fff', fontWeight: 600 }} />
+                  )}
+                </Box>
+              </Box>
+
+              {game && game.isFinished ? (
+                <>
+                  <Box>
+                    <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
+                      Végeredmény:
+                    </Typography>
+                    <Chip label={`${game.homeScore} - ${game.awayScore}`} sx={{ fontWeight: 700 }} variant="outlined" size="small" />
+                  </Box>
+                  <Box sx={{ textAlign: 'right' }}>
+                    <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
+                      Kapott pont:
+                    </Typography>
+                    <Chip 
+                      label={`+${points}`} 
+                      sx={{ 
+                        fontWeight: 800, 
+                        background: points >= 3 ? '#FFD700' : points > 0 ? '#4CAF50' : '#f44336',
+                        color: points >= 3 ? '#000' : '#fff'
+                      }} 
+                      size="small" 
+                    />
+                  </Box>
+                </>
+              ) : (
+                <Box sx={{ flexGrow: 1, textAlign: 'right' }}>
+                   <Chip label="Még nincs eredmény" size="small" sx={{ background: '#eee', color: '#888' }} />
+                </Box>
+              )}
+            </Box>
+          )}
+        </Box>
+        <Divider />
+      </Box>
+    )
+  }
 
   return (
     <Dialog 
@@ -99,96 +214,38 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
       </DialogTitle>
       
       <DialogContent dividers sx={{ p: 0, background: '#f5f5f5' }}>
-        {userTips.length === 0 ? (
-          <Typography sx={{ p: 3, textAlign: 'center', color: '#666' }}>Nincsenek még leadott tippek.</Typography>
-        ) : (
-          userTips.map((tip, index) => {
-            // .find() helyett villámgyors szótár-alapú lekérdezés:
-            const game = gamesMap.get(tip.matchId)
-            
-            const homeName = game ? (game.home_team_name_en || game.home_team_label) : '?'
-            const awayName = game ? (game.away_team_name_en || game.away_team_label) : '?'
-            const gameDisplay = game ? `${homeName} vs ${awayName}` : `Meccs #${tip.matchId}`
-            
-            let points = 0
-            let actualAdvancer = null
-
-            if (game && game.isFinished) {
-              if (game.isKnockout) {
-                if (game.homeScore > game.awayScore) actualAdvancer = 'A'
-                else if (game.awayScore > game.homeScore) actualAdvancer = 'B'
-                else {
-                  if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
-                  else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
-                }
-              }
-
-              points = calculatePointsForModal(
-                game.homeScore, 
-                game.awayScore, 
-                parseInt(tip.scoreA), 
-                parseInt(tip.scoreB),
-                actualAdvancer,
-                tip.advancer,
-                game.isKnockout
-              )
-            }
-
-            return (
-              <Box key={index}>
-                <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.5, background: '#fff' }}>
-                  <Typography sx={{ fontWeight: 700, color: '#1E3932', fontSize: '1.1rem' }}>
-                    ⚽ {gameDisplay}
-                  </Typography>
-                  
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-                    <Box>
-                      <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                        Tipp:
-                      </Typography>
-                      <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                        <Chip label={`${tip.scoreA} - ${tip.scoreB}`} sx={{ fontWeight: 700, background: '#e0f2f1', color: '#00695c' }} size="small" />
-                        {tip.advancer && (
-                          <Chip label={`Továbbjutó: ${tip.advancer === 'A' ? homeName : awayName}`} size="small" sx={{ background: '#FF8C00', color: '#fff', fontWeight: 600 }} />
-                        )}
-                      </Box>
-                    </Box>
-
-                    {game && game.isFinished ? (
-                      <>
-                        <Box>
-                          <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                            Végeredmény:
-                          </Typography>
-                          <Chip label={`${game.home_score} - ${game.away_score}`} sx={{ fontWeight: 700 }} variant="outlined" size="small" />
-                        </Box>
-                        <Box sx={{ textAlign: 'right' }}>
-                          <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                            Kapott pont:
-                          </Typography>
-                          <Chip 
-                            label={`+${points}`} 
-                            sx={{ 
-                              fontWeight: 800, 
-                              background: points >= 3 ? '#FFD700' : points > 0 ? '#4CAF50' : '#f44336',
-                              color: points >= 3 ? '#000' : '#fff'
-                            }} 
-                            size="small" 
-                          />
-                        </Box>
-                      </>
-                    ) : (
-                      <Box sx={{ flexGrow: 1, textAlign: 'right' }}>
-                         <Chip label="Még nincs eredmény" size="small" sx={{ background: '#eee', color: '#888' }} />
-                      </Box>
-                    )}
-                  </Box>
-                </Box>
-                {index < userTips.length - 1 && <Divider />}
-              </Box>
-            )
-          })
+        
+        {/* --- MAI MECCSEK SZEKCIÓ --- */}
+        {todayGames.length > 0 && (
+          <Box>
+            <Typography sx={{ p: 1.5, background: '#e0f2f1', color: '#00695c', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              📅 Mai meccsek
+            </Typography>
+            {todayGames.map((game) => {
+              const tip = userTips.find(t => t.matchId === parseInt(game.id))
+              return renderGameRow(game, tip, `today-${game.id}`)
+            })}
+          </Box>
         )}
+
+        {/* --- TÖBBI TIPP SZEKCIÓ --- */}
+        {otherTips.length > 0 && (
+          <Box>
+            <Typography sx={{ p: 1.5, background: '#eeeeee', color: '#555', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              🗓️ Korábbi és jövőbeli tippek
+            </Typography>
+            {otherTips.map((tip) => {
+              const game = gamesMap.get(tip.matchId)
+              return renderGameRow(game, tip, `other-${tip.matchId}`)
+            })}
+          </Box>
+        )}
+
+        {/* --- HA SE MAI MECCS, SE TIPP NINCS --- */}
+        {todayGames.length === 0 && otherTips.length === 0 && (
+          <Typography sx={{ p: 3, textAlign: 'center', color: '#666' }}>Nincsenek még leadott tippek.</Typography>
+        )}
+
       </DialogContent>
     </Dialog>
   )
