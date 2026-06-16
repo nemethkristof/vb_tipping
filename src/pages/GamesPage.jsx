@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { 
   Container, 
   Box, 
@@ -14,30 +14,20 @@ import {
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
 import FilterAltIcon from '@mui/icons-material/FilterAlt'
 import GameList from '../components/GameList'
+import { useGames } from '../hooks/useGames'
 
 const GamesPage = () => {
-  const [games, setGames] = useState([])
-  const [loading, setLoading] = useState(true)
+  // 1. Adatlekérés TanStack Query-vel
+  const { data: rawGames = [], isLoading: loading } = useGames()
 
   const [filterGroup, setFilterGroup] = useState('all')
   const [filterDate, setFilterDate] = useState('all')
 
-  useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await fetch('https://worldcup26.ir/get/games')
-        const data = await response.json()
-        const sortedGames = (data.games || data).sort((a, b) => parseInt(a.id) - parseInt(b.id))
-        setGames(sortedGames)
-      } catch (error) {
-        console.error('Hiba a meccsek lekérésekor:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchGames()
-  }, [])
+  // 2. A meccsek sorba rendezése a memóriában (nincs szükség state-re)
+  const games = useMemo(() => {
+    if (!rawGames.length) return []
+    return [...rawGames].sort((a, b) => parseInt(a.id) - parseInt(b.id))
+  }, [rawGames])
 
   const uniqueGroups = useMemo(() => {
     if (!games.length) return []
@@ -112,7 +102,7 @@ const GamesPage = () => {
                     label="Csoport / Szakasz"
                     onChange={(e) => setFilterGroup(e.target.value)}
                     MenuProps={{
-                      disableAutoFocusItem: true, // Hibaelhárítás az asztali auto-kiválasztásra
+                      disableAutoFocusItem: true,
                       PaperProps: { style: { maxHeight: 300 } }
                     }}
                   >
@@ -137,7 +127,7 @@ const GamesPage = () => {
                     label="Dátum"
                     onChange={(e) => setFilterDate(e.target.value)}
                     MenuProps={{
-                      disableAutoFocusItem: true, // Hibaelhárítás az asztali auto-kiválasztásra
+                      disableAutoFocusItem: true,
                       PaperProps: { style: { maxHeight: 300 } }
                     }}
                   >

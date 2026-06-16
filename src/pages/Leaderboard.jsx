@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useMemo } from 'react' // A useEffect-re már nincs szükség!
 import { Container, Box, Typography, CircularProgress, Alert, useTheme, useMediaQuery } from '@mui/material'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import LeaderboardDesktop from '../components/LeaderboardDesktop'
 import LeaderboardMobile from '../components/LeaderboardMobile'
 import UserTipsModal from '../components/UserTipsModal'
+import { useGames } from '../hooks/useGames' // Hívjuk be a közös meccs hookot
+import { useQuery } from '@tanstack/react-query' // A tippek lekéréséhez
 
 export const calculatePoints = (actualA, actualB, predA, predB, actualAdvancer, predAdvancer, isKnockout) => {
   let points = 0
@@ -25,111 +27,94 @@ export const calculatePoints = (actualA, actualB, predA, predB, actualAdvancer, 
 }
 
 const Leaderboard = () => {
-  const [leaderboard, setLeaderboard] = useState([])
-  const [allPredictions, setAllPredictions] = useState([])
-  const [games, setGames] = useState([])
   const [selectedUser, setSelectedUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
   
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // 1. PÁRHUZAMOS LEKÉRÉS: A két hálózati kérés egyszerre indul el, felezve a várakozást
-        const [tipsResponse, gamesResponse] = await Promise.all([
-          fetch(`${import.meta.env.BASE_URL}/tipps.json`),
-          fetch('https://worldcup26.ir/get/games')
-        ])
+  // 1. Meccsek betöltése a megosztott cache-ből
+  const { data: games = [], isLoading: gamesLoading } = useGames()
 
-        const [tipsData, gamesData] = await Promise.all([
-          tipsResponse.json(),
-          gamesResponse.json()
-        ])
-
-        const rawPredictions = tipsData.predictions || []
-        const rawGames = gamesData.games || gamesData
-
-        setAllPredictions(rawPredictions)
-        setGames(rawGames)
-
-        // 2. SZÓTÁR (MAP) ÉPÍTÉS: Előre feldolgozzuk és indexeljük a meccseket ID alapján
-        const gamesMap = new Map()
-        rawGames.forEach((game) => {
-          gamesMap.set(parseInt(game.id), {
-            ...game,
-            homeScore: parseInt(game.home_score),
-            awayScore: parseInt(game.away_score),
-            isFinished: game.finished === true || String(game.finished).toUpperCase() === 'TRUE',
-            isKnockout: parseInt(game.id) > 72
-          })
-        })
-
-        const userScores = {}
-
-        // Játékosok listájának előkészítése
-        rawPredictions.forEach((prediction) => {
-          if (!userScores[prediction.user]) {
-            userScores[prediction.user] = 0
-          }
-        })
-
-        // 3. GYORS PONTOZÁS: O(1) eléréssel, nincs több egymásba ágyazott .find() ciklus
-        rawPredictions.forEach((prediction) => {
-          const game = gamesMap.get(prediction.matchId)
-
-          if (game && game.isFinished) {
-            const predictedScoreA = parseInt(prediction.scoreA)
-            const predictedScoreB = parseInt(prediction.scoreB)
-
-            let actualAdvancer = null
-            if (game.isKnockout) {
-              if (game.homeScore > game.awayScore) actualAdvancer = 'A'
-              else if (game.awayScore > game.homeScore) actualAdvancer = 'B'
-              else {
-                if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
-                else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
-              }
-            }
-
-            userScores[prediction.user] += calculatePoints(
-              game.homeScore, 
-              game.awayScore, 
-              predictedScoreA, 
-              predictedScoreB, 
-              actualAdvancer, 
-              prediction.advancer, 
-              game.isKnockout
-            )
-          }
-        })
-
-        // Rangsor összeállítása
-        const sortedScores = Object.entries(userScores)
-          .map(([user, score]) => ({ user, score }))
-          .sort((a, b) => b.score - a.score)
-
-        let currentRank = 1
-        const rankedLeaderboard = sortedScores.map((player, index, array) => {
-          if (index > 0 && player.score < array[index - 1].score) {
-            currentRank = index + 1
-          }
-          return { ...player, rank: currentRank }
-        })
-
-        setLeaderboard(rankedLeaderboard)
-        setLoading(false)
-      } catch (err) {
-        console.error('Hiba az adatok lekérésekor:', err)
-        setError('Nem sikerült az adatokat lekérni. Kérlek, próbáld később.')
-        setLoading(false)
-      }
+  // 2. Tippek betöltése TanStack Query-vel
+  const { data: tipsData, isLoading: tipsLoading, error: tipsError } = useQuery({
+    queryKey: ['tips'],
+    queryFn: async () => {
+      const response = await fetch(`${import.meta.env.BASE_URL}/tipps.json`)
+      if (!response.ok) throw new Error('Nem sikerült a tippek lekérése')
+      return response.json()
     }
+  })
 
-    fetchData()
-  }, [])
+  // Állapotok és adatok összesítése
+  const loading = gamesLoading || tipsLoading
+  const error = tipsError ? 'Nem sikerült az adatokat lekérni. Kérlek, próbáld később.' : null
+  const allPredictions = useMemo(() => tipsData?.predictions || [], [tipsData])
+
+  // 3. GYORS PONTOZÁS ÉS RANGSOR: Automatikusan újrafut, ha változik a meccs vagy a tipp adat
+  const leaderboard = useMemo(() => {
+    if (!games.length || !allPredictions.length) return []
+
+    // A szótár alapú indexed (O(1) elérés) megmaradt, ami kiváló megoldás!
+    const gamesMap = new Map()
+    games.forEach((game) => {
+      gamesMap.set(parseInt(game.id), {
+        ...game,
+        homeScore: parseInt(game.home_score),
+        awayScore: parseInt(game.away_score),
+        isFinished: game.finished === true || String(game.finished).toUpperCase() === 'TRUE',
+        isKnockout: parseInt(game.id) > 72
+      })
+    })
+
+    const userScores = {}
+
+    allPredictions.forEach((prediction) => {
+      if (!userScores[prediction.user]) {
+        userScores[prediction.user] = 0
+      }
+    })
+
+    allPredictions.forEach((prediction) => {
+      const game = gamesMap.get(prediction.matchId)
+
+      if (game && game.isFinished) {
+        const predictedScoreA = parseInt(prediction.scoreA)
+        const predictedScoreB = parseInt(prediction.scoreB)
+
+        let actualAdvancer = null
+        if (game.isKnockout) {
+          if (game.homeScore > game.awayScore) actualAdvancer = 'A'
+          else if (game.awayScore > game.homeScore) actualAdvancer = 'B'
+          else {
+            if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
+            else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
+          }
+        }
+
+        userScores[prediction.user] += calculatePoints(
+          game.homeScore, 
+          game.awayScore, 
+          predictedScoreA, 
+          predictedScoreB, 
+          actualAdvancer, 
+          prediction.advancer, 
+          game.isKnockout
+        )
+      }
+    })
+
+    const sortedScores = Object.entries(userScores)
+      .map(([user, score]) => ({ user, score }))
+      .sort((a, b) => b.score - a.score)
+
+    let currentRank = 1
+    return sortedScores.map((player, index, array) => {
+      if (index > 0 && player.score < array[index - 1].score) {
+        currentRank = index + 1
+      }
+      return { ...player, rank: currentRank }
+    })
+  }, [games, allPredictions])
 
   const handleUserClick = (userName) => setSelectedUser(userName)
   const handleCloseModal = () => setSelectedUser(null)

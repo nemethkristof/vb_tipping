@@ -7,6 +7,7 @@ import Leaderboard from './pages/Leaderboard'
 import Tipping from './pages/Tipping'
 import './App.css'
 import GamesPage from './pages/GamesPage'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const theme = createTheme({
   palette: {
@@ -74,20 +75,32 @@ const theme = createTheme({
   },
 })
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 percig frissnek tekinti az adatot (nem kérdez rá a szervernél)
+      gcTime: 1000 * 60 * 60 * 24, // 24 óráig a memóriában tartja a letöltött adatot
+      refetchOnWindowFocus: false, // Ne töltse újra automatikusan, ha átkattintasz egy másik böngésző fülre majd vissza
+    },
+  },
+})
+
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/leaderboard" element={<Leaderboard />} />
-          <Route path="/tipping" element={<Tipping />} />
-          <Route path="/games" element={<GamesPage />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/tipping" element={<Tipping />} />
+            <Route path="/games" element={<GamesPage />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </QueryClientProvider>
   )
 }
 

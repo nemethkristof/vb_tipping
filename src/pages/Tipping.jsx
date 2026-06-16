@@ -5,13 +5,15 @@ import TippingHeader from '../components/TippingHeader'
 import PredictionForm from '../components/PredictionForm'
 import ExportSection from '../components/ExportSection'
 import PredictionList from '../components/PredictionList'
+import { useGames } from '../hooks/useGames'
 
 const Tipping = () => {
-  const [games, setGames] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [copySuccess, setCopySuccess] = useState(false)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+  const [copySuccess, setCopySuccess] = useState(false)
+
+  // 1. Adatlekérés a közös hookból
+  const { data: games = [], isLoading: loading } = useGames()
 
   const [predictions, setPredictions] = useState(() => {
     const savedPredictions = localStorage.getItem('tipping_predictions')
@@ -37,21 +39,7 @@ const Tipping = () => {
     localStorage.setItem('tipping_userName', userName)
   }, [userName])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const gamesResponse = await fetch('https://worldcup26.ir/get/games')
-        const gamesData = await gamesResponse.json()
-        setGames(gamesData.games || gamesData)
-        setLoading(false)
-      } catch (err) {
-        console.error('Hiba az adatok lekérésekor:', err)
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
+  // A meccseket letöltő fetch useEffect INNEN LETT KITÖRÖLVE!
 
   const getGameInfo = (matchId) => {
     const game = games.find((g) => parseInt(g.id) === matchId)
