@@ -43,6 +43,19 @@ const isToday = (dateString) => {
   )
 }
 
+// Segédfüggvény a tegnapi dátum ellenőrzésére
+const isYesterday = (dateString) => {
+  if (!dateString) return false
+  const gameDate = new Date(dateString)
+  const yesterday = new Date()
+  yesterday.setDate(yesterday.getDate() - 1) // Ma mínusz 1 nap
+  return (
+    gameDate.getDate() === yesterday.getDate() &&
+    gameDate.getMonth() === yesterday.getMonth() &&
+    gameDate.getFullYear() === yesterday.getFullYear()
+  )
+}
+
 const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) => {
   if (!user) return null
 
@@ -65,16 +78,23 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
     return map
   }, [safeGames])
 
-  // 1. Kigyűjtjük a mai meccseket
-  // FIGYELEM: Ha a te JSON-odban a dátum máshogy szerepel (pl. 'datetime' vagy 'matchDate'), azt itt cseréld ki!
+  // 1. Mai meccsek kigyűjtése
   const todayGames = useMemo(() => {
     return safeGames.filter(g => isToday(g.local_date))
   }, [safeGames])
 
-  const todayGameIds = new Set(todayGames.map(g => parseInt(g.id)))
+  // 2. Tegnapi meccsek kigyűjtése
+  const yesterdayGames = useMemo(() => {
+    return safeGames.filter(g => isYesterday(g.local_date))
+  }, [safeGames])
 
-  // 2. Kigyűjtjük a TÖBBI tippet (amik nem mai meccsekre vonatkoznak)
-  const otherTips = userTips.filter(tip => !todayGameIds.has(tip.matchId))
+  const todayGameIds = new Set(todayGames.map(g => parseInt(g.id)))
+  const yesterdayGameIds = new Set(yesterdayGames.map(g => parseInt(g.id)))
+
+  // 3. A többi tipp (mai és tegnapi nélkül)
+  const otherTips = userTips.filter(
+    tip => !todayGameIds.has(tip.matchId) && !yesterdayGameIds.has(tip.matchId)
+  )
 
   // Közös renderelő függvény egy meccs/tipp sorhoz
   const renderGameRow = (game, tip, key) => {
@@ -115,12 +135,10 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
           </Typography>
           
           {!tip ? (
-            // Ha NINCS tipp leadva
             <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
               <Chip label="Nincs még tipp leadva" size="small" sx={{ background: '#ffebee', color: '#c62828', fontWeight: 600 }} />
             </Box>
           ) : (
-            // Ha VAN tipp leadva
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
               <Box>
                 <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
@@ -215,20 +233,37 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
       
       <DialogContent dividers sx={{ p: 0, background: '#f5f5f5' }}>
         
-        {/* --- MAI MECCSEK SZEKCIÓ --- */}
+        {/* --- 1. MAI MECCSEK SZEKCIÓ --- */}
         {todayGames.length > 0 && (
           <Box>
             <Typography sx={{ p: 1.5, background: '#e0f2f1', color: '#00695c', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
               📅 Mai meccsek
             </Typography>
-            {todayGames.map((game) => {
-              const tip = userTips.find(t => t.matchId === parseInt(game.id))
-              return renderGameRow(game, tip, `today-${game.id}`)
+            {todayGames.map((rawGame) => {
+              const gameId = parseInt(rawGame.id)
+              const game = gamesMap.get(gameId) // FONTOS: Itt lekérjük a már boolean-esített, számokat tartalmazó meccset
+              const tip = userTips.find(t => t.matchId === gameId)
+              return renderGameRow(game, tip, `today-${gameId}`)
             })}
           </Box>
         )}
 
-        {/* --- TÖBBI TIPP SZEKCIÓ --- */}
+        {/* --- 2. TEGNAPI MECCSEK SZEKCIÓ --- */}
+        {yesterdayGames.length > 0 && (
+          <Box>
+            <Typography sx={{ p: 1.5, background: '#fff3e0', color: '#e65100', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              ↩️ Tegnapi meccsek
+            </Typography>
+            {yesterdayGames.map((rawGame) => {
+              const gameId = parseInt(rawGame.id)
+              const game = gamesMap.get(gameId) // Ugyanaz a javítás, mint a maiaknál
+              const tip = userTips.find(t => t.matchId === gameId)
+              return renderGameRow(game, tip, `yesterday-${gameId}`)
+            })}
+          </Box>
+        )}
+
+        {/* --- 3. TÖBBI TIPP SZEKCIÓ --- */}
         {otherTips.length > 0 && (
           <Box>
             <Typography sx={{ p: 1.5, background: '#eeeeee', color: '#555', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -241,8 +276,8 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
           </Box>
         )}
 
-        {/* --- HA SE MAI MECCS, SE TIPP NINCS --- */}
-        {todayGames.length === 0 && otherTips.length === 0 && (
+        {/* --- HA SEMMI NINCS --- */}
+        {todayGames.length === 0 && yesterdayGames.length === 0 && otherTips.length === 0 && (
           <Typography sx={{ p: 3, textAlign: 'center', color: '#666' }}>Nincsenek még leadott tippek.</Typography>
         )}
 
