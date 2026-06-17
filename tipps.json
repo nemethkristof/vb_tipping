@@ -570,6 +570,34 @@
       "scoreB": 1,
       "advancer": null
     },
+    {
+      "user": "PANNA",
+      "matchId": 21,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 22,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 23,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 24,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
 
     {
       "user": "Npeti",
@@ -1342,6 +1370,34 @@
       "matchId": 22,
       "scoreA": 2,
       "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 23,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 24,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 25,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 26,
+      "scoreA": 2,
+      "scoreB": 1,
       "advancer": null
     },
 
