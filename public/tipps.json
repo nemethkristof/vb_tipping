@@ -267,6 +267,27 @@
       "scoreB": 2,
       "advancer": null
     },
+    {
+      "user": "Flóra",
+      "matchId": 25,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 27,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 31,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
 
     {
       "user": "Kevin",
@@ -1540,6 +1561,27 @@
       "scoreB": 1,
       "advancer": null
     },
+    {
+      "user": "Kriszti",
+      "matchId": 25,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 27,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 31,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
 
     {
       "user": "Tomi",
@@ -1665,6 +1707,27 @@
       "matchId": 28,
       "scoreA": 2,
       "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 25,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 27,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 31,
+      "scoreA": 2,
+      "scoreB": 1,
       "advancer": null
     },
 
