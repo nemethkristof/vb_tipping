@@ -4,8 +4,8 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import LeaderboardDesktop from '../components/LeaderboardDesktop'
 import LeaderboardMobile from '../components/LeaderboardMobile'
 import UserTipsModal from '../components/UserTipsModal'
-import { useGames } from '../hooks/useGames' // Hívjuk be a közös meccs hookot
-import { useQuery } from '@tanstack/react-query' // A tippek lekéréséhez
+import { useGames } from '../hooks/useGames'
+import { useQuery } from '@tanstack/react-query'
 
 export const calculatePoints = (actualA, actualB, predA, predB, actualAdvancer, predAdvancer, isKnockout) => {
   let points = 0
