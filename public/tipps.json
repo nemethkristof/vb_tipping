@@ -1329,6 +1329,34 @@
       "scoreB": 0,
       "advancer": null
     },
+    {
+      "user": "Barni",
+      "matchId": 25,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 26,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 27,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 28,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
 
     {
       "user": "Kriszti",
