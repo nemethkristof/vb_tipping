@@ -112,6 +112,34 @@
       "scoreB": 0,
       "advancer": null
     },
+    {
+      "user": "Kristóf",
+      "matchId": 25,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 26,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 27,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 28,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
 
     {
       "user": "Flóra",
