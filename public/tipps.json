@@ -1689,8 +1689,8 @@
     },
     {
       "user": "Kriszti",
-      "matchId": 25,
-      "scoreA": 3,
+      "matchId": 28,
+      "scoreA": 2,
       "scoreB": 1,
       "advancer": null
     },
@@ -1703,9 +1703,44 @@
     },
     {
       "user": "Kriszti",
+      "matchId": 29,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 30,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
       "matchId": 31,
-      "scoreA": 1,
+      "scoreA": 2,
       "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 32,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 33,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 35,
+      "scoreA": 2,
+      "scoreB": 2,
       "advancer": null
     },
 
