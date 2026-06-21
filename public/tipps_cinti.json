@@ -1,0 +1,452 @@
+{
+  "predictions": [
+    {
+      "user": "Cinti",
+      "matchId": 9,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 10,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 12,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 11,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 13,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 14,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 15,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 16,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 17,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 18,
+      "scoreA": 0,
+      "scoreB": 5,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 19,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 20,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 21,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 22,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 23,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 24,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 25,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 26,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 27,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 28,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 29,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 30,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 31,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 32,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 33,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 34,
+      "scoreA": 0,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 35,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 36,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 37,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 38,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 39,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 40,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 41,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 42,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 43,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 44,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 45,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 46,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 47,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 48,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 49,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 50,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 51,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 52,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 53,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 54,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 55,
+      "scoreA": 0,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 56,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 57,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 58,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 59,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 60,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 61,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 62,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 63,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 64,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 65,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 66,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 67,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 68,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 69,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 70,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 71,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Cinti",
+      "matchId": 72,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    }
+  ]
+}

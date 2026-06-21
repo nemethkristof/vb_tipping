@@ -39,9 +39,45 @@ const Leaderboard = () => {
   const { data: tipsData, isLoading: tipsLoading, error: tipsError } = useQuery({
     queryKey: ['tips'],
     queryFn: async () => {
-      const response = await fetch(`${import.meta.env.BASE_URL}/tipps.json`)
-      if (!response.ok) throw new Error('Nem sikerült a tippek lekérése')
-      return response.json()
+      // 1. Lépés: Lekérjük a fő index fájlt
+      const indexResponse = await fetch(`${import.meta.env.BASE_URL}/tipps.json`)
+      if (!indexResponse.ok) throw new Error('Nem sikerült az index fájl lekérése')
+      const indexData = await indexResponse.json()
+
+      let allPredictions = []
+
+      // 2. Lépés: Lekérjük az összes felhasználó saját fájlját PÁRHUZAMOSAN (Promise.all)
+      if (indexData && indexData.users) {
+        const fetchPromises = indexData.users.map(async (u) => {
+          try {
+            const res = await fetch(`${import.meta.env.BASE_URL}/${u.file}`)
+            if (!res.ok) {
+              console.warn(`Nem található fájl: ${u.file}`);
+              return [];
+            }
+            const data = await res.json()
+            
+            // Itt okos trükköt alkalmazunk: injektáljuk a felhasználó nevét az index fájlból, 
+            // így az egyéni JSON-ben már nem kell ezerszer leírni, hogy kié a tipp.
+            return (data.predictions || []).map(tip => ({
+              ...tip,
+              user: u.name
+            }))
+          } catch (err) {
+            console.error(`Hiba ${u.name} tippjeinek betöltésekor:`, err)
+            return [] // Ha hiba van egy filenál, a többi még betölt
+          }
+        })
+
+        // Megvárjuk, amíg az összes fájl letöltődik
+        const results = await Promise.all(fetchPromises)
+        
+        // A kapott tömbök tömbjét ( [ [Tipp1, Tipp2], [Tipp3] ] ) kilapítjuk ( [Tipp1, Tipp2, Tipp3] )
+        allPredictions = results.flat()
+      }
+
+      // Pontosan olyan formában adjuk vissza, ahogy a komponens eddig is várta
+      return { predictions: allPredictions }
     }
   })
 

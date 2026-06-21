@@ -1,0 +1,249 @@
+{
+  "predictions": [
+    {
+      "user": "Kristóf",
+      "matchId": 9,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 10,
+      "scoreA": 4,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 11,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 12,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 13,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 14,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 15,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 16,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 17,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 18,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 19,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 20,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 21,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 22,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 23,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 24,
+      "scoreA": 0,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 25,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 26,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 27,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 28,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 29,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 30,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 31,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 32,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 33,
+      "scoreA": 4,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 34,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 35,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 36,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 37,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 38,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 39,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 40,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 41,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 42,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 43,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    }
+    ]
+}
