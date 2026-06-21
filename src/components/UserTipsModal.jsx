@@ -101,7 +101,7 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
     const gameId = game ? parseInt(game.id) : (tip ? tip.matchId : '?')
     const homeName = game ? (game.home_team_name_en || game.home_team_label) : '?'
     const awayName = game ? (game.away_team_name_en || game.away_team_label) : '?'
-    const gameDisplay = game ? `${homeName} vs ${awayName}` : `Meccs #${gameId}`
+    const gameDisplay = game ? `#${gameId} ${homeName} vs ${awayName}` : `Meccs #${gameId}`
     
     let points = 0
     let actualAdvancer = null
