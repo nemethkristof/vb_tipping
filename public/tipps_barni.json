@@ -223,6 +223,34 @@
       "scoreA": 2,
       "scoreB": 0,
       "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 41,
+      "scoreA": 5,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 42,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 43,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 44,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
     }
   ]
 }
