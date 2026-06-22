@@ -244,6 +244,48 @@
       "scoreA": 2,
       "scoreB": 0,
       "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 44,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 45,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 46,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 47,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 48,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 49,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
     }
-    ]
+  ]
 }
