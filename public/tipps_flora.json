@@ -209,6 +209,34 @@
       "scoreA": 2,
       "scoreB": 1,
       "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 38,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 40,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 41,
+      "scoreA": 4,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 43,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": null
     }
   ]
 }
