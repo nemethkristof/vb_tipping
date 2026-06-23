@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Container, Box, Alert, CircularProgress, useTheme, useMediaQuery, Button } from '@mui/material'
 import ReplayIcon from '@mui/icons-material/Replay'
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep'
+import emailjs from '@emailjs/browser'
 import TippingHeader from '../components/TippingHeader'
 import PredictionForm from '../components/PredictionForm'
 import ExportSection from '../components/ExportSection'
@@ -10,36 +12,54 @@ import { useGames } from '../hooks/useGames'
 const Tipping = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
-  const [copySuccess, setCopySuccess] = useState(false)
+  
+  // UI Állapotok
+  const [feedbackMsg, setFeedbackMsg] = useState(null)
+  const [isSendingEmail, setIsSendingEmail] = useState(false)
 
-  // 1. Adatlekérés a közös hookból
   const { data: games = [], isLoading: loading } = useGames()
 
+  // Biztonságos LocalStorage inicializálás
   const [predictions, setPredictions] = useState(() => {
-    const savedPredictions = localStorage.getItem('tipping_predictions')
-    return savedPredictions ? JSON.parse(savedPredictions) : []
+    try {
+      const saved = window.localStorage.getItem('tipping_predictions')
+      return saved ? JSON.parse(saved) : []
+    } catch (e) {
+      console.warn('Hiba a localStorage olvasásakor:', e)
+      return []
+    }
   })
 
   const [userName, setUserName] = useState(() => {
-    return localStorage.getItem('tipping_userName') || ''
+    try {
+      return window.localStorage.getItem('tipping_userName') || ''
+    } catch (e) {
+      return ''
+    }
   })
 
   const [selectedMatch, setSelectedMatch] = useState('')
   const [scoreA, setScoreA] = useState('')
   const [scoreB, setScoreB] = useState('')
   const [advancer, setAdvancer] = useState('')
-  
   const [errors, setErrors] = useState({})
 
+  // LocalStorage frissítése védetten
   useEffect(() => {
-    localStorage.setItem('tipping_predictions', JSON.stringify(predictions))
+    try {
+      window.localStorage.setItem('tipping_predictions', JSON.stringify(predictions))
+    } catch (e) {
+      console.warn('Hiba a localStorage mentésekor:', e)
+    }
   }, [predictions])
 
   useEffect(() => {
-    localStorage.setItem('tipping_userName', userName)
+    try {
+      window.localStorage.setItem('tipping_userName', userName)
+    } catch (e) {
+      console.warn('Hiba a localStorage mentésekor:', e)
+    }
   }, [userName])
-
-  // A meccseket letöltő fetch useEffect INNEN LETT KITÖRÖLVE!
 
   const getGameInfo = (matchId) => {
     const game = games.find((g) => parseInt(g.id) === matchId)
@@ -85,62 +105,93 @@ const Tipping = () => {
     setScoreB('')
     setAdvancer('')
     setErrors({})
+    setFeedbackMsg(null) // Töröljük az esetleges korábbi sikeres üzeneteket
   }
 
   const handleRemovePrediction = (matchIdToRemove) => {
-    const newPredictions = predictions.filter((p) => p.matchId !== matchIdToRemove)
-    setPredictions(newPredictions)
+    setPredictions(predictions.filter((p) => p.matchId !== matchIdToRemove))
   }
 
   const handleResetExportStatus = () => {
-    const resetPredictions = predictions.map(p => ({ ...p, isExported: false }))
-    setPredictions(resetPredictions)
+    setPredictions(predictions.map(p => ({ ...p, isExported: false })))
+    setFeedbackMsg({ type: 'info', text: 'Státuszok visszaállítva. Most újra elküldheted a tippeket!' })
+  }
+
+  // ÚJ UX FUNKCIÓ: A már sikeresen elküldött tippek eltávolítása a listából
+  const handleClearExported = () => {
+    setPredictions(predictions.filter(p => !p.isExported))
+    setFeedbackMsg({ type: 'success', text: 'A már elküldött tippek törölve lettek a nézetből.' })
   }
 
   const getAvailableGames = () => {
-    return games.filter((game) => {
-      return !predictions.some((p) => parseInt(p.matchId) === parseInt(game.id))
-    })
+    return games.filter((game) => !predictions.some((p) => parseInt(p.matchId) === parseInt(game.id)))
   }
 
-  const getGameDetails = (matchId) => {
-    return games.find((g) => parseInt(g.id) === matchId)
-  }
-
+  const getGameDetails = (matchId) => games.find((g) => parseInt(g.id) === matchId)
   const getUnexportedPredictions = () => predictions.filter(p => !p.isExported)
 
   const markAsExported = () => {
-    const updated = predictions.map(p => ({ ...p, isExported: true }))
-    setPredictions(updated)
+    setPredictions(predictions.map(p => ({ ...p, isExported: true })))
   }
 
-  const handleDownload = () => {
+  // --- EMAILJS KÜLDÉS ---
+  const handleSendEmail = async () => {
     const newTips = getUnexportedPredictions()
     if (newTips.length === 0) return
 
+    setIsSendingEmail(true)
+    setFeedbackMsg(null)
+
+    const cleanTips = newTips.map(({ isExported, ...rest }) => rest).sort((a, b) => a.matchId - b.matchId)
+    const jsonString = JSON.stringify(cleanTips, null, 2)
+
+    try {
+      // CSERÉLD KI EZEKET A SAJÁT EMAILJS KULCSAIDRA!
+      await emailjs.send(
+        'service_hljvhom', 
+        'template_fvzn6vj', 
+        {
+          user_name: userName,
+          message: jsonString,
+        }, 
+        '4fo9IzEUtcoAB0Xyv'
+      )
+      
+      markAsExported()
+      setFeedbackMsg({ type: 'success', text: '✅ Tippek sikeresen elküldve! Sok sikert a játékhoz!' })
+    } catch (error) {
+      console.error('Email küldési hiba:', error)
+      setFeedbackMsg({ type: 'error', text: '❌ Hiba történt a küldés során. Kérlek használd a "B terv" gombokat (Másolás vagy Letöltés)!' })
+    } finally {
+      setIsSendingEmail(false)
+    }
+  }
+
+  // --- B TERV FUNKCIÓK ---
+  const handleDownload = () => {
+    const newTips = getUnexportedPredictions()
+    if (newTips.length === 0) return
     const cleanTips = newTips.map(({ isExported, ...rest }) => rest).sort((a, b) => a.matchId - b.matchId)
     const json = JSON.stringify({ predictions: cleanTips }, null, 2)
     const blob = new Blob([json], { type: 'application/json' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `tipps_uj_${new Date().toISOString().split('T')[0]}.json`
+    a.download = `tipps_${userName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
-    
     markAsExported()
+    setFeedbackMsg({ type: 'success', text: '✅ Fájl letöltve! Ne felejtsd el elküldeni nekem!' })
   }
 
   const handleCopyToClipboard = () => {
     const newTips = getUnexportedPredictions()
     if (newTips.length === 0) return
-
     const cleanTips = newTips.map(({ isExported, ...rest }) => rest).sort((a, b) => a.matchId - b.matchId)
     const json = JSON.stringify({ predictions: cleanTips }, null, 2)
     navigator.clipboard.writeText(json).then(() => {
-      setCopySuccess(true)
-      setTimeout(() => setCopySuccess(false), 2000)
       markAsExported()
+      setFeedbackMsg({ type: 'success', text: '✅ Másolva a vágólapra! Illeszd be az üzenetbe (Ctrl+V)!' })
     })
   }
 
@@ -160,9 +211,10 @@ const Tipping = () => {
       <Container maxWidth="lg" sx={{ px: { xs: 1, sm: 2 } }}>
         <TippingHeader isMobile={isMobile} />
 
-        {copySuccess && (
-          <Alert severity="success" sx={{ mb: 2, mx: 'auto' }}>
-            ✅ Másolva a vágólapra!
+        {/* Központi visszajelző sáv */}
+        {feedbackMsg && (
+          <Alert severity={feedbackMsg.type} sx={{ mb: 3, mx: 'auto', fontWeight: 600 }}>
+            {feedbackMsg.text}
           </Alert>
         )}
 
@@ -186,9 +238,11 @@ const Tipping = () => {
         />
 
         <ExportSection
+          onSendEmail={handleSendEmail}
           onDownload={handleDownload}
           onCopyToClipboard={handleCopyToClipboard}
           unexportedCount={unexportedCount}
+          isSending={isSendingEmail}
         />
 
         <PredictionList
@@ -198,22 +252,25 @@ const Tipping = () => {
           getGameDetails={getGameDetails}
         />
 
-        {/* Gomb az oldal legalján a tévesztések elkerülése végett */}
+        {/* Takarítás és Visszaállítás Szekció */}
         {exportedCount > 0 && (
-          <Box sx={{ mt: 2, mb: 4, display: 'flex', justifyContent: 'center', textAlign: 'center' }}>
+          <Box sx={{ mt: 3, mb: 4, display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'center' }}>
             <Button
               variant="text"
               startIcon={<ReplayIcon />}
               onClick={handleResetExportStatus}
-              sx={{
-                color: '#888',
-                textTransform: 'none',
-                fontWeight: 600,
-                fontSize: '0.85rem',
-                '&:hover': { background: '#f5f5f5', color: '#d32f2f' }
-              }}
+              sx={{ color: '#888', textTransform: 'none', fontWeight: 600, '&:hover': { background: '#f5f5f5', color: '#1E3932' } }}
             >
-              Újra szeretném exportálni a tippeket (összesen {exportedCount} tipp)
+              Tippek újra-beküldése ({exportedCount} db)
+            </Button>
+            
+            <Button
+              variant="text"
+              startIcon={<DeleteSweepIcon />}
+              onClick={handleClearExported}
+              sx={{ color: '#d32f2f', textTransform: 'none', fontWeight: 600, '&:hover': { background: '#ffebee' } }}
+            >
+              Már elküldött tippek eltüntetése
             </Button>
           </Box>
         )}
