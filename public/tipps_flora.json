@@ -265,6 +265,34 @@
       "scoreA": 4,
       "scoreB": 1,
       "advancer": null
-    }
+    },
+    {
+"user": "Flóra",
+"matchId": 46,
+"scoreA": 1,
+"scoreB": 3,
+"advancer": null
+},
+{
+"user": "Flóra",
+"matchId": 47,
+"scoreA": 2,
+"scoreB": 1,
+"advancer": null
+},
+{
+"user": "Flóra",
+"matchId": 53,
+"scoreA": 3,
+"scoreB": 2,
+"advancer": null
+},
+{
+"user": "Flóra",
+"matchId": 54,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": null
+}
   ]
 }
