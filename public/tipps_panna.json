@@ -230,6 +230,20 @@
       "scoreA": 5,
       "scoreB": 0,
       "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 42,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 44,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
     }
   ]
 }

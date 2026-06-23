@@ -237,6 +237,34 @@
       "scoreA": 2,
       "scoreB": 1,
       "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 42,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 44,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 45,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user":"Tomi",
+      "matchId": 48,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
     }
   ]
 }
