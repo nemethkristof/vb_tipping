@@ -293,6 +293,48 @@
       "scoreA": 0,
       "scoreB": 2,
       "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 49,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 50,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 51,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 52,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 55,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 56,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
     }
   ]
 }

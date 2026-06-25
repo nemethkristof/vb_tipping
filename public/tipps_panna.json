@@ -245,7 +245,7 @@
       "scoreB": 1,
       "advancer": null
     },
-     {
+    {
       "user": "PANNA",
       "matchId": 45,
       "scoreA": 2,
@@ -260,74 +260,74 @@
       "advancer": null
     },
     {
-"user": "PANNA",
-"matchId": 46,
-"scoreA": 0,
-"scoreB": 3,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 47,
-"scoreA": 2,
-"scoreB": 0,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 49,
-"scoreA": 2,
-"scoreB": 3,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 50,
-"scoreA": 4,
-"scoreB": 3,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 51,
-"scoreA": 1,
-"scoreB": 3,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 52,
-"scoreA": 0,
-"scoreB": 2,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 53,
-"scoreA": 1,
-"scoreB": 3,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 54,
-"scoreA": 1,
-"scoreB": 1,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 55,
-"scoreA": 1,
-"scoreB": 1,
-"advancer": null
-},
-{
-"user": "PANNA",
-"matchId": 56,
-"scoreA": 1,
-"scoreB": 3,
-"advancer": null
-}
+      "user": "PANNA",
+      "matchId": 46,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 47,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 49,
+      "scoreA": 2,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 50,
+      "scoreA": 4,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 51,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 52,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 53,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 54,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 55,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "PANNA",
+      "matchId": 56,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    }
   ]
 }
