@@ -363,6 +363,76 @@
       "scoreA": 0,
       "scoreB": 2,
       "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 61,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 62,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 63,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 64,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 65,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 66,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 67,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 68,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 69,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 70,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
     }
   ]
 }

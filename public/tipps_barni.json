@@ -321,6 +321,48 @@
       "scoreA": 2,
       "scoreB": 2,
       "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 55,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 56,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 57,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 58,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 59,
+      "scoreA": 2,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 60,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
     }
   ]
 }
