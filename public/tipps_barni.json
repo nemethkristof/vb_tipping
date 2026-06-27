@@ -377,6 +377,76 @@
       "scoreA": 2,
       "scoreB": 2,
       "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 63,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 64,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 65,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 66,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 67,
+      "scoreA": 0,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 68,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 69,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 70,
+      "scoreA": 0,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 71,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Barni",
+      "matchId": 72,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
     }
   ]
 }

@@ -440,6 +440,13 @@
       "scoreA": 2,
       "scoreB": 2,
       "advancer": null
+    },
+     {
+      "user": "Charlie",
+      "matchId": 72,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
     }
   ]
 }
