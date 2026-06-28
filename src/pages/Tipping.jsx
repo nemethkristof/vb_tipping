@@ -61,6 +61,28 @@ const Tipping = () => {
     }
   }, [userName])
 
+  useEffect(() => {
+    const isKnockout = selectedMatch && parseInt(selectedMatch) > 72
+    
+    // Csak akkor fut le a logika, ha mindkét mező ki van töltve
+    if (isKnockout && scoreA !== '' && scoreB !== '') {
+      const numA = parseInt(scoreA, 10)
+      const numB = parseInt(scoreB, 10)
+
+      if (numA > numB) {
+        setAdvancer('A')
+        // Ha korábban hiba volt rajta, most levesszük
+        setErrors(prev => ({ ...prev, advancer: false }))
+      } else if (numB > numA) {
+        setAdvancer('B')
+        setErrors(prev => ({ ...prev, advancer: false }))
+      } else {
+        // Döntetlen esetén nullázzuk a továbbjutót, hiszen a játékosnak kell döntenie
+        setAdvancer('')
+      }
+    }
+  }, [scoreA, scoreB, selectedMatch])
+
   const getGameInfo = (matchId) => {
     const game = games.find((g) => parseInt(g.id) === matchId)
     if (game) {
