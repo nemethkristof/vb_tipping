@@ -419,6 +419,41 @@
       "scoreA": 3,
       "scoreB": 1,
       "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 69,
+      "scoreA": 2,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 70,
+      "scoreA": 0,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 71,
+      "scoreA": 2,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 72,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 73,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
     }
   ]
 }

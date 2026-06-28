@@ -447,6 +447,118 @@
       "scoreA": 0,
       "scoreB": 0,
       "advancer": null
+    },
+    {
+      "user": "Npeti",
+      "matchId": 73,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "B"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 74,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 75,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 76,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 77,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 78,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": "B"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 79,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 80,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 81,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 82,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 83,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 84,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 85,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 86,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 87,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "B"
+    },
+    {
+      "user": "Npeti",
+      "matchId": 88,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
     }
   ]
 }
