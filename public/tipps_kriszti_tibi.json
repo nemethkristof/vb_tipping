@@ -433,6 +433,20 @@
       "scoreA": 0,
       "scoreB": 3,
       "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 71,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 72,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
     }
   ]
 }
