@@ -447,6 +447,118 @@
       "scoreA": 2,
       "scoreB": 0,
       "advancer": null
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 73,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 74,
+      "scoreA": 4,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 75,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 76,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 77,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 78,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 79,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 80,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 81,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 82,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 83,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 84,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 85,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 86,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 87,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 88,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
     }
   ]
 }
