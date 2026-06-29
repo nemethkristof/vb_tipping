@@ -28,6 +28,8 @@ export const calculatePoints = (actualA, actualB, predA, predB, actualAdvancer, 
 
 const Leaderboard = () => {
   const [selectedUser, setSelectedUser] = useState(null)
+
+  const nameDayUser = 'Npeti'
   
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -176,12 +178,24 @@ const Leaderboard = () => {
           </Typography>
         </Box>
 
+        {/* ÚJ: Névnapi üzenet */}
+        {nameDayUser ? (
+          <Alert severity="success" icon="🎂" sx={{ mb: 4, fontSize: '1.1rem', fontWeight: 'bold' }}>
+            Boldog névnapot kívánunk, {nameDayUser}! 🎉
+          </Alert>
+        ) : (
+          <Alert severity="info" sx={{ mb: 4 }}>
+            Ma senkinek sincs névnapja a játékosok közül.
+          </Alert>
+        )}
+
         {error && <Alert severity="error" sx={{ mb: 4 }}>{error}</Alert>}
 
+        {/* 2. LÉPÉS: Továbbadjuk a névnapos változót a komponenseknek */}
         {isMobile ? (
-          <LeaderboardMobile leaderboard={leaderboard} onUserClick={handleUserClick} />
+          <LeaderboardMobile leaderboard={leaderboard} onUserClick={handleUserClick} nameDayUser={nameDayUser} />
         ) : (
-          <LeaderboardDesktop leaderboard={leaderboard} onUserClick={handleUserClick} />
+          <LeaderboardDesktop leaderboard={leaderboard} onUserClick={handleUserClick} nameDayUser={nameDayUser} />
         )}
 
         <UserTipsModal
