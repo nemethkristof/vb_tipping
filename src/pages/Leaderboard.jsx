@@ -29,7 +29,7 @@ export const calculatePoints = (actualA, actualB, predA, predB, actualAdvancer, 
 const Leaderboard = () => {
   const [selectedUser, setSelectedUser] = useState(null)
 
-  const nameDayUser = 'Npeti'
+  const nameDayUser = null
   
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -184,9 +184,7 @@ const Leaderboard = () => {
             Boldog névnapot kívánunk, {nameDayUser}! 🎉
           </Alert>
         ) : (
-          <Alert severity="info" sx={{ mb: 4 }}>
-            Ma senkinek sincs névnapja a játékosok közül.
-          </Alert>
+          <></>
         )}
 
         {error && <Alert severity="error" sx={{ mb: 4 }}>{error}</Alert>}
