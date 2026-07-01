@@ -489,6 +489,27 @@
       "scoreA": 2,
       "scoreB": 2,
       "advancer": "B"
-    }
+    },
+    {
+"user": "Flóra",
+"matchId": 79,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 80,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 82,
+"scoreA": 3,
+"scoreB": 2,
+"advancer": "A"
+}
   ]
 }
