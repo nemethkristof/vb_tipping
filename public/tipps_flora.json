@@ -510,6 +510,20 @@
 "scoreA": 3,
 "scoreB": 2,
 "advancer": "A"
+},
+    {
+"user": "Flóra",
+"matchId": 81,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 84,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
 }
   ]
 }
