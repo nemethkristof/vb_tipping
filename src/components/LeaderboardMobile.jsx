@@ -18,7 +18,7 @@ const getMedalEmoji = (rank) => {
   }
 }
 
-const LeaderboardMobile = ({ leaderboard, onUserClick }) => {
+const LeaderboardMobile = ({ leaderboard, onUserClick, nameDayUser }) => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       {leaderboard.map((player, index) => {
@@ -46,6 +46,7 @@ const LeaderboardMobile = ({ leaderboard, onUserClick }) => {
               <Box sx={{ flexGrow: 1, ml: 1 }}>
                 <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: '#1E3932' }}>
                   {player.user}
+                  {player.user === nameDayUser && ' 🎂'}
                 </Typography>
                 <Typography sx={{ fontSize: '0.8rem', color: '#666', fontWeight: 600 }}>
                   {player.rank}. helyezett

@@ -237,6 +237,293 @@
       "scoreA": 2,
       "scoreB": 1,
       "advancer": null
-    }
+    },
+    {
+      "user": "Tomi",
+      "matchId": 42,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 44,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 45,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 48,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 46,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 47,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 53,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 54,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 49,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 50,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 51,
+      "scoreA": 0,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 52,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 55,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 56,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 57,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 58,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 59,
+      "scoreA": 2,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 60,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 61,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 62,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 63,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 65,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 66,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 64,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 68,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 67,
+      "scoreA": 0,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 69,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 70,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 71,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 72,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 73,
+      "scoreA": 0,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Tomi",
+      "matchId": 76,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Tomi",
+      "matchId": 74,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Tomi",
+      "matchId": 75,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Tomi",
+      "matchId": 77,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": "B"
+    },
+    {
+"user": "Tomi",
+"matchId": 78,
+"scoreA": 2,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Tomi",
+"matchId": 79,
+"scoreA": 1,
+"scoreB": 2,
+"advancer": "B"
+},
+{
+"user": "Tomi",
+"matchId": 80,
+"scoreA": 0,
+"scoreB": 1,
+"advancer": "B"
+},
+{
+"user": "Tomi",
+"matchId": 82,
+"scoreA": 1,
+"scoreB": 2,
+"advancer": "B"
+},
+    {
+"user": "Tomi",
+"matchId": 81,
+"scoreA": 1,
+"scoreB": 2,
+"advancer": "B"
+},
+{
+"user": "Tomi",
+"matchId": 84,
+"scoreA": 1,
+"scoreB": 2,
+"advancer": "B"
+}
   ]
 }

@@ -28,7 +28,7 @@ const getMedalEmoji = (rank) => {
   }
 }
 
-const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
+const LeaderboardDesktop = ({ leaderboard, onUserClick, nameDayUser }) => {
   return (
     <TableContainer component={Paper} sx={{ borderRadius: '16px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}>
       <Table>
@@ -60,6 +60,7 @@ const LeaderboardDesktop = ({ leaderboard, onUserClick }) => {
               </TableCell>
               <TableCell sx={{ fontWeight: 600, fontSize: '1.1rem', color: '#1E3932' }}>
                 {player.user}
+                {player.user === nameDayUser && ' 🎂'}
               </TableCell>
               <TableCell sx={{ fontWeight: 700, fontSize: '1.3rem', textAlign: 'center', color: '#2E8B57' }}>
                 {player.score}

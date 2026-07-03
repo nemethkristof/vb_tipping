@@ -237,6 +237,293 @@
       "scoreA": 3,
       "scoreB": 2,
       "advancer": null
-    }
+    },
+    {
+      "user": "Flóra",
+      "matchId": 42,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 44,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 45,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 48,
+      "scoreA": 4,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 46,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 47,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 53,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 54,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 49,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 50,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 51,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 52,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 55,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 56,
+      "scoreA": 1,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 57,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 58,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 59,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 60,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 61,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 62,
+      "scoreA": 2,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 63,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 64,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 65,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 66,
+      "scoreA": 2,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 67,
+      "scoreA": 2,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 68,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 69,
+      "scoreA": 2,
+      "scoreB": 3,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 70,
+      "scoreA": 0,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 71,
+      "scoreA": 2,
+      "scoreB": 4,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 72,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": null
+    },
+    {
+      "user": "Flóra",
+      "matchId": 73,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Flóra",
+      "matchId": 74,
+      "scoreA": 4,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Flóra",
+      "matchId": 75,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Flóra",
+      "matchId": 76,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Flóra",
+      "matchId": 77,
+      "scoreA": 4,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Flóra",
+      "matchId": 78,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+"user": "Flóra",
+"matchId": 79,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 80,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 82,
+"scoreA": 3,
+"scoreB": 2,
+"advancer": "A"
+},
+    {
+"user": "Flóra",
+"matchId": 81,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 84,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
+}
   ]
 }
