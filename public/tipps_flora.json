@@ -524,6 +524,69 @@
 "scoreA": 3,
 "scoreB": 1,
 "advancer": "A"
+},
+    {
+"user": "Flóra",
+"matchId": 86,
+"scoreA": 4,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 87,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 88,
+"scoreA": 1,
+"scoreB": 2,
+"advancer": "B"
+},
+{
+"user": "Flóra",
+"matchId": 89,
+"scoreA": 1,
+"scoreB": 5,
+"advancer": "B"
+},
+{
+"user": "Flóra",
+"matchId": 90,
+"scoreA": 1,
+"scoreB": 3,
+"advancer": "B"
+},
+{
+"user": "Flóra",
+"matchId": 91,
+"scoreA": 3,
+"scoreB": 2,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 92,
+"scoreA": 1,
+"scoreB": 3,
+"advancer": "B"
+},
+{
+"user": "Flóra",
+"matchId": 93,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 94,
+"scoreA": 1,
+"scoreB": 3,
+"advancer": "B"
 }
   ]
 }
