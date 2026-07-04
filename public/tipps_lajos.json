@@ -559,6 +559,62 @@
       "scoreA": 3,
       "scoreB": 1,
       "advancer": "A"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 89,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "B"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 90,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 91,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 92,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 93,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 94,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 95,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 96,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "A"
     }
   ]
 }
