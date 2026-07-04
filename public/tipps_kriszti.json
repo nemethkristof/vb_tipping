@@ -573,6 +573,13 @@
 "scoreA": 2,
 "scoreB": 1,
 "advancer": "A"
-}
+},
+    {
+"user": "Kriszti",
+"matchId": 91,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
+    }
   ]
 }
