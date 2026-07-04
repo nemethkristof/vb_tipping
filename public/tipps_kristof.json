@@ -559,6 +559,62 @@
       "scoreA": 2,
       "scoreB": 1,
       "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 89,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": "B"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 90,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "B"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 91,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 92,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 93,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 94,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 95,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 96,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
     }
   ]
 }
