@@ -559,6 +559,62 @@
 "scoreA": 1,
 "scoreB": 3,
 "advancer": "B"
+},
+    {
+"user": "Barni",
+"matchId": 89,
+"scoreA": 0,
+"scoreB": 3,
+"advancer": "B"
+},
+{
+"user": "Barni",
+"matchId": 90,
+"scoreA": 1,
+"scoreB": 2,
+"advancer": "B"
+},
+{
+"user": "Barni",
+"matchId": 91,
+"scoreA": 1,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Barni",
+"matchId": 92,
+"scoreA": 1,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Barni",
+"matchId": 93,
+"scoreA": 1,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Barni",
+"matchId": 94,
+"scoreA": 2,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Barni",
+"matchId": 95,
+"scoreA": 1,
+"scoreB": 1,
+"advancer": "B"
+},
+{
+"user": "Barni",
+"matchId": 96,
+"scoreA": 2,
+"scoreB": 0,
+"advancer": "A"
 }
   ]
 }
