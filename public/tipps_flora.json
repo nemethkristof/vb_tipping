@@ -587,6 +587,41 @@
 "scoreA": 1,
 "scoreB": 3,
 "advancer": "B"
+},
+    {
+"user": "Flóra",
+"matchId": 95,
+"scoreA": 3,
+"scoreB": 2,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 96,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "B"
+},
+{
+"user": "Flóra",
+"matchId": 97,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 98,
+"scoreA": 1,
+"scoreB": 1,
+"advancer": "B"
+},
+{
+"user": "Flóra",
+"matchId": 99,
+"scoreA": 2,
+"scoreB": 4,
+"advancer": "B"
 }
   ]
 }
