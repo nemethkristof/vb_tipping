@@ -31,7 +31,20 @@ const calculatePointsForModal = (actualA, actualB, predA, predB, actualAdvancer,
   return points
 }
 
-// Segédfüggvény az aznapi dátum ellenőrzésére
+// ÚJ: A Leaderboard-ból áthozott javított gól-számláló
+const countExtraGoals = (scorersStr) => {
+  if (!scorersStr || scorersStr === 'null') return 0;
+  let count = 0;
+  const regex = /\b(\d+)(?:\+\d+)?(?:[^\d']*?)?'/g;
+  let match;
+  while ((match = regex.exec(scorersStr)) !== null) {
+    if (parseInt(match[1], 10) > 90) {
+      count++;
+    }
+  }
+  return count;
+};
+
 const isToday = (dateString) => {
   if (!dateString) return false
   const gameDate = new Date(dateString)
@@ -43,12 +56,11 @@ const isToday = (dateString) => {
   )
 }
 
-// Segédfüggvény a tegnapi dátum ellenőrzésére
 const isYesterday = (dateString) => {
   if (!dateString) return false
   const gameDate = new Date(dateString)
   const yesterday = new Date()
-  yesterday.setDate(yesterday.getDate() - 1) // Ma mínusz 1 nap
+  yesterday.setDate(yesterday.getDate() - 1)
   return (
     gameDate.getDate() === yesterday.getDate() &&
     gameDate.getMonth() === yesterday.getMonth() &&
@@ -67,36 +79,78 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
   const gamesMap = useMemo(() => {
     const map = new Map()
     safeGames.forEach((game) => {
+      let homeScore = parseInt(game.home_score)
+      let awayScore = parseInt(game.away_score)
+      let homePenalty = game.home_penalty_score && game.home_penalty_score !== "null" ? parseInt(game.home_penalty_score) : null
+      let awayPenalty = game.away_penalty_score && game.away_penalty_score !== "null" ? parseInt(game.away_penalty_score) : null
+      
+      const isKnockout = parseInt(game.id) > 72
+      const isFinished = game.finished === true || String(game.finished).toUpperCase() === 'TRUE'
+      
+      let winMethod = 'REGULAR'
+      let regularHomeScore = homeScore
+      let regularAwayScore = awayScore
+      let actualAdvancer = null
+
+      if (isKnockout) {
+        // JAVÍTVA: Itt már a megbízható függvényt használjuk!
+        const homeExtra = countExtraGoals(game.home_scorers)
+        const awayExtra = countExtraGoals(game.away_scorers)
+        
+        if (homePenalty !== null && !isNaN(homePenalty)) {
+          winMethod = 'PENALTIES'
+          regularHomeScore -= homeExtra
+          regularAwayScore -= awayExtra
+        } else if (homeExtra > 0 || awayExtra > 0) {
+          winMethod = 'EXTRA_TIME'
+          regularHomeScore -= homeExtra
+          regularAwayScore -= awayExtra
+        }
+
+        if (isFinished) {
+          if (winMethod === 'PENALTIES') {
+             actualAdvancer = homePenalty > awayPenalty ? 'A' : (awayPenalty > homePenalty ? 'B' : null)
+          } else {
+             actualAdvancer = homeScore > awayScore ? 'A' : (awayScore > homeScore ? 'B' : null)
+          }
+          if (!actualAdvancer && game.winner) {
+            if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
+            else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
+          }
+        }
+      } else {
+        if (isFinished) {
+          actualAdvancer = homeScore > awayScore ? 'A' : (awayScore > homeScore ? 'B' : null)
+        }
+      }
+
       map.set(parseInt(game.id), {
         ...game,
-        homeScore: parseInt(game.home_score),
-        awayScore: parseInt(game.away_score),
-        isFinished: game.finished === true || String(game.finished).toUpperCase() === 'TRUE',
-        isKnockout: parseInt(game.id) > 72
+        homeScore,
+        awayScore,
+        regularHomeScore, 
+        regularAwayScore,
+        homePenalty,
+        awayPenalty,
+        winMethod,
+        actualAdvancer,
+        isFinished,
+        isKnockout
       })
     })
     return map
   }, [safeGames])
 
-  // 1. Mai meccsek kigyűjtése
-  const todayGames = useMemo(() => {
-    return safeGames.filter(g => isToday(g.local_date))
-  }, [safeGames])
-
-  // 2. Tegnapi meccsek kigyűjtése
-  const yesterdayGames = useMemo(() => {
-    return safeGames.filter(g => isYesterday(g.local_date))
-  }, [safeGames])
+  const todayGames = useMemo(() => safeGames.filter(g => isToday(g.local_date)), [safeGames])
+  const yesterdayGames = useMemo(() => safeGames.filter(g => isYesterday(g.local_date)), [safeGames])
 
   const todayGameIds = new Set(todayGames.map(g => parseInt(g.id)))
   const yesterdayGameIds = new Set(yesterdayGames.map(g => parseInt(g.id)))
 
-  // 3. A többi tipp (mai és tegnapi nélkül)
   const otherTips = userTips.filter(
     tip => !todayGameIds.has(tip.matchId) && !yesterdayGameIds.has(tip.matchId)
   )
 
-  // Közös renderelő függvény egy meccs/tipp sorhoz
   const renderGameRow = (game, tip, key) => {
     const gameId = game ? parseInt(game.id) : (tip ? tip.matchId : '?')
     const homeName = game ? (game.home_team_name_en || game.home_team_label) : '?'
@@ -104,24 +158,14 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
     const gameDisplay = game ? `#${gameId} ${homeName} vs ${awayName}` : `Meccs #${gameId}`
     
     let points = 0
-    let actualAdvancer = null
 
     if (game && game.isFinished && tip) {
-      if (game.isKnockout) {
-        if (game.homeScore > game.awayScore) actualAdvancer = 'A'
-        else if (game.awayScore > game.homeScore) actualAdvancer = 'B'
-        else {
-          if (game.winner === game.home_team_name_en || game.winner === game.home_team_label) actualAdvancer = 'A'
-          else if (game.winner === game.away_team_name_en || game.winner === game.away_team_label) actualAdvancer = 'B'
-        }
-      }
-
       points = calculatePointsForModal(
-        game.homeScore, 
-        game.awayScore, 
+        game.regularHomeScore, 
+        game.regularAwayScore, 
         parseInt(tip.scoreA), 
         parseInt(tip.scoreB),
-        actualAdvancer,
+        game.actualAdvancer,
         tip.advancer,
         game.isKnockout
       )
@@ -129,7 +173,7 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
 
     return (
       <Box key={key}>
-        <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 1.5, background: '#fff' }}>
+        <Box sx={{ p: 2.5, display: 'flex', flexDirection: 'column', gap: 2, background: '#fff' }}>
           <Typography sx={{ fontWeight: 700, color: '#1E3932', fontSize: '1.1rem' }}>
             ⚽ {gameDisplay}
           </Typography>
@@ -139,45 +183,87 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
               <Chip label="Nincs még tipp leadva" size="small" sx={{ background: '#ffebee', color: '#c62828', fontWeight: 600 }} />
             </Box>
           ) : (
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
-              <Box>
-                <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                  Tipp:
-                </Typography>
-                <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-                  <Chip label={`${tip.scoreA} - ${tip.scoreB}`} sx={{ fontWeight: 700, background: '#e0f2f1', color: '#00695c' }} size="small" />
-                  {tip.advancer && (
-                    <Chip label={`Továbbjutó: ${tip.advancer === 'A' ? homeName : awayName}`} size="small" sx={{ background: '#FF8C00', color: '#fff', fontWeight: 600 }} />
-                  )}
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                
+                {/* TIPP KÁRTYA */}
+                <Box sx={{ flex: 1, minWidth: '220px', p: 1.5, borderRadius: '8px', background: '#f0f9ff', border: '1px solid #bae6fd' }}>
+                  <Typography sx={{ fontSize: '0.75rem', color: '#0284c7', fontWeight: 700, textTransform: 'uppercase', mb: 1, letterSpacing: '0.5px' }}>
+                    Leadott Tipp
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Typography variant="body2" sx={{ fontWeight: 600, color: '#333' }}>90 perces eredmény:</Typography>
+                      <Chip label={`${tip.scoreA} - ${tip.scoreB}`} sx={{ fontWeight: 700, background: '#e0f2f1', color: '#00695c' }} size="small" />
+                    </Box>
+                    {tip.advancer && (
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 600, color: '#333' }}>Továbbjutó:</Typography>
+                        <Chip label={tip.advancer === 'A' ? homeName : awayName} size="small" sx={{ background: '#FF8C00', color: '#fff', fontWeight: 600 }} />
+                      </Box>
+                    )}
+                  </Box>
                 </Box>
+
+                {/* EREDMÉNY KÁRTYA */}
+                {game && game.isFinished ? (
+                  <Box sx={{ flex: 1, minWidth: '250px', p: 1.5, borderRadius: '8px', background: '#f5f5f5', border: '1px solid #e5e5e5' }}>
+                    <Typography sx={{ fontSize: '0.75rem', color: '#52525b', fontWeight: 700, textTransform: 'uppercase', mb: 1, letterSpacing: '0.5px' }}>
+                      Kimenetel
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="body2" sx={{ fontWeight: 600, color: '#333' }}>90 perces eredmény:</Typography>
+                        <Chip label={`${game.regularHomeScore} - ${game.regularAwayScore}`} sx={{ fontWeight: 800, background: '#fff', border: '1px solid #ccc', color: '#1E3932' }} size="small" />
+                      </Box>
+                      
+                      {game.isKnockout && (
+                        <>
+                          {game.winMethod === 'EXTRA_TIME' && (
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Typography variant="body2" sx={{ fontWeight: 600, color: '#333' }}>Hosszabbítás után:</Typography>
+                              <Chip label={`${game.homeScore} - ${game.awayScore}`} size="small" sx={{ background: '#e3f2fd', color: '#1565c0', fontWeight: 700 }}/>
+                            </Box>
+                          )}
+                          {game.winMethod === 'PENALTIES' && (
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Typography variant="body2" sx={{ fontWeight: 600, color: '#333' }}>Büntetőkkel:</Typography>
+                              <Chip label={`${game.homePenalty} - ${game.awayPenalty}`} size="small" sx={{ background: '#f3e5f5', color: '#7b1fa2', fontWeight: 700 }}/>
+                            </Box>
+                          )}
+                          {game.actualAdvancer && (
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 0.5 }}>
+                              <Typography variant="body2" sx={{ fontWeight: 600, color: '#333' }}>Továbbjutott:</Typography>
+                              <Chip label={game.actualAdvancer === 'A' ? homeName : awayName} size="small" sx={{ background: '#1976d2', color: '#fff', fontWeight: 700 }} />
+                            </Box>
+                          )}
+                        </>
+                      )}
+                    </Box>
+                  </Box>
+                ) : (
+                  <Box sx={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 1.5, background: '#fafafa', borderRadius: '8px', border: '1px dashed #ccc' }}>
+                    <Typography variant="body2" sx={{ color: '#888', fontWeight: 500 }}>A mérkőzés még nem ért véget</Typography>
+                  </Box>
+                )}
               </Box>
 
-              {game && game.isFinished ? (
-                <>
-                  <Box>
-                    <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                      Végeredmény:
-                    </Typography>
-                    <Chip label={`${game.homeScore} - ${game.awayScore}`} sx={{ fontWeight: 700 }} variant="outlined" size="small" />
-                  </Box>
-                  <Box sx={{ textAlign: 'right' }}>
-                    <Typography variant="caption" sx={{ color: '#666', fontWeight: 600, display: 'block', mb: 0.5 }}>
-                      Kapott pont:
-                    </Typography>
-                    <Chip 
-                      label={`+${points}`} 
-                      sx={{ 
-                        fontWeight: 800, 
-                        background: points >= 3 ? '#FFD700' : points > 0 ? '#4CAF50' : '#f44336',
-                        color: points >= 3 ? '#000' : '#fff'
-                      }} 
-                      size="small" 
-                    />
-                  </Box>
-                </>
-              ) : (
-                <Box sx={{ flexGrow: 1, textAlign: 'right' }}>
-                   <Chip label="Még nincs eredmény" size="small" sx={{ background: '#eee', color: '#888' }} />
+              {/* PONTOZÁS */}
+              {game && game.isFinished && (
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', pt: 1.5, borderTop: '1px dashed #e0e0e0' }}>
+                  <Typography variant="body2" sx={{ mr: 1.5, fontWeight: 700, color: '#424242', textTransform: 'uppercase', fontSize: '0.8rem' }}>
+                    Szerzett pont:
+                  </Typography>
+                  <Chip 
+                    label={`+${points}`} 
+                    sx={{ 
+                      fontWeight: 900, 
+                      fontSize: '1rem',
+                      background: points >= 3 ? '#FFD700' : points > 0 ? '#4CAF50' : '#f44336',
+                      color: points >= 3 ? '#000' : '#fff',
+                      minWidth: '60px'
+                    }} 
+                  />
                 </Box>
               )}
             </Box>
@@ -193,7 +279,7 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
       open={open} 
       onClose={onClose} 
       fullWidth 
-      maxWidth="sm" 
+      maxWidth="md" 
       sx={{
         '& .MuiDialog-paper': {
           borderRadius: '16px',
@@ -233,7 +319,6 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
       
       <DialogContent dividers sx={{ p: 0, background: '#f5f5f5' }}>
         
-        {/* --- 1. MAI MECCSEK SZEKCIÓ --- */}
         {todayGames.length > 0 && (
           <Box>
             <Typography sx={{ p: 1.5, background: '#e0f2f1', color: '#00695c', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -241,14 +326,13 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
             </Typography>
             {todayGames.map((rawGame) => {
               const gameId = parseInt(rawGame.id)
-              const game = gamesMap.get(gameId) // FONTOS: Itt lekérjük a már boolean-esített, számokat tartalmazó meccset
+              const game = gamesMap.get(gameId)
               const tip = userTips.find(t => t.matchId === gameId)
               return renderGameRow(game, tip, `today-${gameId}`)
             })}
           </Box>
         )}
 
-        {/* --- 2. TEGNAPI MECCSEK SZEKCIÓ --- */}
         {yesterdayGames.length > 0 && (
           <Box>
             <Typography sx={{ p: 1.5, background: '#fff3e0', color: '#e65100', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -256,14 +340,13 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
             </Typography>
             {yesterdayGames.map((rawGame) => {
               const gameId = parseInt(rawGame.id)
-              const game = gamesMap.get(gameId) // Ugyanaz a javítás, mint a maiaknál
+              const game = gamesMap.get(gameId)
               const tip = userTips.find(t => t.matchId === gameId)
               return renderGameRow(game, tip, `yesterday-${gameId}`)
             })}
           </Box>
         )}
 
-        {/* --- 3. TÖBBI TIPP SZEKCIÓ --- */}
         {otherTips.length > 0 && (
           <Box>
             <Typography sx={{ p: 1.5, background: '#eeeeee', color: '#555', fontWeight: 800, fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
@@ -276,7 +359,6 @@ const UserTipsModal = ({ open, onClose, user, predictions = [], games = [] }) =>
           </Box>
         )}
 
-        {/* --- HA SEMMI NINCS --- */}
         {todayGames.length === 0 && yesterdayGames.length === 0 && otherTips.length === 0 && (
           <Typography sx={{ p: 3, textAlign: 'center', color: '#666' }}>Nincsenek még leadott tippek.</Typography>
         )}
