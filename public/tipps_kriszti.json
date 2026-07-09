@@ -491,130 +491,137 @@
       "advancer": "A"
     },
     {
-"user": "Kriszti",
-"matchId": 79,
-"scoreA": 2,
-"scoreB": 1,
-"advancer": "A"
-},
-{
-"user": "Kriszti",
-"matchId": 80,
-"scoreA": 3,
-"scoreB": 1,
-"advancer": "A"
-},
-    {
-"user": "Kriszti",
-"matchId": 82,
-"scoreA": 1,
-"scoreB": 1,
-"advancer": "A"
+      "user": "Kriszti",
+      "matchId": 79,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
     },
     {
-"user": "Kriszti",
-"matchId": 81,
-"scoreA": 2,
-"scoreB": 1,
-"advancer": "A"
-},
-{
-"user": "Kriszti",
-"matchId": 84,
-"scoreA": 3,
-"scoreB": 0,
-"advancer": "A"
-},
-    {
-"user": "Kriszti",
-"matchId": 83,
-"scoreA": 2,
-"scoreB": 2,
-"advancer": "B"
-},
-{
-"user": "Kriszti",
-"matchId": 85,
-"scoreA": 0,
-"scoreB": 1,
-"advancer": "B"
-},
-{
-"user": "Kriszti",
-"matchId": 88,
-"scoreA": 1,
-"scoreB": 1,
-"advancer": "A"
-},
-    {
-"user": "Kriszti",
-"matchId": 86,
-"scoreA": 2,
-"scoreB": 0,
-"advancer": "A"
-},
-{
-"user": "Kriszti",
-"matchId": 87,
-"scoreA": 1,
-"scoreB": 0,
-"advancer": "A"
-},
-{
-"user": "Kriszti",
-"matchId": 89,
-"scoreA": 0,
-"scoreB": 3,
-"advancer": "B"
-},
-{
-"user": "Kriszti",
-"matchId": 90,
-"scoreA": 2,
-"scoreB": 1,
-"advancer": "A"
-},
-    {
-"user": "Kriszti",
-"matchId": 91,
-"scoreA": 3,
-"scoreB": 1,
-"advancer": "A"
+      "user": "Kriszti",
+      "matchId": 80,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
     },
     {
-"user": "Kriszti",
-"matchId": 92,
-"scoreA": 1,
-"scoreB": 3,
-"advancer": "B"
-},
-{
-"user": "Kriszti",
-"matchId": 93,
-"scoreA": 2,
-"scoreB": 3,
-"advancer": "B"
-},
+      "user": "Kriszti",
+      "matchId": 82,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "A"
+    },
     {
-"user": "Kriszti",
-"matchId": 94,
-"scoreA": 1,
-"scoreB": 2,
-"advancer": "B"
-},
-{
-"user": "Kriszti",
-"matchId": 96,
-"scoreA": 1,
-"scoreB": 1,
-"advancer": "A"
-},
+      "user": "Kriszti",
+      "matchId": 81,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
     {
-"user": "Kriszti",
-"matchId": 95,
-"scoreA": 2,
-"scoreB": 0,
-"advancer": "A"
+      "user": "Kriszti",
+      "matchId": 84,
+      "scoreA": 3,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 83,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 85,
+      "scoreA": 0,
+      "scoreB": 1,
+      "advancer": "B"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 88,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 86,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 87,
+      "scoreA": 1,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 89,
+      "scoreA": 0,
+      "scoreB": 3,
+      "advancer": "B"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 90,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 91,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 92,
+      "scoreA": 1,
+      "scoreB": 3,
+      "advancer": "B"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 93,
+      "scoreA": 2,
+      "scoreB": 3,
+      "advancer": "B"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 94,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 96,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 95,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 97,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
     }
   ]
 }

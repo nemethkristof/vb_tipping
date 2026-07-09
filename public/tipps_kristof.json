@@ -615,6 +615,34 @@
       "scoreA": 2,
       "scoreB": 1,
       "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 97,
+      "scoreA": 2,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 98,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 99,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 100,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
     }
   ]
 }
