@@ -622,6 +622,13 @@
       "scoreA": 2,
       "scoreB": 4,
       "advancer": "B"
+    },
+    {
+      "user": "Flóra",
+      "matchId": 100,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
     }
   ]
 }

@@ -629,6 +629,20 @@
       "scoreA": 3,
       "scoreB": 2,
       "advancer": "A"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 99,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Lajos ",
+      "matchId": 100,
+      "scoreA": 1,
+      "scoreB": 1,
+      "advancer": "B"
     }
   ]
 }

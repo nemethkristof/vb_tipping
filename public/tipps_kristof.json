@@ -643,6 +643,20 @@
       "scoreA": 2,
       "scoreB": 0,
       "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 101,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Kristóf",
+      "matchId": 102,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
     }
   ]
 }

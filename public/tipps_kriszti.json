@@ -622,6 +622,27 @@
       "scoreA": 2,
       "scoreB": 0,
       "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 98,
+      "scoreA": 3,
+      "scoreB": 1,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 99,
+      "scoreA": 1,
+      "scoreB": 2,
+      "advancer": "B"
+    },
+    {
+      "user": "Kriszti",
+      "matchId": 100,
+      "scoreA": 2,
+      "scoreB": 0,
+      "advancer": "A"
     }
   ]
 }

@@ -636,6 +636,20 @@
       "scoreA": 1,
       "scoreB": 1,
       "advancer": "A"
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 100,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Kriszti Tibi",
+      "matchId": 101,
+      "scoreA": 3,
+      "scoreB": 2,
+      "advancer": "A"
     }
   ]
 }
