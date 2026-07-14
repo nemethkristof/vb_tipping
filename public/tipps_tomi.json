@@ -643,6 +643,20 @@
       "scoreA": 0,
       "scoreB": 5,
       "advancer": "B"
-    }
+    },
+    {
+"user": "Tomi",
+"matchId": 101,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "B"
+},
+{
+"user": "Tomi",
+"matchId": 102,
+"scoreA": 5,
+"scoreB": 4,
+"advancer": "A"
+}
   ]
 }
