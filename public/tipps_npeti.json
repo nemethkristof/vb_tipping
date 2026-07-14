@@ -643,6 +643,20 @@
       "scoreA": 1,
       "scoreB": 0,
       "advancer": "A"
-    }
+    },
+    {
+"user": "Npeti",
+"matchId": 101,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "B"
+},
+{
+"user": "Npeti",
+"matchId": 102,
+"scoreA": 2,
+"scoreB": 1,
+"advancer": "A"
+}
   ]
 }
