@@ -643,6 +643,27 @@
       "scoreA": 1,
       "scoreB": 1,
       "advancer": "B"
-    }
+    },
+    {
+"user": "Barni",
+"matchId": 101,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Barni",
+"matchId": 102,
+"scoreA": 2,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Barni",
+"matchId": 103,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "A"
+}
   ]
 }
