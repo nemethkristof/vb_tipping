@@ -643,6 +643,20 @@
       "scoreA": 3,
       "scoreB": 1,
       "advancer": "A"
+    },
+    {
+      "user": "Charlie",
+      "matchId": 101,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "A"
+    },
+    {
+      "user": "Charlie",
+      "matchId": 102,
+      "scoreA": 2,
+      "scoreB": 2,
+      "advancer": "A"
     }
   ]
 }
