@@ -643,6 +643,20 @@
       "scoreA": 2,
       "scoreB": 1,
       "advancer": "A"
-    }
+    },
+    {
+"user": "Cinti",
+"matchId": 101,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "B"
+},
+{
+"user": "Cinti",
+"matchId": 102,
+"scoreA": 2,
+"scoreB": 2,
+"advancer": "B"
+}
   ]
 }
