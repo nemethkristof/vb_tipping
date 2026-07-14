@@ -643,6 +643,20 @@
       "scoreA": 2,
       "scoreB": 1,
       "advancer": "A"
-    }
+    },
+    {
+"user": "Dani ",
+"matchId": 101,
+"scoreA": 2,
+"scoreB": 1,
+"advancer": "A"
+},
+{
+"user": "Dani ",
+"matchId": 102,
+"scoreA": 1,
+"scoreB": 3,
+"advancer": "B"
+}
   ]
 }
