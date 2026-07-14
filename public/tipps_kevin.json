@@ -636,6 +636,20 @@
       "scoreA": 2,
       "scoreB": 1,
       "advancer": "A"
-    }
+    },
+    {
+"user": "Kevin",
+"matchId": 101,
+"scoreA": 1,
+"scoreB": 0,
+"advancer": "A"
+},
+{
+"user": "Kevin",
+"matchId": 102,
+"scoreA": 1,
+"scoreB": 1,
+"advancer": "B"
+}
   ]
 }
