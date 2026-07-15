@@ -636,6 +636,13 @@
 "scoreA": 2,
 "scoreB": 2,
 "advancer": "A"
-}
+},
+    {
+"user": "Flóra",
+"matchId": 102,
+"scoreA": 2,
+"scoreB": 3,
+"advancer": "B"
+    }
   ]
 }
