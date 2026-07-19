@@ -643,6 +643,20 @@
 "scoreA": 2,
 "scoreB": 3,
 "advancer": "B"
-    }
+    },
+    {
+"user": "Flóra",
+"matchId": 103,
+"scoreA": 3,
+"scoreB": 2,
+"advancer": "A"
+},
+{
+"user": "Flóra",
+"matchId": 104,
+"scoreA": 3,
+"scoreB": 1,
+"advancer": "A"
+}
   ]
 }
