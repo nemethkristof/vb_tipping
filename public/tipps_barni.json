@@ -664,6 +664,13 @@
 "scoreA": 2,
 "scoreB": 2,
 "advancer": "A"
+},
+    {
+"user": "Barni",
+"matchId": 104,
+"scoreA": 2,
+"scoreB": 1,
+"advancer": "A"
 }
   ]
 }
